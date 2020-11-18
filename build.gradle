@@ -24,13 +24,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.13.1'
 }
 
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        html.enabled true
-    }
-}
-
 test {
     testLogging.showStandardStreams = true
     systemProperties System.getProperties()
@@ -38,4 +31,17 @@ test {
 
 run {
     standardInput = System.in
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'kapistelykirjasto.Main'
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
 }
