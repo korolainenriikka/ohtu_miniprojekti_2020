@@ -5,6 +5,10 @@ plugins {
     id 'checkstyle'
 }
 
+application {
+    mainClass = 'Main'
+}
+
 repositories {
     jcenter()
 }
