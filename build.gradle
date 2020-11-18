@@ -3,6 +3,10 @@ plugins {
     id 'application'
 }
 
+application {
+    mainClass = 'Main'
+}
+
 repositories {
     jcenter()
 }
