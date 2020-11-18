@@ -14,6 +14,22 @@ public class CLI implements UserInterface {
 
     @Override
     public void run() {
+        printWelcomeMessage();
+        while (io.hasNextLine()) {
+            String action = io.readLine("Anna toiminto: ");
+
+            if (action.equals("X")) {
+                io.print("suljetaan");
+                break;
+            } else if (action.equals("0")) {
+                printActions();
+            } else {
+                io.print("epäkelpo toiminto");
+            }
+        }
+    }
+
+    private void printWelcomeMessage() {
         io.print("***********************************");
         io.print("* Tervetuloa käpistelykirjastoon! *");
         io.print("*                                 *");
@@ -22,20 +38,6 @@ public class CLI implements UserInterface {
         io.print("*  - X: poistu sovelluksesta      *");
         io.print("***********************************");
         io.print("");
-
-        while (io.hasNextLine()) {
-            String action = io.readLine("Anna toiminto: ");
-
-            if (action.equals("X")) {
-                io.print("suljetaan");
-                // exit() for app closure, close db connection etc
-                break;
-            } else if (action.equals("0")) {
-                printActions();
-            } else {
-                io.print("epäkelpo toiminto");
-            }
-        }
     }
 
     private void printActions() {
