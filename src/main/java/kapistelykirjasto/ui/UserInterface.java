@@ -1,5 +1,5 @@
 package kapistelykirjasto.ui;
 
 public interface UserInterface {
-	public void run();
+    public void run();
 }
