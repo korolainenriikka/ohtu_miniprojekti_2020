@@ -10,6 +10,12 @@ public class SQLiteDao implements Dao {
 
 	private Connection connection;
 	
+	/**
+	 * Creates a new connection to the SQLite database in fileName. Pass in ":memory:" as the file name to
+	 * create a in-memory database.
+	 * @param fileName
+	 * @throws SQLException
+	 */
 	public SQLiteDao(String fileName) throws SQLException {
 		this.connection = DriverManager.getConnection("jdbc:sqlite:" + fileName);
 	
@@ -21,6 +27,10 @@ public class SQLiteDao implements Dao {
 		);
 	}
 	
+	/**
+	 * Creates a new connection to a SQLite database with the file name "production.db"
+	 * @throws SQLException
+	 */
 	public SQLiteDao() throws SQLException {
 		this("production.db");
 	}
@@ -39,6 +49,7 @@ public class SQLiteDao implements Dao {
 		return true;
 	}
 	
+	@Override
 	public void close() {
 		try {
 			this.connection.close();
