@@ -1,4 +1,4 @@
-package kapistelykirjasto;
+package kapistelykirjasto.domain;
 
 import org.junit.Before;
 import org.junit.Test;
