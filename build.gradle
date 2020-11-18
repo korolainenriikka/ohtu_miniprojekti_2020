@@ -5,7 +5,7 @@ plugins {
 }
 
 application {
-    mainClass = 'Main'
+    mainClass = 'kapistelykirjasto.Main'
 }
 
 repositories {
