@@ -3,6 +3,12 @@
 
 # Ignore Gradle build output directory
 build
+bin
 
 .idea/
 /src/main/java/Main.class
+
+# Eclipse project files
+.classpath
+.project
+.settings
