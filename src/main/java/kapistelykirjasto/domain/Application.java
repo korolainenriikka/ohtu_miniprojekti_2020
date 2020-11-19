@@ -12,13 +12,6 @@ public interface Application {
         public boolean createEntry(String name);
         
         /**
-         * Checks if title is long enough
-         * @param title
-         * @return true, title is long enough.
-         */
-        public boolean invalidName(String name);
-        
-        /**
          * Gets the error that occured 
          * @param title
          * @return String of the error

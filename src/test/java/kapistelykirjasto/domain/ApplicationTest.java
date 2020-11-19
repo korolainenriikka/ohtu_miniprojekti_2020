@@ -5,6 +5,8 @@ import java.util.Random;
 import kapistelykirjasto.dao.Entry;
 
 import kapistelykirjasto.dao.SQLiteDao;
+import kapistelykirjasto.dao.StubDao;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,66 +15,42 @@ import static org.junit.Assert.*;
 public class ApplicationTest {
 
     private ApplicationLogic logic;
+	private StubDao dao;
 
     @Before
     public void setUp() {
-
-        this.logic = new ApplicationLogic(new SQLiteDao("logic_test_database.db"));
+    	this.dao = new StubDao();
+        this.logic = new ApplicationLogic(dao);
     }
 
     @Test
-    public void createsAnEntry() {
-        Random r = new Random();
-
-        boolean entryAdded = this.logic.createEntry("Testi" + r.nextInt(100000));
-        assertTrue(entryAdded);
+    public void createEntryCreatesNewEntryWithDao() {
+    	this.logic.createEntry("testi");
+    	assertEquals(this.dao.getEntries().size(), 1);
+    	assertEquals(this.dao.getEntries().get(0).getTitle(), "testi");
     }
 
     @Test
-    public void creatingEmptyEntryDoesNotWork() {
-
-        boolean entryAdded = this.logic.createEntry("");
-        assertFalse(entryAdded);
+    public void createEntryReturnsTrueWithValidName() {
+    	assertTrue(this.logic.createEntry("testi"));
     }
 
     @Test
-    public void invalidNameReturnFalseWhenValidName() {
-
-        Random r = new Random();
-        String name = "testi" + r.nextInt(100000);
-
-        boolean invalidName = this.logic.invalidName(name);
-        assertFalse(invalidName);
+    public void createEntryReturnsFalseWithEmptyTitle() {
+    	assertFalse(this.logic.createEntry(""));
     }
 
     @Test
-    public void invalidNameReturnTrueWhenZeroLengthName() {
-
-        String name = "";
-
-        boolean invalidName = this.logic.invalidName(name);
-        assertTrue(invalidName);
-
-        String message = this.logic.getError();
-        assertEquals(message, "Otsikko ei voi olla tyhjä");
+    public void createEntryReturnsFalseWithDuplicateEntry() {
+    	this.logic.createEntry("testi");
+    	assertFalse(this.logic.createEntry("testi"));
     }
-
+    
     @Test
-    public void addingSameTitleThatAlreadyExistsDoesNotWork() {
-
-        Random r = new Random();
-        String name = "Testinimi" + r.nextInt(100000);
-
-        boolean entryAdded = this.logic.createEntry(name);
-        assertTrue(entryAdded);
-
-        boolean entryAdded2 = this.logic.createEntry(name);
-        assertFalse(entryAdded2);
-
-        boolean invalidName = this.logic.invalidName(name);
-        assertTrue(invalidName);
-
-        String message = this.logic.getError();
-        assertEquals(message, "Otsikko on jo kirjastossa");
+    public void createEntryDoesNotCreateDuplicateEntryWithDao() {
+    	this.logic.createEntry("testi");
+    	this.logic.createEntry("testi");
+    	
+    	assertEquals(1, this.dao.getEntries().size());
     }
 }

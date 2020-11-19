@@ -24,7 +24,7 @@ public class SQLiteDao implements Dao {
 
             Statement statement = this.connection.createStatement();
             statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS entry (title TEXT);");
+                    "CREATE TABLE IF NOT EXISTS entry (title TEXT UNIQUE);");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -52,24 +52,6 @@ public class SQLiteDao implements Dao {
         }
         return true;
     }
-
-    @Override
-    public boolean sameTitleAlreadyExists(String title) {
-        try {
-            PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM entry WHERE title=?;");
-            statement.setString(1, title);
-            ResultSet sameTitle = statement.executeQuery();
-            if (sameTitle.next()) {
-                statement.close();
-                return true;
-            }
-            return false;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
 
     @Override
     public void close() {

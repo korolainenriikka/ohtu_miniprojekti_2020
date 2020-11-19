@@ -20,18 +20,13 @@ public class ApplicationLogic implements Application {
             return false;
         }
         else if (!this.dao.createEntry(entry)){
-            this.error = "Otsikkoa ei lisätty, virhe tietokantayhteydessä";
+            this.error = "Otsikkoa ei lisätty";
             return false;
         }
         return true;
     }
 
-    @Override
-    public boolean invalidName(String name) {
-        if (this.dao.sameTitleAlreadyExists(name)){
-            this.error= "Otsikko on jo kirjastossa";
-            return true;
-        }
+    private boolean invalidName(String name) {
         if (name.length() <= 0){
             this.error = "Otsikko ei voi olla tyhjä";
             return true;

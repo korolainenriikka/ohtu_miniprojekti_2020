@@ -1,5 +1,6 @@
 package kapistelykirjasto.dao;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -61,23 +62,10 @@ public class SQLiteDaoTest {
 		statement.close();
 		connection.close();
 	}
-        
-        @Test
-        public void sameTitleTwiceReturnsTrue() throws SQLException {
-                this.dao.createEntry(new Entry("Test"));
-                boolean sameTitle = this.dao.sameTitleAlreadyExists("Test");
-                
-                assertTrue(sameTitle);
-        }
-        
-        @Test
-        public void uniqueTitleReturnsFalse() throws SQLException {
-                this.dao.createEntry(new Entry("Test"));
-                boolean sameTitle = this.dao.sameTitleAlreadyExists("Test1");
-                System.out.println(sameTitle);
-                
-                assertTrue(!sameTitle);
-        }
-
-
+	
+	@Test
+	public void createEntryReturnsFalseForDuplicateEntry() throws SQLException {
+		this.dao.createEntry(new Entry("Test"));
+		assertFalse(this.dao.createEntry(new Entry("Test")));
+	}
 }

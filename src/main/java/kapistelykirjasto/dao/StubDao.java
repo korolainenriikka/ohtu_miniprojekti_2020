@@ -4,34 +4,26 @@ import java.util.ArrayList;
 
 public class StubDao implements Dao {
 
-    private ArrayList<Entry> entryes = new ArrayList<>();
+    private ArrayList<Entry> entries = new ArrayList<>();
     private boolean closed = false;
 
     @Override
     public boolean createEntry(Entry entry) {
+    	if (closed || existsEntry(entry)) {
+    		return false;
+    	}
 
-        if (!closed) {
-            entryes.add(entry);
-            return true;
-
-        } else {
-            return false;
-        }
+        entries.add(entry);
+        return true;
     }
 
-    @Override
-    public boolean sameTitleAlreadyExists(String title) {
-
-        if (!closed) {
-
-            for (int i = 0; i < entryes.size() - 1; i++) {
-                if (entryes.get(i).getTitle().equals(title)) {
-                    return true;
-                }
+    private boolean existsEntry(Entry entry) {
+        for (int i = 0; i < entries.size(); i++) {
+            if (entries.get(i).equals(entry)) {
+                return true;
             }
-            return false;
         }
-        return true;
+        return false;
     }
 
 
@@ -41,8 +33,7 @@ public class StubDao implements Dao {
         this.closed = true;
     }
 
-    public ArrayList listAll() {
-
-        return entryes;
+    public ArrayList<Entry> getEntries() {
+        return this.entries;
     }
 }
