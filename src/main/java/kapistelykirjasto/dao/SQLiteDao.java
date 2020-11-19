@@ -36,10 +36,10 @@ public class SQLiteDao implements Dao {
 	}
 	
 	@Override
-	public boolean createEntry(String title) {
+	public boolean createEntry(Entry entry) {
 		try {
 			PreparedStatement statement = this.connection.prepareStatement("INSERT INTO entry(title) VALUES(?)");
-			statement.setString(1, title);
+			statement.setString(1, entry.getTitle());
 			statement.executeUpdate();
 			statement.close();
 		} catch (SQLException e) {

@@ -7,7 +7,7 @@ public interface Dao {
 	 * @param title
 	 * @return true, if the entry was successfully created, false otherwise.
 	 */
-	public boolean createEntry(String title);
+	public boolean createEntry(Entry entry);
 	
 	/**
 	 * Closes the connection to the database. Call when you no longer need this DAO.

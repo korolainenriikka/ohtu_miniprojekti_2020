@@ -48,7 +48,7 @@ public class SQLiteDaoTest {
 	
 	@Test
 	public void createEntryCreatesRowInTableEntry() throws SQLException {
-		this.dao.createEntry("Test");
+		this.dao.createEntry(new Entry("Test"));
 		
 		Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
 		Statement statement = connection.createStatement();
