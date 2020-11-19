@@ -2,6 +2,8 @@ package kapistelykirjasto.ui;
 
 import kapistelykirjasto.domain.Application;
 
+import java.util.Scanner;
+
 public class CLI implements UserInterface {
 
     private Application app;
@@ -23,6 +25,8 @@ public class CLI implements UserInterface {
                 break;
             } else if (action.equals("0")) {
                 printActions();
+            } else if (action.equals("1")){
+                addEntry();
             } else {
                 io.print("epäkelpo toiminto");
             }
@@ -35,6 +39,7 @@ public class CLI implements UserInterface {
         io.print("*                                 *");
         io.print("*  Toiminnot:                     *");
         io.print("*  - 0: tulosta valikko           *");
+        io.print("*  - 1: lisää lukuvinkki          *");
         io.print("*  - X: poistu sovelluksesta      *");
         io.print("***********************************");
         io.print("");
@@ -42,6 +47,18 @@ public class CLI implements UserInterface {
 
     private void printActions() {
         io.print("- 0: tulosta valikko");
+        io.print("- 1: lisää lukuvinkki");
         io.print("- X: poistu sovelluksesta");
+    }
+
+    private void addEntry() {
+        String entryTitle = io.readLine("Syötä lukuvinkin otsikko:");
+        app.createEntry(entryTitle);
+        if (app.getError() != null) {
+            io.print(app.getError());
+        } else {
+            io.print("Lukuvinkki lisätty onnistuneesti");
+        }
+        app.setErrorNull();
     }
 }

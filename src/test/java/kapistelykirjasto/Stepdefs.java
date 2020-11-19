@@ -3,6 +3,7 @@ package kapistelykirjasto;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
+import kapistelykirjasto.dao.SQLiteDao;
 import kapistelykirjasto.ui.*;
 import kapistelykirjasto.domain.*;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class Stepdefs {
     @Before
     public void setup(){
         inputLines = new ArrayList<>();
-        app = new ApplicationLogic("test.db");
+        app = new ApplicationLogic(new SQLiteDao("test.db"));
     }
 
     @Given("application is launched")
@@ -31,11 +32,12 @@ public class Stepdefs {
     @When("action {string} is chosen")
     public void chooseAction(String action) {
         inputLines.add(action);
-        userInterface.run();
     }
 
     @Then("system will respond with {string}")
     public void systemRespondsWith(String response) {
+        userInterface.run();
+
         System.out.println(io.getPrints());
 
         assertTrue(io.getPrints().contains(response));
@@ -51,6 +53,5 @@ public class Stepdefs {
     public void titleIsEntered(String string) {
 
         inputLines.add(string);
-        userInterface.run();
     }
 }
