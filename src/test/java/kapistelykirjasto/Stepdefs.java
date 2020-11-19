@@ -43,14 +43,13 @@ public class Stepdefs {
 
     @Given("entry with title {string} is added")
     public void entryWithTitleIsAdded(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        app.createEntry(string);
     }
 
     @When("title {string} is entered")
     public void titleIsEntered(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        inputLines.add(string);
+        userInterface.run();
     }
 
 }
