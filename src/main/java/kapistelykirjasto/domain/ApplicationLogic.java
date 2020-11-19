@@ -32,8 +32,8 @@ public class ApplicationLogic implements Application {
             this.error= "Otsikko on jo kirjastossa";
             return true;
         }
-        if (name.length() < 3){
-            this.error = "Otsikon tulee olla ainakin kolme merkkiä";
+        if (name.length() <= 0){
+            this.error = "Otsikko ei voi olla tyhjä";
             return true;
         }
         return false;
