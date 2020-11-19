@@ -3,6 +3,7 @@ package kapistelykirjasto;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
+import kapistelykirjasto.dao.SQLiteDao;
 import kapistelykirjasto.ui.*;
 import kapistelykirjasto.domain.*;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class Stepdefs {
     @Before
     public void setup(){
         inputLines = new ArrayList<>();
-        app = new ApplicationLogic("test.db");
+        app = new ApplicationLogic(new SQLiteDao("test.db"));
     }
 
     @Given("application is launched")

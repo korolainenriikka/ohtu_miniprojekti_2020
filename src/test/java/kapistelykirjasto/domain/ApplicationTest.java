@@ -4,6 +4,7 @@ import java.util.Random;
 import kapistelykirjasto.dao.Entry;
 import static org.junit.Assert.assertTrue;
 
+import kapistelykirjasto.dao.SQLiteDao;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,7 +14,7 @@ public class ApplicationTest {
     
     @Before
     public void setUp(){
-        this.logic = new ApplicationLogic("logic_test_database.db");
+        this.logic = new ApplicationLogic(new SQLiteDao("logic_test_database.db"));
     }
     
     @Test

@@ -9,8 +9,8 @@ public class ApplicationLogic implements Application {
     private Dao dao;
     private String error;
     
-    public ApplicationLogic(String fileName) {
-        this.dao = new SQLiteDao(fileName);
+    public ApplicationLogic(Dao dao) {
+        this.dao = dao;
     }
     
     @Override
