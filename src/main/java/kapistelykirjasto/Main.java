@@ -5,7 +5,7 @@ import kapistelykirjasto.domain.*;
 
 public class Main {
     public static void main(String[] args) {
-        Application app = new ApplicationLogic();
+        Application app = new ApplicationLogic("library.db");
         IO io = new ConsoleIO();
         CLI userInterface = new CLI(app, io);
         userInterface.run();

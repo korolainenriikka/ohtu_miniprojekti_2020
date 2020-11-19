@@ -3,6 +3,7 @@ package kapistelykirjasto.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -16,15 +17,16 @@ public class SQLiteDao implements Dao {
 	 * @param fileName
 	 * @throws SQLException
 	 */
-	public SQLiteDao(String fileName) throws SQLException {
+	public SQLiteDao(String fileName) {
+                try{
 		this.connection = DriverManager.getConnection("jdbc:sqlite:" + fileName);
 	
 		Statement statement = this.connection.createStatement();
 		statement.executeUpdate(
-			"CREATE TABLE IF NOT EXISTS entry ("
-		  + "	title TEXT"
-		  + ")"
-		);
+			"CREATE TABLE IF NOT EXISTS entry (title TEXT);");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }    
 	}
 	
 	/**
@@ -38,7 +40,7 @@ public class SQLiteDao implements Dao {
 	@Override
 	public boolean createEntry(Entry entry) {
 		try {
-			PreparedStatement statement = this.connection.prepareStatement("INSERT INTO entry(title) VALUES(?)");
+			PreparedStatement statement = this.connection.prepareStatement("INSERT INTO entry(title) VALUES(?);");
 			statement.setString(1, entry.getTitle());
 			statement.executeUpdate();
 			statement.close();
@@ -48,6 +50,25 @@ public class SQLiteDao implements Dao {
 		}
 		return true;
 	}
+        
+        @Override
+        public boolean sameTitleAlreadyExists(String title) {
+                try {   
+			PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM entry WHERE title=?");
+			statement.setString(1, title);
+			ResultSet sameTitle = statement.executeQuery();
+                        if (sameTitle==null){
+                            statement.close();
+                            return false;
+                        }
+                        return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+                        System.out.println("Virhe samaa otsikkoa etsittäessä");
+			return false;
+		}
+        }
+        
 	
 	@Override
 	public void close() {

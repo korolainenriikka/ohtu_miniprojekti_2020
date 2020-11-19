@@ -25,7 +25,7 @@ public class Stepdefs {
     @Then("the system will respond with {string}")
     public void systemRespondsWith(String response) {
         this.io = new StubIO(this.inputLines);
-        Application app = new ApplicationLogic();
+        Application app = new ApplicationLogic("test.db");
         CLI userInterface = new CLI(app, io);
         userInterface.run();
         System.out.println(io.getPrints());

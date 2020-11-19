@@ -12,3 +12,6 @@ bin
 .classpath
 .project
 .settings
+
+# Ignore databases
+.db
