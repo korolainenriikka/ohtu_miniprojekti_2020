@@ -2,6 +2,8 @@ package kapistelykirjasto.domain;
 
 import java.util.Random;
 import kapistelykirjasto.dao.Entry;
+
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -13,6 +15,7 @@ public class ApplicationTest {
     
     @Before
     public void setUp(){
+
         this.logic = new ApplicationLogic("logic_test_database.db");
     }
     
@@ -27,7 +30,7 @@ public class ApplicationTest {
     @Test
     public void wontCreateTooShortEntry() {
 
+        boolean entryAdded = this.logic.createEntry("");
+        assertFalse(entryAdded);
     }
-
-   
 }

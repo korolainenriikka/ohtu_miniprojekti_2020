@@ -43,13 +43,14 @@ public class Stepdefs {
 
     @Given("entry with title {string} is added")
     public void entryWithTitleIsAdded(String string) {
+
         app.createEntry(string);
     }
 
     @When("title {string} is entered")
     public void titleIsEntered(String string) {
+
         inputLines.add(string);
         userInterface.run();
     }
-
 }
