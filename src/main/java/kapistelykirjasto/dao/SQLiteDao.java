@@ -64,7 +64,6 @@ public class SQLiteDao implements Dao {
                         return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
-                        System.out.println("Virhe samaa otsikkoa etsittäessä");
 			return false;
 		}
         }
