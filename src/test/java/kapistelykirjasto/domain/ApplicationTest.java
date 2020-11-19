@@ -16,12 +16,8 @@ public class ApplicationTest {
     
     @Before
     public void setUp(){
-<<<<<<< HEAD
 
-        this.logic = new ApplicationLogic("logic_test_database.db");
-=======
         this.logic = new ApplicationLogic(new SQLiteDao("logic_test_database.db"));
->>>>>>> 6f2022845b6ae0991cf6ead01822f209b01ab9bd
     }
     
     @Test
