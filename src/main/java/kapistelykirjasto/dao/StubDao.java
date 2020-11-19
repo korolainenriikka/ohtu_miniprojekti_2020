@@ -24,18 +24,25 @@ public class StubDao implements Dao {
 
         if (!closed) {
 
-            if (entryes.equals(title)) {
-                return false;
-            } else {
-                return true;
+            for (int i = 0; i < entryes.size() - 1; i++) {
+                if (entryes.get(i).getTitle().equals(title)) {
+                    return true;
+                }
             }
+            return false;
         }
         return true;
     }
+
 
     @Override
     public void close() {
 
         this.closed = true;
+    }
+
+    public ArrayList listAll() {
+
+        return entryes;
     }
 }
