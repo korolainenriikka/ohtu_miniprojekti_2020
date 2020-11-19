@@ -61,4 +61,21 @@ public class SQLiteDaoTest {
 		statement.close();
 		connection.close();
 	}
+        
+        @Test
+        public void sameTitleTwiceReturnsTrue() throws SQLException {
+                this.dao.createEntry(new Entry("Test"));
+                boolean sameTitle = this.dao.sameTitleAlreadyExists("Test");
+                
+                assertTrue(sameTitle);
+        }
+        
+        @Test
+        public void uniqueTitleReturnsFalse() throws SQLException {
+                this.dao.createEntry(new Entry("Test"));
+                boolean sameTitle = this.dao.sameTitleAlreadyExists("Test1");
+                System.out.println(sameTitle);
+                
+                assertTrue(!sameTitle);
+        }
 }

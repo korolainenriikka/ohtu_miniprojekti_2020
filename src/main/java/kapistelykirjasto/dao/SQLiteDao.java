@@ -54,14 +54,14 @@ public class SQLiteDao implements Dao {
         @Override
         public boolean sameTitleAlreadyExists(String title) {
                 try {   
-			PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM entry WHERE title=?");
+			PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM entry WHERE title=?;");
 			statement.setString(1, title);
 			ResultSet sameTitle = statement.executeQuery();
-                        if (sameTitle==null){
+                        if (sameTitle.next()){
                             statement.close();
-                            return false;
+                            return true;
                         }
-                        return true;
+                        return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
