@@ -14,4 +14,4 @@ bin
 .settings
 
 # Ignore databases
-.db
+*.db

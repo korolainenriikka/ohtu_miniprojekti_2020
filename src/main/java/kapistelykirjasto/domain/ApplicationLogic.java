@@ -19,7 +19,7 @@ public class ApplicationLogic implements Application {
         if(invalidName(name)){
             return false;
         }
-        else if (this.dao.createEntry(entry)){
+        else if (!this.dao.createEntry(entry)){
             this.error = "Otsikkoa ei lisätty, virhe tietokantayhteydessä";
             return false;
         }
@@ -30,18 +30,23 @@ public class ApplicationLogic implements Application {
     public boolean invalidName(String name) {
         if (this.dao.sameTitleAlreadyExists(name)){
             this.error= "Otsikko on jo kirjastossa";
-            return false;
+            return true;
         }
         if (name.length() < 3){
             this.error = "Otsikon tulee olla ainakin kolme merkkiä";
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override
     public String getError() {
         return this.error;
+    }
+    
+    @Override
+    public void setErrorNull() {
+        this.error = null;
     }
 
 }

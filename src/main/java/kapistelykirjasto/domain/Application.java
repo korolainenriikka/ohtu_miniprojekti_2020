@@ -24,4 +24,9 @@ public interface Application {
          * @return String of the error
          */
         public String getError();
+        
+        /**
+         * Sets the error to null.
+         */
+        public void setErrorNull();
 }
