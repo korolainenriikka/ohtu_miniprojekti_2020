@@ -31,11 +31,12 @@ public class Stepdefs {
     @When("action {string} is chosen")
     public void chooseAction(String action) {
         inputLines.add(action);
-        userInterface.run();
     }
 
     @Then("system will respond with {string}")
     public void systemRespondsWith(String response) {
+        userInterface.run();
+
         System.out.println(io.getPrints());
 
         assertTrue(io.getPrints().contains(response));
@@ -49,7 +50,6 @@ public class Stepdefs {
     @When("title {string} is entered")
     public void titleIsEntered(String string) {
         inputLines.add(string);
-        userInterface.run();
     }
 
 }
