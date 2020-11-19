@@ -42,15 +42,31 @@ public class SQLiteDao implements Dao {
     @Override
     public boolean createEntry(Entry entry) {
         try {
+        	if (existsEntry(entry)) {
+        		return false;
+        	}
             PreparedStatement statement = this.connection.prepareStatement("INSERT INTO entry(title) VALUES(?);");
             statement.setString(1, entry.getTitle());
             statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {
+        	e.getErrorCode();
             e.printStackTrace();
             return false;
         }
         return true;
+    }
+    
+    private boolean existsEntry(Entry entry) throws SQLException {
+        PreparedStatement statement = this.connection.prepareStatement(
+        	"SELECT * FROM entry WHERE"
+        	+ " title=?;"
+        );
+        statement.setString(1, entry.getTitle());
+        ResultSet res = statement.executeQuery();
+        boolean exists = res.next(); // If there is an element available in the result set, next() returns true.
+        statement.close();
+        return exists;
     }
 
     @Override

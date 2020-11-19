@@ -11,15 +11,4 @@ public interface Application {
          */
         public boolean createEntry(String name);
         
-        /**
-         * Gets the error that occured 
-         * @param title
-         * @return String of the error
-         */
-        public String getError();
-        
-        /**
-         * Sets the error to null.
-         */
-        public void setErrorNull();
 }

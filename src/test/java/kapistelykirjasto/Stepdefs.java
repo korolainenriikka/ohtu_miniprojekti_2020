@@ -19,7 +19,7 @@ public class Stepdefs {
     @Before
     public void setup(){
         inputLines = new ArrayList<>();
-        app = new ApplicationLogic(new SQLiteDao("test.db"));
+        app = new ApplicationLogic(new SQLiteDao(":memory:"));
     }
 
     @Given("application is launched")
@@ -37,10 +37,12 @@ public class Stepdefs {
     @Then("system will respond with {string}")
     public void systemRespondsWith(String response) {
         userInterface.run();
-
-        System.out.println(io.getPrints());
-
-        assertTrue(io.getPrints().contains(response));
+        String ioResponse = "";
+        for (int i = 0; i < io.getPrints().size(); i++) {
+        	ioResponse += io.getPrints().get(i);
+        }
+        System.out.println(ioResponse);
+        assertTrue(ioResponse.contains(response));
     }
 
     @Given("entry with title {string} is added")

@@ -53,12 +53,10 @@ public class CLI implements UserInterface {
 
     private void addEntry() {
         String entryTitle = io.readLine("Syötä lukuvinkin otsikko:");
-        app.createEntry(entryTitle);
-        if (app.getError() != null) {
-            io.print(app.getError());
+        if (app.createEntry(entryTitle)) {
+        	io.print("Lukuvinkki lisätty onnistuneesti");
         } else {
-            io.print("Lukuvinkki lisätty onnistuneesti");
+        	io.print("Lukuvinkin lisääminen epäonnistui");
         }
-        app.setErrorNull();
     }
 }
