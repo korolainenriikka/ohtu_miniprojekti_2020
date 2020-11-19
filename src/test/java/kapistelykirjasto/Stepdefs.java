@@ -22,7 +22,7 @@ public class Stepdefs {
         inputLines.add(action);
     }
 
-    @Then("the system will respond with {string}")
+    @Then("system will respond with {string}")
     public void systemRespondsWith(String response) {
         this.io = new StubIO(this.inputLines);
         Application app = new ApplicationLogic("test.db");
