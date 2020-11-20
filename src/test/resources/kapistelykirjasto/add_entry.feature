@@ -12,3 +12,10 @@ Feature: as a user I want to be able to add an entry
     And action "1" is chosen
     When title "Already taken" is entered
     Then system will respond with "Lukuvinkin lisääminen epäonnistui"
+
+ Scenario: An empty entry is not added
+    Given entry with title "" is added
+    And application is launched
+    And action "1" is chosen
+    When title "" is entered
+    Then system will respond with "Lukuvinkin lisääminen epäonnistui"
