@@ -72,4 +72,17 @@ public class SQLiteDaoTest {
 		assertEquals(3,this.dao.getEntries().size());
 	}
 
+	@Test
+	public void getEntriesReturnsEmptyListWhenNoEntriesInDb() throws SQLException {
+		assertEquals(0,this.dao.getEntries().size());
+	}
+
+	@Test
+	public void getEntriesReturnsListContainingAllAddedEntries() {
+		this.dao.createEntry(new Entry("Test1"));
+		this.dao.createEntry(new Entry("Test2"));
+
+		assertEquals("Test1", this.dao.getEntries().get(0).getTitle());
+		assertEquals("Test2", this.dao.getEntries().get(1).getTitle());
+	}
 }
