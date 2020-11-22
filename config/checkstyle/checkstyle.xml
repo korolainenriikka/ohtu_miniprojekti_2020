@@ -18,6 +18,10 @@
         <module name="NestedForDepth">
             <property name="max" value="1"/>
         </module>
+        <module name="LocalFinalVariableName">
+            <property name="format" value="^[A-Z][A-Z0-9]*$"/>
+        </module>
+
     </module>
 
 </module>

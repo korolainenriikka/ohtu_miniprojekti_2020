@@ -17,7 +17,7 @@ public class Stepdefs {
     CLI userInterface;
 
     @Before
-    public void setup(){
+    public void setup() {
         this.inputLines = new ArrayList<>();
         app = new ApplicationLogic(new SQLiteDao(":memory:"));
     }
