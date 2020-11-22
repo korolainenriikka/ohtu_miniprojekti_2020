@@ -18,15 +18,13 @@ public class Stepdefs {
 
     @Before
     public void setup(){
-        inputLines = new ArrayList<>();
+        this.inputLines = new ArrayList<>();
         app = new ApplicationLogic(new SQLiteDao(":memory:"));
     }
 
-    @Given("application is launched")
-    public void launchApp() {
-        this.inputLines = new ArrayList<>();
-        this.io = new StubIO(this.inputLines);
-        userInterface = new CLI(app, io);
+    @Given("entry with title {string} is added")
+    public void entryWithTitleIsAdded(String string) {
+        app.createEntry(string);
     }
 
     @When("action {string} is chosen")
@@ -34,25 +32,22 @@ public class Stepdefs {
         inputLines.add(action);
     }
 
+    @When("title {string} is entered")
+    public void titleIsEntered(String string) {
+        inputLines.add(string);
+    }
+
     @Then("system will respond with {string}")
     public void systemRespondsWith(String response) {
+        this.io = new StubIO(this.inputLines);
+        userInterface = new CLI(app, io);
         userInterface.run();
+
         String ioResponse = "";
         for (int i = 0; i < io.getPrints().size(); i++) {
             ioResponse += io.getPrints().get(i);
         }
+
         assertTrue(ioResponse.contains(response));
-    }
-
-    @Given("entry with title {string} is added")
-    public void entryWithTitleIsAdded(String string) {
-
-        app.createEntry(string);
-    }
-
-    @When("title {string} is entered")
-    public void titleIsEntered(String string) {
-
-        inputLines.add(string);
     }
 }
