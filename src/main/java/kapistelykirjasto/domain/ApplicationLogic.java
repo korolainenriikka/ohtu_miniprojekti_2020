@@ -23,7 +23,6 @@ public class ApplicationLogic implements Application {
 
     @Override
     public ArrayList<Entry> getEntries() {
-
         ArrayList<Entry>entries=new ArrayList<>();
         entries = this.dao.getEntries();
 
