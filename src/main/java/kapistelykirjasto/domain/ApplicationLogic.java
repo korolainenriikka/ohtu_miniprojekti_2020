@@ -4,6 +4,9 @@ import kapistelykirjasto.dao.Dao;
 import kapistelykirjasto.dao.Entry;
 import kapistelykirjasto.dao.SQLiteDao;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class ApplicationLogic implements Application {
     
     private Dao dao;
@@ -19,5 +22,14 @@ public class ApplicationLogic implements Application {
         	return false;
         }
         return true;
+    }
+
+    @Override
+    public ArrayList<Entry> getEntries() {
+
+        ArrayList<Entry>entries=new ArrayList<>();
+        entries = this.dao.getEntries();
+
+        return entries;
     }
 }

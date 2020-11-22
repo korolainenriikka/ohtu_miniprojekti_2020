@@ -2,6 +2,9 @@ package kapistelykirjasto.domain;
 
 import kapistelykirjasto.dao.Entry;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public interface Application {
     
         /**
@@ -10,5 +13,6 @@ public interface Application {
          * @return true, if the entry was successfully created, false otherwise.
          */
         public boolean createEntry(String name);
-        
+
+        public ArrayList<Entry>getEntries();
 }
