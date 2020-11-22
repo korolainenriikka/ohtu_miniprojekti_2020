@@ -4,7 +4,6 @@
 
 [![codecov](https://codecov.io/gh/korolainenriikka/ohtu_miniprojekti_2020/branch/master/graph/badge.svg?token=juDIegiwQ6)](https://codecov.io/gh/korolainenriikka/ohtu_miniprojekti_2020)
 
-
 [Backlogit](https://docs.google.com/spreadsheets/d/1lKrgeEqtPNm9kK6SKzxoq1SbjpOKOZiiZukaj-w0T6M/edit?usp=sharing)
 
 [Definition of done](https://github.com/korolainenriikka/ohtu_miniprojekti_2020/blob/master/dokumentaatio/DoD.md)

@@ -1,5 +1,6 @@
 package kapistelykirjasto.dao;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -48,7 +49,7 @@ public class SQLiteDaoTest {
 	
 	@Test
 	public void createEntryCreatesRowInTableEntry() throws SQLException {
-		this.dao.createEntry("Test");
+		this.dao.createEntry(new Entry("Test"));
 		
 		Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
 		Statement statement = connection.createStatement();
@@ -60,5 +61,11 @@ public class SQLiteDaoTest {
 		entries.close();
 		statement.close();
 		connection.close();
+	}
+	
+	@Test
+	public void createEntryReturnsFalseForDuplicateEntry() throws SQLException {
+		this.dao.createEntry(new Entry("Test"));
+		assertFalse(this.dao.createEntry(new Entry("Test")));
 	}
 }
