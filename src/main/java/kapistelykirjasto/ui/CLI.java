@@ -63,7 +63,12 @@ public class CLI implements UserInterface {
         	io.print("Lukuvinkin lisääminen epäonnistui");
         }
     }
+
     private void getEntries() {
+        if (app.getEntries().isEmpty()) {
+            io.print("Ei lisättyjä lukuvinkkejä");
+        }
+
         for(int i=0;i<app.getEntries().size();i++){
             io.print(app.getEntries().get(i).getTitle());
         }

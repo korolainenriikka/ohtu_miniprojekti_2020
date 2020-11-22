@@ -39,9 +39,8 @@ public class Stepdefs {
         userInterface.run();
         String ioResponse = "";
         for (int i = 0; i < io.getPrints().size(); i++) {
-        	ioResponse += io.getPrints().get(i);
+            ioResponse += io.getPrints().get(i);
         }
-        System.out.println(ioResponse);
         assertTrue(ioResponse.contains(response));
     }
 
