@@ -12,7 +12,12 @@
         <module name="LeftCurly"/>
         <module name="Indentation"/>
         <module name="WhitespaceAround"/>
-
+        <module name="NestedIfDepth">
+            <property name="max" value="2"/>
+        </module>
+        <module name="NestedForDepth">
+            <property name="max" value="1"/>
+        </module>
     </module>
 
 </module>
