@@ -1,16 +1,11 @@
 package kapistelykirjasto.dao;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.*;
+import java.sql.*;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import kapistelykirjasto.domain.Entry;
+
+import org.junit.*;
 
 import static org.junit.Assert.*;
 

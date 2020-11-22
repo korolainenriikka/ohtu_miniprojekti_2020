@@ -2,7 +2,7 @@ package kapistelykirjasto.domain;
 
 import java.util.Random;
 
-import kapistelykirjasto.dao.Entry;
+import kapistelykirjasto.domain.Entry;
 
 import kapistelykirjasto.dao.SQLiteDao;
 import kapistelykirjasto.dao.StubDao;

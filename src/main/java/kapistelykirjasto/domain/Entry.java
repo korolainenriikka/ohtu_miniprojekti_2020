@@ -1,4 +1,4 @@
-package kapistelykirjasto.dao;
+package kapistelykirjasto.domain;
 
 public class Entry {
 	private String title;

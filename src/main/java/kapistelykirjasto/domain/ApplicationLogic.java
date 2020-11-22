@@ -1,10 +1,7 @@
 package kapistelykirjasto.domain;
 
 import kapistelykirjasto.dao.Dao;
-import kapistelykirjasto.dao.Entry;
-import kapistelykirjasto.dao.SQLiteDao;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ApplicationLogic implements Application {

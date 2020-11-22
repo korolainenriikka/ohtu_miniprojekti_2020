@@ -1,6 +1,7 @@
 package kapistelykirjasto.dao;
 
 import java.util.ArrayList;
+import kapistelykirjasto.domain.Entry;
 
 public class StubDao implements Dao {
 

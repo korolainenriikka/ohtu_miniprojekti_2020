@@ -2,6 +2,7 @@ package kapistelykirjasto.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import kapistelykirjasto.domain.Entry;
 
 public interface Dao {
 	
