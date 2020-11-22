@@ -25,9 +25,9 @@ public class CLI implements UserInterface {
                 break;
             } else if (action.equals("0")) {
                 printActions();
-            } else if (action.equals("1")){
+            } else if (action.equals("1")) {
                 addEntry();
-            } else if (action.equals("2")){
+            } else if (action.equals("2")) {
                 getEntries();
             } else {
                 io.print("epäkelpo toiminto");
@@ -69,7 +69,7 @@ public class CLI implements UserInterface {
             io.print("Ei lisättyjä lukuvinkkejä");
         }
 
-        for(int i=0;i<app.getEntries().size();i++){
+        for (int i = 0; i < app.getEntries().size(); i++) {
             io.print(app.getEntries().get(i).getTitle());
         }
     }

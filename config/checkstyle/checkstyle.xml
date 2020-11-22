@@ -9,9 +9,9 @@
         <module name="MethodLength">
             <property name="max" value="20"/>
         </module>
-
         <module name="LeftCurly"/>
         <module name="Indentation"/>
+        <module name="WhitespaceAround"/>
 
     </module>
 
