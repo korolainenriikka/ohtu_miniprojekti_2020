@@ -68,4 +68,10 @@ public class SQLiteDaoTest {
 		this.dao.createEntry(new Entry("Test"));
 		assertFalse(this.dao.createEntry(new Entry("Test")));
 	}
+	
+	@Test
+	public void createEntryReturnsFalseWhenDatabaseIsClosed() throws SQLException {
+		this.dao.close();
+		assertFalse(this.dao.createEntry(new Entry("Test")));
+	}
 }
