@@ -46,7 +46,7 @@ public class SQLiteDaoTest {
 		this.dao.createEntry(new Entry("Test"));
 		
 		Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
- src/test/java/kapistelykirjasto/dao/SQLiteDaoTest.java 		Statement statement = connection.createStatement();
+        Statement statement = connection.createStatement();
 		ResultSet entries = statement.executeQuery("SELECT * FROM entry");
 		
 		assertTrue(entries.next());
@@ -84,11 +84,10 @@ public class SQLiteDaoTest {
 
 		assertEquals("Test1", this.dao.getEntries().get(0).getTitle());
 		assertEquals("Test2", this.dao.getEntries().get(1).getTitle());
-	
+	}
 	@Test
 	public void createEntryReturnsFalseWhenDatabaseIsClosed() throws SQLException {
 		this.dao.close();
 		assertFalse(this.dao.createEntry(new Entry("Test")));
- src/test/java/kapistelykirjasto/dao/SQLiteDaoTest.java 
-  }
+	}
 }
