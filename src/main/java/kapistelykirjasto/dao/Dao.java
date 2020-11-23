@@ -1,5 +1,9 @@
 package kapistelykirjasto.dao;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import kapistelykirjasto.domain.Entry;
+
 public interface Dao {
 	
 	/**
@@ -13,5 +17,7 @@ public interface Dao {
 	 * Closes the connection to the database. Call when you no longer need this DAO.
 	 */
 	public void close();
+
+	public ArrayList<Entry>getEntries();
 
 }

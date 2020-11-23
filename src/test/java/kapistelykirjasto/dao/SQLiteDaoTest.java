@@ -1,19 +1,13 @@
 package kapistelykirjasto.dao;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.io.*;
+import java.sql.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import kapistelykirjasto.domain.Entry;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+
+import static org.junit.Assert.*;
 
 public class SQLiteDaoTest {
 	
@@ -52,7 +46,7 @@ public class SQLiteDaoTest {
 		this.dao.createEntry(new Entry("Test"));
 		
 		Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
-		Statement statement = connection.createStatement();
+ src/test/java/kapistelykirjasto/dao/SQLiteDaoTest.java 		Statement statement = connection.createStatement();
 		ResultSet entries = statement.executeQuery("SELECT * FROM entry");
 		
 		assertTrue(entries.next());
@@ -68,10 +62,33 @@ public class SQLiteDaoTest {
 		this.dao.createEntry(new Entry("Test"));
 		assertFalse(this.dao.createEntry(new Entry("Test")));
 	}
+
+	@Test
+	public void getEntriesReturnsRightSizeList() throws SQLException {
+		this.dao.createEntry(new Entry("Test1"));
+		this.dao.createEntry(new Entry("Test2"));
+		this.dao.createEntry(new Entry("Test3"));
+
+		assertEquals(3,this.dao.getEntries().size());
+	}
+
+	@Test
+	public void getEntriesReturnsEmptyListWhenNoEntriesInDb() throws SQLException {
+		assertEquals(0,this.dao.getEntries().size());
+	}
+
+	@Test
+	public void getEntriesReturnsListContainingAllAddedEntries() {
+		this.dao.createEntry(new Entry("Test1"));
+		this.dao.createEntry(new Entry("Test2"));
+
+		assertEquals("Test1", this.dao.getEntries().get(0).getTitle());
+		assertEquals("Test2", this.dao.getEntries().get(1).getTitle());
 	
 	@Test
 	public void createEntryReturnsFalseWhenDatabaseIsClosed() throws SQLException {
 		this.dao.close();
 		assertFalse(this.dao.createEntry(new Entry("Test")));
-	}
+ src/test/java/kapistelykirjasto/dao/SQLiteDaoTest.java 
+  }
 }

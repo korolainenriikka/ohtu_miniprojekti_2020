@@ -25,8 +25,10 @@ public class CLI implements UserInterface {
                 break;
             } else if (action.equals("0")) {
                 printActions();
-            } else if (action.equals("1")){
+            } else if (action.equals("1")) {
                 addEntry();
+            } else if (action.equals("2")) {
+                getEntries();
             } else {
                 io.print("epäkelpo toiminto");
             }
@@ -40,6 +42,7 @@ public class CLI implements UserInterface {
         io.print("*  Toiminnot:                     *");
         io.print("*  - 0: tulosta valikko           *");
         io.print("*  - 1: lisää lukuvinkki          *");
+        io.print("*  - 2: näytä lukuvinkit          *");
         io.print("*  - X: poistu sovelluksesta      *");
         io.print("***********************************");
         io.print("");
@@ -48,6 +51,7 @@ public class CLI implements UserInterface {
     private void printActions() {
         io.print("- 0: tulosta valikko");
         io.print("- 1: lisää lukuvinkki");
+        io.print("- 2: näytä lukuvinkit");
         io.print("- X: poistu sovelluksesta");
     }
 
@@ -57,6 +61,16 @@ public class CLI implements UserInterface {
         	io.print("Lukuvinkki lisätty onnistuneesti");
         } else {
         	io.print("Lukuvinkin lisääminen epäonnistui");
+        }
+    }
+
+    private void getEntries() {
+        if (app.getEntries().isEmpty()) {
+            io.print("Ei lisättyjä lukuvinkkejä");
+        }
+
+        for (int i = 0; i < app.getEntries().size(); i++) {
+            io.print(app.getEntries().get(i).getTitle());
         }
     }
 }
