@@ -28,4 +28,12 @@ public class ApplicationLogic implements Application {
 
         return entries;
     }
+
+    @Override
+    public boolean deleteEntryBasedOnTitle(String title) {
+        if (!this.dao.deleteEntryBasedOnTitle(title)) {
+            return false;
+        }
+        return true;
+    }
 }

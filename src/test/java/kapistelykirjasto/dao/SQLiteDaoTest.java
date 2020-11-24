@@ -90,4 +90,26 @@ public class SQLiteDaoTest {
 		this.dao.close();
 		assertFalse(this.dao.createEntry(new Entry("Test")));
 	}
+
+	@Test
+	public void deleteEntryBasedOnTitleReturnsFalseWhenGivenTitleIsNotInDb() {
+		assertFalse(this.dao.deleteEntryBasedOnTitle("Not here"));
+	}
+
+	@Test
+	public void deleteEntryBasedOnTitleReturnsTrueWhenGivenTitleIsInDb() {
+		this.dao.createEntry(new Entry("Testbook"));
+		assertTrue(this.dao.deleteEntryBasedOnTitle("Testbook"));
+	}
+
+	@Test
+	public void deleteEntryBasedOnTitleReturnsFalseWhenDbClosed() {
+		this.dao.close();
+		assertFalse(this.dao.deleteEntryBasedOnTitle("TestTitle"));
+	}
+
+	@Test
+	public void deleteEntryBasedOnTitleReturnsFalseIfNoTitleGiven() {
+		assertFalse(this.dao.deleteEntryBasedOnTitle(""));
+	}
 }
