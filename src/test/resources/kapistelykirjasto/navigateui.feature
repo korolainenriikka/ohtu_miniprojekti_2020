@@ -8,6 +8,10 @@ Feature: as a user I want to be able to navigate the user interface
         When action "1" is chosen
         Then system will respond with "Syötä lukuvinkin otsikko:"
 
+    Scenario: Show possible actions
+        When action "3" is chosen
+        Then system will respond with "Syötä poistettavan lukuvinkin otsikko:"
+
     Scenario: Stop application
         When action "X" is chosen
         Then system will respond with "suljetaan"

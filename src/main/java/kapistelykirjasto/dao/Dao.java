@@ -20,4 +20,6 @@ public interface Dao {
 
 	public ArrayList<Entry>getEntries();
 
+	public boolean deleteEntryBasedOnTitle(String title);
+
 }

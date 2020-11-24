@@ -11,4 +11,6 @@ public interface Application {
     public boolean createEntry(String name);
 
     public ArrayList<Entry>getEntries();
+
+    public boolean deleteEntryBasedOnTitle(String title);
 }

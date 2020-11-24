@@ -62,4 +62,20 @@ public class ApplicationTest {
 
         assertEquals(3, this.logic.getEntries().size());
     }
+
+    @Test
+    public void deleteEntryBasedOnTitleReturnsFalseIfTitleNotInDb() {
+        assertFalse(this.logic.deleteEntryBasedOnTitle("NotTitle"));
+    }
+
+    @Test
+    public void deleteEntryReturnsFalseIfNoTitleGiven() {
+        assertFalse(this.logic.deleteEntryBasedOnTitle(""));
+    }
+
+    @Test
+    public void deleteEntryReturnsTrueIfDeleteSuccessful() {
+        this.logic.createEntry("IsTitle");
+        assertTrue(this.logic.deleteEntryBasedOnTitle("IsTitle"));
+    }
 }
