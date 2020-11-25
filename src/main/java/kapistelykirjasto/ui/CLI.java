@@ -19,7 +19,6 @@ public class CLI implements UserInterface {
         printWelcomeMessage();
         while (io.hasNextLine()) {
             String action = io.readLine("Anna toiminto: ");
-
             if (action.equals("X")) {
                 io.print("suljetaan");
                 break;
@@ -29,6 +28,8 @@ public class CLI implements UserInterface {
                 addEntry();
             } else if (action.equals("2")) {
                 getEntries();
+            } else if (action.equals("3")) {
+                deleteEntry();
             } else {
                 io.print("epäkelpo toiminto");
             }
@@ -43,6 +44,7 @@ public class CLI implements UserInterface {
         io.print("*  - 0: tulosta valikko           *");
         io.print("*  - 1: lisää lukuvinkki          *");
         io.print("*  - 2: näytä lukuvinkit          *");
+        io.print("*  - 3: poista lukuvinkki         *");
         io.print("*  - X: poistu sovelluksesta      *");
         io.print("***********************************");
         io.print("");
@@ -52,6 +54,7 @@ public class CLI implements UserInterface {
         io.print("- 0: tulosta valikko");
         io.print("- 1: lisää lukuvinkki");
         io.print("- 2: näytä lukuvinkit");
+        io.print("- 3: poista lukuvinkki");
         io.print("- X: poistu sovelluksesta");
     }
 
@@ -71,6 +74,15 @@ public class CLI implements UserInterface {
 
         for (int i = 0; i < app.getEntries().size(); i++) {
             io.print(app.getEntries().get(i).getTitle());
+        }
+    }
+
+    private void deleteEntry() {
+        String entryTitle = io.readLine("Syötä poistettavan lukuvinkin otsikko:");
+        if (app.deleteEntryBasedOnTitle(entryTitle)) {
+            io.print("Lukuvinkki poistettu onnistuneesti");
+        } else {
+            io.print("Lukuvinkin poistaminen epäonnistui");
         }
     }
 }

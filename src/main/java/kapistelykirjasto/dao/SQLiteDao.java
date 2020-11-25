@@ -89,6 +89,24 @@ public class SQLiteDao implements Dao {
     }
 
     @Override
+    public boolean deleteEntryBasedOnTitle(String title) {
+        try {
+            if (!existsEntry(new Entry(title))) {
+                return false;
+            }
+            PreparedStatement statement = this.connection.prepareStatement("DELETE FROM entry WHERE title = ?");
+            statement.setString(1, title);
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public void close() {
         try {
             this.connection.close();

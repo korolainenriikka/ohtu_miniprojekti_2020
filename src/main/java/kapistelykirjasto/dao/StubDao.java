@@ -37,4 +37,13 @@ public class StubDao implements Dao {
     public ArrayList<Entry> getEntries() {
         return this.entries;
     }
+
+    @Override
+    public boolean deleteEntryBasedOnTitle(String title) {
+        if (!existsEntry(new Entry(title))) {
+            return false;
+        }
+        entries.remove(new Entry(title));
+        return true;
+    }
 }
