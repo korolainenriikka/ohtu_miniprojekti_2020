@@ -7,11 +7,11 @@ Feature: as a user I want to be able to delete an entry
         Then system will respond with "Lukuvinkki poistettu onnistuneesti"
 
       Scenario: Deletion with empty input displays error message
-        And action "3" is chosen
+        Given action "3" is chosen
         When title "" is entered
         Then system will respond with "Lukuvinkin poistaminen epäonnistui"
 
      Scenario: Deletion with entry not in application displays error message
-        And action "3" is chosen
+        Given action "3" is chosen
         When title "A really cool entry" is entered
         Then system will respond with "Lukuvinkin poistaminen epäonnistui"
