@@ -116,6 +116,7 @@ public class CLI implements UserInterface {
             io.print(app.getBooks().get(i).getTitle());
         }
 
+        io.print("");
         io.print("Videovinkit: ");
         if (app.getVideos().isEmpty()) {
             io.print("Ei lisättyjä videovinkkejä");
