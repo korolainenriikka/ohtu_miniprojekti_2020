@@ -63,7 +63,22 @@ public class ApplicationTest {
     public void addBookReturnsTrueIfAllRequiredParamsGiven() {
         assertTrue(this.logic.createBook("testiTitle", "", "testiAuthor", "asdc123"));
     }
-
+    
+    @Test
+    public void addVideoReturnsFalseIfRequiredAttributeMissing() {
+        assertFalse(this.logic.createVideo("testiTitle", "comment", "", "asdc123"));
+    }
+    
+    @Test
+    public void addVideoReturnsTrueIfAllParamsGiven() {
+        assertTrue(this.logic.createVideo("testiTitle", "comment", "url", "asdc123"));
+    }
+    
+    @Test
+    public void addVideoReturnsTrueIfRequiredParamsGiven() {
+        assertTrue(this.logic.createVideo("testiTitle", "", "url", ""));
+    }
+    
     @Test
     public void getEntriesReturnsRightSizeList() {
         this.logic.createEntry("test1");

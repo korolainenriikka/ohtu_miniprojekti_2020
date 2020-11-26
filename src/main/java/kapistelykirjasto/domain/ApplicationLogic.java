@@ -29,6 +29,15 @@ public class ApplicationLogic implements Application {
         }
         return true;
     }
+    
+    @Override
+    public boolean createVideo(String title, String comment, String url, String duration) {
+        Video video = new Video(title, comment, url, duration);
+        if (title.length() == 0 || url.length() == 0 || !this.dao.createVideo(video)) {
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public ArrayList<Entry> getEntries() {

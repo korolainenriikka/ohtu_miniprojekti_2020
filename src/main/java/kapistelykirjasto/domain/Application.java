@@ -11,6 +11,8 @@ public interface Application {
     public boolean createEntry(String name);
 
     public boolean createBook(String title, String comment, String author, String ISBN);
+    
+    public boolean createVideo(String title, String comment, String url, String duration);
 
     public ArrayList<Entry>getEntries();
 

@@ -92,6 +92,7 @@ public class SQLiteDao implements Dao {
         return true;
     }
 
+    @Override
     public boolean createVideo(Video video) {
         try {
             PreparedStatement statement = this.connection.prepareStatement("INSERT INTO video(title, comment, url, duration) VALUES(?,?,?,?);");
@@ -109,6 +110,7 @@ public class SQLiteDao implements Dao {
         return true;
     }
 
+    @Override
     public ArrayList<Entry> getEntries() {
 
         ArrayList<Entry> entryes = new ArrayList<>();

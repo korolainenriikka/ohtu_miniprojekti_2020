@@ -7,6 +7,7 @@ public class StubDao implements Dao {
 
     private ArrayList<Entry> entries = new ArrayList<>();
     private ArrayList<Book> books = new ArrayList<>();
+    private ArrayList<Video> videos = new ArrayList<>();
     private boolean closed = false;
 
     @Override
@@ -35,6 +36,16 @@ public class StubDao implements Dao {
         }
 
         books.add(book);
+        return true;
+    }
+    
+    @Override
+    public boolean createVideo(Video video) {
+        if (closed) {
+            return false;
+        }
+
+        videos.add(video);
         return true;
     }
 
