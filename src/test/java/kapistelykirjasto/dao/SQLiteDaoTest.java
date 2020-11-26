@@ -3,6 +3,7 @@ package kapistelykirjasto.dao;
 import java.io.*;
 import java.sql.*;
 
+import kapistelykirjasto.domain.Book;
 import kapistelykirjasto.domain.Entry;
 
 import org.junit.*;
@@ -61,6 +62,25 @@ public class SQLiteDaoTest {
 	public void createEntryReturnsFalseForDuplicateEntry() throws SQLException {
 		this.dao.createEntry(new Entry("Test"));
 		assertFalse(this.dao.createEntry(new Entry("Test")));
+	}
+
+	@Test
+	public void createBookCreatesRowInTableBook() throws SQLException {
+		this.dao.createBook(new Book("Clean Code: A Handbook of Agile Software Craftsmanship",
+				"comments here",
+				"Robert Martin",
+				"978-0132350884"));
+
+		Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
+		Statement statement = connection.createStatement();
+		ResultSet books = statement.executeQuery("SELECT * FROM book");
+
+		assertTrue(books.next());
+		assertTrue(books.getString("title").equals("Clean Code: A Handbook of Agile Software Craftsmanship"));
+
+		books.close();
+		statement.close();
+		connection.close();
 	}
 
 	@Test
