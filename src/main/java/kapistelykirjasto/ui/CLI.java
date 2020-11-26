@@ -59,11 +59,13 @@ public class CLI implements UserInterface {
     }
 
     private void addEntry() {
-        String typeOfEntryAdded = io.readLine("[1]: lisää vain otsikko\n[2]: lisää kirja");
+        String typeOfEntryAdded = io.readLine("[1]: lisää vain otsikko\n[2]: lisää kirja \n[3]: lisää video");
         if (typeOfEntryAdded.equals("1")) {
             addEntryWithTitle();
         } else if (typeOfEntryAdded.equals("2")) {
             addBook();
+        } else if (typeOfEntryAdded.equals("3")) {
+            addVideo();
         } else {
             io.print("epäkelpo toiminto");
         }
@@ -82,12 +84,25 @@ public class CLI implements UserInterface {
         }
     }
 
+    private void addVideo() {
+        String title = io.readLine("Syötä videon nimi:");
+        String url = io.readLine("Syötä videon url-osoite:");
+        String duration = io.readLine("Syötä videon kesto (vapaaehtoinen):");
+        String comment = io.readLine("Syötä kommentti (vapaavalintainen):");
+
+        if (app.createVideo(title, comment, url, duration)) {
+            io.print("Lukuvinkki lisätty onnistuneesti");
+        } else {
+            io.print("Lukuvinkin lisääminen epäonnistui");
+        }
+    }
+
     private void addEntryWithTitle() {
         String entryTitle = io.readLine("Syötä lukuvinkin otsikko:");
         if (app.createEntry(entryTitle)) {
-        	io.print("Lukuvinkki lisätty onnistuneesti");
+            io.print("Lukuvinkki lisätty onnistuneesti");
         } else {
-        	io.print("Lukuvinkin lisääminen epäonnistui");
+            io.print("Lukuvinkin lisääminen epäonnistui");
         }
     }
 
