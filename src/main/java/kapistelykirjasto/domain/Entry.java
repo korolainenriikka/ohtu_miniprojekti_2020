@@ -7,6 +7,8 @@ public class Entry {
 	//private List<Tag> tags; Tagilla name
 	//private List<Course> courses; Coursella courseCode, name
 
+	//myöhemmässä versiossa abstract class (kun pelkän entryn lisääminen poistetaan)
+
 	public Entry(String title) {
 		this.title = title;
 	}
@@ -19,6 +21,8 @@ public class Entry {
 	public String getTitle() {
 		return title;
 	}
+
+	public String getComment() { return comment; }
 
 	@Override
 	public boolean equals(Object obj) {
