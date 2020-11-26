@@ -92,12 +92,21 @@ public class CLI implements UserInterface {
     }
 
     private void getEntries() {
-        if (app.getEntries().isEmpty()) {
-            io.print("Ei lisättyjä lukuvinkkejä");
+
+        io.print("Kirjavinkit: ");
+        if (app.getBooks().isEmpty()) {
+            io.print("Ei lisättyjä kirjavinkkejä");
+        }
+        for (int i = 0; i < app.getBooks().size(); i++) {
+            io.print(app.getBooks().get(i).getTitle());
         }
 
-        for (int i = 0; i < app.getEntries().size(); i++) {
-            io.print(app.getEntries().get(i).getTitle());
+        io.print("Videovinkit: ");
+        if (app.getVideos().isEmpty()) {
+            io.print("Ei lisättyjä videovinkkejä");
+        }
+        for (int i = 0; i < app.getVideos().size(); i++) {
+            io.print(app.getVideos().get(i).getTitle());
         }
     }
 

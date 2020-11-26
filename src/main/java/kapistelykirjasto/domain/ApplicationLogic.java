@@ -48,6 +48,22 @@ public class ApplicationLogic implements Application {
     }
 
     @Override
+    public ArrayList<Book> getBooks() {
+        ArrayList<Book>books = new ArrayList<>();
+        books = this.dao.getBooks();
+
+        return books;
+    }
+
+    @Override
+    public ArrayList<Video> getVideos() {
+        ArrayList<Video>videos = new ArrayList<>();
+        videos = this.dao.getVideos();
+
+        return videos;
+    }
+
+    @Override
     public boolean deleteEntryBasedOnTitle(String title) {
         if (!this.dao.deleteEntryBasedOnTitle(title)) {
             return false;

@@ -25,10 +25,10 @@ public class SQLiteDao implements Dao {
                     "CREATE TABLE IF NOT EXISTS entry (title TEXT UNIQUE);");
             statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS book (id INTEGER PRIMARY KEY AUTOINCREMENT"
-                    + ", title TEXT UNIQUE, comment TEXT, author TEXT, ISBN TEXT);");
+                            + ", title TEXT UNIQUE, comment TEXT, author TEXT, ISBN TEXT);");
             statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS video (id INTEGER PRIMARY KEY AUTOINCREMENT"
-                    + ", title TEXT UNIQUE, comment TEXT, url TEXT, duration TEXT);");
+                            + ", title TEXT UNIQUE, comment TEXT, url TEXT, duration TEXT);");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -65,7 +65,7 @@ public class SQLiteDao implements Dao {
     private boolean existsEntry(Entry entry) throws SQLException {
         PreparedStatement statement = this.connection.prepareStatement(
                 "SELECT * FROM entry WHERE"
-                + " title=?;"
+                        + " title=?;"
         );
         statement.setString(1, entry.getTitle());
         ResultSet res = statement.executeQuery();
@@ -130,6 +130,53 @@ public class SQLiteDao implements Dao {
             e.printStackTrace();
         }
         return entryes;
+    }
+
+    @Override
+    public ArrayList<Book> getBooks() {
+
+        ArrayList<Book> books = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = this.connection.prepareStatement(
+                    "SELECT * FROM book");
+            ResultSet res = statement.executeQuery();
+            while (res.next()) {
+                books.add(new Book(res.getString("title"), res.getString("comment"), res.getString("author"),
+                        res.getString("ISBN")));
+            }
+            statement.close();
+            return books;
+
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+        }
+        return books;
+    }
+
+    @Override
+    public ArrayList<Video> getVideos() {
+
+        ArrayList<Video> videos = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = this.connection.prepareStatement(
+                    "SELECT * FROM video");
+            ResultSet res = statement.executeQuery();
+            while (res.next()) {
+                videos.add(new Video(res.getString("title"), res.getString("comment"), res.getString("url"),
+                        res.getString("duration")));
+            }
+
+            statement.close();
+            return videos;
+
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+        }
+        return videos;
     }
 
     @Override
