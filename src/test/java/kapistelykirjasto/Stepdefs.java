@@ -57,7 +57,7 @@ public class Stepdefs {
         addBookParams("", author, ISBN, comment);
     }
 
-    public void addBookParams(String title, String author, String ISBN, String comment){
+    public void addBookParams(String title, String author, String ISBN, String comment) {
         inputLines.add(title);
         inputLines.add(author);
         inputLines.add(ISBN);
