@@ -6,6 +6,7 @@ import kapistelykirjasto.domain.*;
 public class StubDao implements Dao {
 
     private ArrayList<Entry> entries = new ArrayList<>();
+    private ArrayList<Book> books = new ArrayList<>();
     private boolean closed = false;
 
     @Override
@@ -29,12 +30,16 @@ public class StubDao implements Dao {
 
     @Override
     public boolean createBook(Book book) {
-        return false;
+        if (closed) {
+            return false;
+        }
+
+        books.add(book);
+        return true;
     }
 
     @Override
     public void close() {
-
         this.closed = true;
     }
 

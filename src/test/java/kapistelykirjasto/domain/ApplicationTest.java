@@ -55,6 +55,16 @@ public class ApplicationTest {
     }
 
     @Test
+    public void addBookReturnsFalseIfRequiredAttributeMissing() {
+        assertFalse(this.logic.createBook("testiTitle", "comment", "", "asdc123"));
+    }
+
+    @Test
+    public void addBookReturnsTrueIfAllRequiredParamsGiven() {
+        assertTrue(this.logic.createBook("testiTitle", "", "testiAuthor", "asdc123"));
+    }
+
+    @Test
     public void getEntriesReturnsRightSizeList() {
         this.logic.createEntry("test1");
         this.logic.createEntry("test2");
