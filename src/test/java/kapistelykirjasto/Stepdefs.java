@@ -42,6 +42,28 @@ public class Stepdefs {
         inputLines.add(string);
     }
 
+    @When("title {string}, author {string}, ISBN {string} and comment {string} is entered")
+    public void bookParamsEntered(String title, String author, String ISBN, String comment) {
+        addBookParams(title, author, ISBN, comment);
+    }
+
+    @When("title {string}, author {string}, ISBN {string} and no comment is entered")
+    public void bookParamsWithoutCommentEntered(String title, String author, String ISBN) {
+        addBookParams(title, author, ISBN, "");
+    }
+
+    @When("no title, author {string}, ISBN {string} and comment {string} is entered")
+    public void bookParamsWithoutTitleEntered(String author, String ISBN, String comment) {
+        addBookParams("", author, ISBN, comment);
+    }
+
+    public void addBookParams(String title, String author, String ISBN, String comment){
+        inputLines.add(title);
+        inputLines.add(author);
+        inputLines.add(ISBN);
+        inputLines.add(comment);
+    }
+
     @Then("system will respond with {string}")
     public void systemRespondsWith(String response) {
         this.io = new StubIO(this.inputLines);
