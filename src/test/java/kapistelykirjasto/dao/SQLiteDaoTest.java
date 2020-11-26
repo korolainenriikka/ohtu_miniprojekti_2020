@@ -108,16 +108,16 @@ public class SQLiteDaoTest {
 	@Test
 	public void createEntryReturnsFalseWhenDatabaseIsClosed() throws SQLException {
 		this.dao.close();
-		assertFalse(this.dao.createBook(new Book("Clean Code: A Handbook of Agile Software Craftsmanship",
-				"comments here",
-				"Robert Martin",
-				"978-0132350884")));
+		assertFalse(this.dao.createEntry(new Entry("")));
 	}
 
 	@Test
 	public void createBookReturnsFalseWhenDatabaseIsClosed() throws SQLException {
 		this.dao.close();
-		assertFalse(this.dao.createEntry(new Entry("")));
+		assertFalse(this.dao.createBook(new Book("Clean Code: A Handbook of Agile Software Craftsmanship",
+				"comments here",
+				"Robert Martin",
+				"978-0132350884")));
 	}
 
 	@Test
