@@ -22,7 +22,9 @@ public class Entry {
 		return title;
 	}
 
-	public String getComment() { return comment; }
+	public String getComment() {
+		return comment;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
