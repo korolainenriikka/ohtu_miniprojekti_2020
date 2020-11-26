@@ -32,6 +32,11 @@ public class Stepdefs {
         inputLines.add(action);
     }
 
+    @When("type {string} is selected")
+    public void chooseType(String type) {
+        inputLines.add(type);
+    }
+
     @When("title {string} is entered")
     public void titleIsEntered(String string) {
         inputLines.add(string);

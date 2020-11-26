@@ -24,7 +24,8 @@ public class SQLiteDao implements Dao {
             statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS entry (title TEXT UNIQUE);");
             statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS book (title TEXT UNIQUE, comment TEXT, author TEXT, ISBN TEXT);");
+                    "CREATE TABLE IF NOT EXISTS book (id INTEGER PRIMARY KEY AUTOINCREMENT" +
+                            ", title TEXT UNIQUE, comment TEXT, author TEXT, ISBN TEXT);");
         } catch (SQLException e) {
             e.printStackTrace();
         }

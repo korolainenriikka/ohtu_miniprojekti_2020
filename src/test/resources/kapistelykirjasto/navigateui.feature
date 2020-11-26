@@ -6,7 +6,7 @@ Feature: as a user I want to be able to navigate the user interface
 
     Scenario: Show possible actions
         When action "1" is chosen
-        Then system will respond with "Syötä lukuvinkin otsikko:"
+        Then system will respond with "[1]: lisää vain otsikko"
 
     Scenario: Show possible actions
         When action "3" is chosen
