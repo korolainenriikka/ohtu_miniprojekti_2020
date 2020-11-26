@@ -3,7 +3,7 @@ package kapistelykirjasto.dao;
 import java.sql.*;
 import java.util.ArrayList;
 
-import kapistelykirjasto.domain.Entry;
+import kapistelykirjasto.domain.*;
 
 public class SQLiteDao implements Dao {
 
@@ -68,6 +68,24 @@ public class SQLiteDao implements Dao {
         boolean exists = res.next(); // If there is an element available in the result set, next() returns true.
         statement.close();
         return exists;
+    }
+
+    @Override
+    public boolean createBook(Book book) {
+        try {
+            PreparedStatement statement = this.connection.prepareStatement("INSERT INTO book(title, comment, author, isbn) VALUES(?,?,?,?);");
+            statement.setString(1, book.getTitle());
+            statement.setString(2, book.getComment());
+            statement.setString(3, book.getAuthor());
+            statement.setString(4, book.getISBN());
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public ArrayList<Entry> getEntries() {

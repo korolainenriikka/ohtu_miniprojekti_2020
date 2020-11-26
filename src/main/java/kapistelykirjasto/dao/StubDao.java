@@ -1,7 +1,7 @@
 package kapistelykirjasto.dao;
 
 import java.util.ArrayList;
-import kapistelykirjasto.domain.Entry;
+import kapistelykirjasto.domain.*;
 
 public class StubDao implements Dao {
 
@@ -27,6 +27,10 @@ public class StubDao implements Dao {
         return false;
     }
 
+    @Override
+    public boolean createBook(Book book) {
+        return false;
+    }
 
     @Override
     public void close() {

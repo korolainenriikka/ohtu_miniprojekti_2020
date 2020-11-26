@@ -2,7 +2,7 @@ package kapistelykirjasto.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import kapistelykirjasto.domain.Entry;
+import kapistelykirjasto.domain.*;
 
 public interface Dao {
 	
@@ -12,7 +12,9 @@ public interface Dao {
 	 * @return true, if the entry was successfully created, false otherwise.
 	 */
 	public boolean createEntry(Entry entry);
-	
+
+	public boolean createBook(Book book);
+
 	/**
 	 * Closes the connection to the database. Call when you no longer need this DAO.
 	 */

@@ -23,7 +23,10 @@ public class ApplicationLogic implements Application {
 
     @Override
     public boolean createBook(String title, String comment, String author, String ISBN) {
-        System.out.println("adding book!");
+        Book book = new Book(title, comment, author, ISBN);
+        if (title.length() == 0 || author.length() == 0 || ISBN.length() == 0 || !this.dao.createBook(book)) {
+            return false;
+        }
         return true;
     }
 
