@@ -14,5 +14,4 @@ public class BookTest {
         assertEquals("Uncle Bob", testBook.getAuthor());
         assertEquals("abcd123", testBook.getISBN());
     }
-
 }

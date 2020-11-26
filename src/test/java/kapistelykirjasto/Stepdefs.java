@@ -27,6 +27,16 @@ public class Stepdefs {
         app.createEntry(string);
     }
 
+    @Given("book with title {string} is added")
+    public void bookWithTitleIsAdded(String string) {
+        app.createBook(string, string, string, string);
+    }
+
+    @Given("video with title {string} is added")
+    public void videoWithTitleIsAdded(String string) {
+        app.createVideo(string, string, string, string);
+    }
+
     @When("action {string} is chosen")
     public void chooseAction(String action) {
         inputLines.add(action);

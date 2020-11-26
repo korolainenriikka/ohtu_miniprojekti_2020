@@ -87,6 +87,23 @@ public class ApplicationTest {
 
         assertEquals(3, this.logic.getEntries().size());
     }
+    @Test
+    public void getBooksReturnsRightSizeList() {
+        this.logic.createBook("title", "comment", "author", "ISBN1");
+        this.logic.createBook("title1", "comment", "author", "ISBN2");
+        this.logic.createBook("title2", "comment", "author", "ISBN3");
+
+        assertEquals(3, this.logic.getBooks().size());
+    }
+
+    @Test
+    public void getVideosReturnsRightSizeList() {
+        this.logic.createVideo("title", "comment", "author", "123");
+        this.logic.createVideo("title1", "comment", "author", "1234");
+        this.logic.createVideo("title2", "comment", "author", "12345");
+
+        assertEquals(3, this.logic.getVideos().size());
+    }
 
     @Test
     public void deleteEntryBasedOnTitleReturnsFalseIfTitleNotInDb() {

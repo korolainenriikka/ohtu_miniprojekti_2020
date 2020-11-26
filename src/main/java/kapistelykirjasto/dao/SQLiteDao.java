@@ -168,7 +168,6 @@ public class SQLiteDao implements Dao {
                 videos.add(new Video(res.getString("title"), res.getString("comment"), res.getString("url"),
                         res.getString("duration")));
             }
-
             statement.close();
             return videos;
 

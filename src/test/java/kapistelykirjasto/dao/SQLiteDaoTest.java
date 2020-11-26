@@ -113,6 +113,24 @@ public class SQLiteDaoTest {
     }
 
     @Test
+    public void getBooksReturnsRightSizeList() throws SQLException {
+        this.dao.createBook(new Book("otsikko", "kommentti", "tekija", "123"));
+        this.dao.createBook(new Book("otsikko2", "kommentti", "tekija", "1234"));
+        this.dao.createBook(new Book("otsikko3", "kommentti", "tekija", "1235"));
+
+        assertEquals(3, this.dao.getBooks().size());
+    }
+
+    @Test
+    public void getVideosReturnsRightSizeList() throws SQLException {
+        this.dao.createVideo(new Video("otsikko", "kommentti", "tekija", "123"));
+        this.dao.createVideo(new Video("otsikko2", "kommentti", "tekija", "1234"));
+        this.dao.createVideo(new Video("otsikko3", "kommentti", "tekija", "1235"));
+
+        assertEquals(3, this.dao.getVideos().size());
+    }
+
+    @Test
     public void getEntriesReturnsEmptyListWhenNoEntriesInDb() throws SQLException {
         assertEquals(0, this.dao.getEntries().size());
     }
