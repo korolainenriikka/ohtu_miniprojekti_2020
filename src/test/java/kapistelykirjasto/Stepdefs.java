@@ -56,11 +56,29 @@ public class Stepdefs {
     public void bookParamsWithoutTitleEntered(String author, String ISBN, String comment) {
         addBookParams("", author, ISBN, comment);
     }
+    
+    @When("title {string} and url {string} is entered")
+    public void videoRequiredParamsEntered(String title, String url) {
+        addVideoParams(title, url, "", "");
+    }
+    
+    @When("title {string}, url {string}, duration {string} and comment {string} is entered")
+    public void videoAllParamsEntered(String title, String url, String duration, String comment) {
+        addVideoParams(title, url, duration, comment);
+    }
 
     public void addBookParams(String title, String author, String ISBN, String comment) {
         inputLines.add(title);
         inputLines.add(author);
         inputLines.add(ISBN);
+        inputLines.add(comment);
+    }
+    
+    
+    public void addVideoParams(String title, String url, String duration, String comment) {
+        inputLines.add(title);
+        inputLines.add(url);
+        inputLines.add(duration);
         inputLines.add(comment);
     }
 
