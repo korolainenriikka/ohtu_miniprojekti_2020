@@ -3,6 +3,7 @@ package kapistelykirjasto.dao;
 import java.io.*;
 import java.sql.*;
 
+import kapistelykirjasto.domain.Video;
 import kapistelykirjasto.domain.Book;
 import kapistelykirjasto.domain.Entry;
 
@@ -11,134 +12,154 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 public class SQLiteDaoTest {
-	
-	private SQLiteDao dao;
-	private final File testDatabaseFile = new File("test_database.db");
-	
-	@Before
-	public void setUp() throws SQLException, IOException {
-		assertTrue(testDatabaseFile.createNewFile());
-		this.dao = new SQLiteDao(testDatabaseFile.getAbsolutePath());
-	}
-	
-	@After
-	public void tearDown( ) {
-		this.dao.close();
-		assertTrue(testDatabaseFile.delete());
-	}
-	
-	@Test
-	public void constructorCreatesEntryTable() throws SQLException {
-		Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
-		ResultSet tables = connection.getMetaData().getTables(null, null, null, null);
-		
-		boolean entryTableExists = false;
-		while (tables.next()) {
-			if (tables.getString("TABLE_NAME").equals("entry")) {
-				entryTableExists = true;
-			}
-		}
-		
-		assertTrue(entryTableExists);
-	}
-	
-	@Test
-	public void createEntryCreatesRowInTableEntry() throws SQLException {
-		this.dao.createEntry(new Entry("Test"));
-		
-		Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
+
+    private SQLiteDao dao;
+    private final File testDatabaseFile = new File("test_database.db");
+
+    @Before
+    public void setUp() throws SQLException, IOException {
+        assertTrue(testDatabaseFile.createNewFile());
+        this.dao = new SQLiteDao(testDatabaseFile.getAbsolutePath());
+    }
+
+    @After
+    public void tearDown() {
+        this.dao.close();
+        assertTrue(testDatabaseFile.delete());
+    }
+
+    @Test
+    public void constructorCreatesEntryTable() throws SQLException {
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
+        ResultSet tables = connection.getMetaData().getTables(null, null, null, null);
+
+        boolean entryTableExists = false;
+        while (tables.next()) {
+            if (tables.getString("TABLE_NAME").equals("entry")) {
+                entryTableExists = true;
+            }
+        }
+
+        assertTrue(entryTableExists);
+    }
+
+    @Test
+    public void createEntryCreatesRowInTableEntry() throws SQLException {
+        this.dao.createEntry(new Entry("Test"));
+
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
         Statement statement = connection.createStatement();
-		ResultSet entries = statement.executeQuery("SELECT * FROM entry");
-		
-		assertTrue(entries.next());
-		assertTrue(entries.getString("title").equals("Test"));
-		
-		entries.close();
-		statement.close();
-		connection.close();
-	}
+        ResultSet entries = statement.executeQuery("SELECT * FROM entry");
 
-	@Test
-	public void createBookCreatesRowInTableBook() throws SQLException {
-		this.dao.createBook(new Book("Clean Code: A Handbook of Agile Software Craftsmanship",
-				"comments here",
-				"Robert Martin",
-				"978-0132350884"));
+        assertTrue(entries.next());
+        assertTrue(entries.getString("title").equals("Test"));
 
-		Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
-		Statement statement = connection.createStatement();
-		ResultSet books = statement.executeQuery("SELECT * FROM book");
+        entries.close();
+        statement.close();
+        connection.close();
+    }
 
-		assertTrue(books.next());
-		assertTrue(books.getString("title").equals("Clean Code: A Handbook of Agile Software Craftsmanship"));
+    @Test
+    public void createBookCreatesRowInTableBook() throws SQLException {
+        this.dao.createBook(new Book("Clean Code: A Handbook of Agile Software Craftsmanship",
+                "comments here",
+                "Robert Martin",
+                "978-0132350884"));
 
-		books.close();
-		statement.close();
-		connection.close();
-	}
-	
-	@Test
-	public void createEntryReturnsFalseForDuplicateEntry() throws SQLException {
-		this.dao.createEntry(new Entry("Test"));
-		assertFalse(this.dao.createEntry(new Entry("Test")));
-	}
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
+        Statement statement = connection.createStatement();
+        ResultSet books = statement.executeQuery("SELECT * FROM book");
 
-	@Test
-	public void getEntriesReturnsRightSizeList() throws SQLException {
-		this.dao.createEntry(new Entry("Test1"));
-		this.dao.createEntry(new Entry("Test2"));
-		this.dao.createEntry(new Entry("Test3"));
+        assertTrue(books.next());
+        assertTrue(books.getString("title").equals("Clean Code: A Handbook of Agile Software Craftsmanship"));
 
-		assertEquals(3,this.dao.getEntries().size());
-	}
+        books.close();
+        statement.close();
+        connection.close();
+    }
 
-	@Test
-	public void getEntriesReturnsEmptyListWhenNoEntriesInDb() throws SQLException {
-		assertEquals(0,this.dao.getEntries().size());
-	}
+    @Test
+    public void createVideoCreatesRowInTableVideo() throws SQLException {
+        this.dao.createVideo(new Video("Merge sort algorithm",
+                "Vau! Miten visuaalista!",
+                "https://www.youtube.com/watch?v=TzeBrDU-JaY",
+                "7 min 34 sek"));
 
-	@Test
-	public void getEntriesReturnsListContainingAllAddedEntries() {
-		this.dao.createEntry(new Entry("Test1"));
-		this.dao.createEntry(new Entry("Test2"));
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
+        Statement statement = connection.createStatement();
+        ResultSet videos = statement.executeQuery("SELECT * FROM video");
 
-		assertEquals("Test1", this.dao.getEntries().get(0).getTitle());
-		assertEquals("Test2", this.dao.getEntries().get(1).getTitle());
-	}
-	@Test
-	public void createEntryReturnsFalseWhenDatabaseIsClosed() throws SQLException {
-		this.dao.close();
-		assertFalse(this.dao.createEntry(new Entry("")));
-	}
+        assertTrue(videos.next());
+        assertTrue(videos.getString("title").equals("Merge sort algorithm"));
 
-	@Test
-	public void createBookReturnsFalseWhenDatabaseIsClosed() throws SQLException {
-		this.dao.close();
-		assertFalse(this.dao.createBook(new Book("Clean Code: A Handbook of Agile Software Craftsmanship",
-				"comments here",
-				"Robert Martin",
-				"978-0132350884")));
-	}
+        videos.close();
+        statement.close();
+        connection.close();
+    }
 
-	@Test
-	public void deleteEntryBasedOnTitleReturnsFalseWhenGivenTitleIsNotInDb() {
-		assertFalse(this.dao.deleteEntryBasedOnTitle("Not here"));
-	}
+    @Test
+    public void createEntryReturnsFalseForDuplicateEntry() throws SQLException {
+        this.dao.createEntry(new Entry("Test"));
+        assertFalse(this.dao.createEntry(new Entry("Test")));
+    }
 
-	@Test
-	public void deleteEntryBasedOnTitleReturnsTrueWhenGivenTitleIsInDb() {
-		this.dao.createEntry(new Entry("Testbook"));
-		assertTrue(this.dao.deleteEntryBasedOnTitle("Testbook"));
-	}
+    @Test
+    public void getEntriesReturnsRightSizeList() throws SQLException {
+        this.dao.createEntry(new Entry("Test1"));
+        this.dao.createEntry(new Entry("Test2"));
+        this.dao.createEntry(new Entry("Test3"));
 
-	@Test
-	public void deleteEntryBasedOnTitleReturnsFalseWhenDbClosed() {
-		this.dao.close();
-		assertFalse(this.dao.deleteEntryBasedOnTitle("TestTitle"));
-	}
+        assertEquals(3, this.dao.getEntries().size());
+    }
 
-	@Test
-	public void deleteEntryBasedOnTitleReturnsFalseIfNoTitleGiven() {
-		assertFalse(this.dao.deleteEntryBasedOnTitle(""));
-	}
+    @Test
+    public void getEntriesReturnsEmptyListWhenNoEntriesInDb() throws SQLException {
+        assertEquals(0, this.dao.getEntries().size());
+    }
+
+    @Test
+    public void getEntriesReturnsListContainingAllAddedEntries() {
+        this.dao.createEntry(new Entry("Test1"));
+        this.dao.createEntry(new Entry("Test2"));
+
+        assertEquals("Test1", this.dao.getEntries().get(0).getTitle());
+        assertEquals("Test2", this.dao.getEntries().get(1).getTitle());
+    }
+
+    @Test
+    public void createEntryReturnsFalseWhenDatabaseIsClosed() throws SQLException {
+        this.dao.close();
+        assertFalse(this.dao.createEntry(new Entry("")));
+    }
+
+    @Test
+    public void createBookReturnsFalseWhenDatabaseIsClosed() throws SQLException {
+        this.dao.close();
+        assertFalse(this.dao.createBook(new Book("Clean Code: A Handbook of Agile Software Craftsmanship",
+                "comments here",
+                "Robert Martin",
+                "978-0132350884")));
+    }
+
+    @Test
+    public void deleteEntryBasedOnTitleReturnsFalseWhenGivenTitleIsNotInDb() {
+        assertFalse(this.dao.deleteEntryBasedOnTitle("Not here"));
+    }
+
+    @Test
+    public void deleteEntryBasedOnTitleReturnsTrueWhenGivenTitleIsInDb() {
+        this.dao.createEntry(new Entry("Testbook"));
+        assertTrue(this.dao.deleteEntryBasedOnTitle("Testbook"));
+    }
+
+    @Test
+    public void deleteEntryBasedOnTitleReturnsFalseWhenDbClosed() {
+        this.dao.close();
+        assertFalse(this.dao.deleteEntryBasedOnTitle("TestTitle"));
+    }
+
+    @Test
+    public void deleteEntryBasedOnTitleReturnsFalseIfNoTitleGiven() {
+        assertFalse(this.dao.deleteEntryBasedOnTitle(""));
+    }
 }

@@ -10,8 +10,8 @@ public class SQLiteDao implements Dao {
     private Connection connection;
 
     /**
-     * Creates a new connection to the SQLite database in fileName. Pass in ":memory:" as the file name to
-     * create a in-memory database.
+     * Creates a new connection to the SQLite database in fileName. Pass in
+     * ":memory:" as the file name to create a in-memory database.
      *
      * @param fileName
      * @throws SQLException
@@ -24,15 +24,19 @@ public class SQLiteDao implements Dao {
             statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS entry (title TEXT UNIQUE);");
             statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS book (id INTEGER PRIMARY KEY AUTOINCREMENT" +
-                            ", title TEXT UNIQUE, comment TEXT, author TEXT, ISBN TEXT);");
+                    "CREATE TABLE IF NOT EXISTS book (id INTEGER PRIMARY KEY AUTOINCREMENT"
+                    + ", title TEXT UNIQUE, comment TEXT, author TEXT, ISBN TEXT);");
+            statement.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS video (id INTEGER PRIMARY KEY AUTOINCREMENT"
+                    + ", title TEXT UNIQUE, comment TEXT, url TEXT, duration TEXT);");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Creates a new connection to a SQLite database with the file name "production.db"
+     * Creates a new connection to a SQLite database with the file name
+     * "production.db"
      *
      * @throws SQLException
      */
@@ -61,7 +65,7 @@ public class SQLiteDao implements Dao {
     private boolean existsEntry(Entry entry) throws SQLException {
         PreparedStatement statement = this.connection.prepareStatement(
                 "SELECT * FROM entry WHERE"
-                        + " title=?;"
+                + " title=?;"
         );
         statement.setString(1, entry.getTitle());
         ResultSet res = statement.executeQuery();
@@ -78,6 +82,23 @@ public class SQLiteDao implements Dao {
             statement.setString(2, book.getComment());
             statement.setString(3, book.getAuthor());
             statement.setString(4, book.getISBN());
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean createVideo(Video video) {
+        try {
+            PreparedStatement statement = this.connection.prepareStatement("INSERT INTO video(title, comment, url, duration) VALUES(?,?,?,?);");
+            statement.setString(1, video.getTitle());
+            statement.setString(2, video.getComment());
+            statement.setString(3, video.getUrl());
+            statement.setString(4, video.getDuration());
             statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {
