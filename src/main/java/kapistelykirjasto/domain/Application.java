@@ -10,6 +10,8 @@ public interface Application {
     */
     public boolean createEntry(String name);
 
+    public boolean createBook(String title, String comment, String author, String ISBN);
+
     public ArrayList<Entry>getEntries();
 
     public boolean deleteEntryBasedOnTitle(String title);

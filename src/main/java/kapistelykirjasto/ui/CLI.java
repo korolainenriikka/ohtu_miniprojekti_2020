@@ -63,9 +63,22 @@ public class CLI implements UserInterface {
         if (typeOfEntryAdded.equals("1")) {
             addEntryWithTitle();
         } else if (typeOfEntryAdded.equals("2")) {
-            //addBook();
+            addBook();
         } else {
             io.print("epäkelpo toiminto");
+        }
+    }
+
+    private void addBook() {
+        String title = io.readLine("Syötä kirjan nimi:");
+        String author = io.readLine("Syötä kirjan kirjoittaja:");
+        String isbn = io.readLine("Syötä ISBN:");
+        String comment = io.readLine("Syötä kommentti (vapaavalintainen):");
+
+        if (app.createBook(title, comment, author, isbn)) {
+            io.print("Lukuvinkki lisätty onnistuneesti");
+        } else {
+            io.print("Lukuvinkin lisääminen epäonnistui");
         }
     }
 

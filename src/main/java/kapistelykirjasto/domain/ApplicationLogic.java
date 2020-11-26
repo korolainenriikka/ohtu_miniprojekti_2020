@@ -22,6 +22,12 @@ public class ApplicationLogic implements Application {
     }
 
     @Override
+    public boolean createBook(String title, String comment, String author, String ISBN) {
+        System.out.println("adding book!");
+        return true;
+    }
+
+    @Override
     public ArrayList<Entry> getEntries() {
         ArrayList<Entry>entries = new ArrayList<>();
         entries = this.dao.getEntries();
