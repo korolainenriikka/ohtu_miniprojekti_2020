@@ -70,4 +70,21 @@ public class ApplicationLogic implements Application {
         }
         return true;
     }
+
+    @Override
+    public boolean deleteBook(int id) {
+        if (!this.dao.deleteBook(id)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean deleteVideo(int id) {
+        if (!this.dao.deleteVideo(id)) {
+            return false;
+        }
+        return true;
+    }
+
 }

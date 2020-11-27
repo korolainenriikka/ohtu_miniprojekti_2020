@@ -21,4 +21,8 @@ public interface Application {
     public ArrayList<Video>getVideos();
 
     public boolean deleteEntryBasedOnTitle(String title);
+
+    public boolean deleteBook(int id);
+
+    public boolean deleteVideo(int id);
 }

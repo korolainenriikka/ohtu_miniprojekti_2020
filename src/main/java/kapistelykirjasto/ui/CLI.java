@@ -29,7 +29,7 @@ public class CLI implements UserInterface {
             } else if (action.equals("2")) {
                 getEntries();
             } else if (action.equals("3")) {
-                deleteEntry();
+                deleteEntryBasedOnTitle();
             } else {
                 io.print("epäkelpo toiminto");
             }
@@ -126,12 +126,18 @@ public class CLI implements UserInterface {
         }
     }
 
-    private void deleteEntry() {
+    private void deleteEntryBasedOnTitle() {
         String entryTitle = io.readLine("Syötä poistettavan lukuvinkin otsikko:");
         if (app.deleteEntryBasedOnTitle(entryTitle)) {
             io.print("Lukuvinkki poistettu onnistuneesti");
         } else {
             io.print("Lukuvinkin poistaminen epäonnistui");
         }
+    }
+
+    //run() metodissa ei ole vielä tämä käytössä, vaan siinä on tuo edellinen deleteEntryBasedOnTitle()
+    private void deleteEntry() {
+        String typeOfEntryDeleted = io.readLine("[1]: poista kirja\n[2]: poista video");
+
     }
 }

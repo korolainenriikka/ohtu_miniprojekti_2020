@@ -134,7 +134,6 @@ public class SQLiteDao implements Dao {
 
     @Override
     public ArrayList<Book> getBooks() {
-
         ArrayList<Book> books = new ArrayList<>();
 
         try {
@@ -157,7 +156,6 @@ public class SQLiteDao implements Dao {
 
     @Override
     public ArrayList<Video> getVideos() {
-
         ArrayList<Video> videos = new ArrayList<>();
 
         try {
@@ -176,6 +174,76 @@ public class SQLiteDao implements Dao {
             e.printStackTrace();
         }
         return videos;
+    }
+
+    private boolean existsBook(int id) {
+        try {
+            PreparedStatement statement = this.connection.prepareStatement(
+                    "SELECT * FROM book WHERE id=?;"
+            );
+            statement.setInt(1, id);
+            ResultSet res = statement.executeQuery();
+            boolean exists = res.next(); // If there is an element available in the result set, next() returns true.
+            statement.close();
+            return exists;
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private boolean existsVideo(int id) {
+        try {
+            PreparedStatement statement = this.connection.prepareStatement(
+                    "SELECT * FROM video WHERE id=?;"
+            );
+            statement.setInt(1, id);
+            ResultSet res = statement.executeQuery();
+            boolean exists = res.next(); // If there is an element available in the result set, next() returns true.
+            statement.close();
+            return exists;
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteBook(int id) {
+        try {
+            if (!existsBook(id)) {
+                return false;
+            }
+            PreparedStatement statement = this.connection.prepareStatement("DELETE FROM book WHERE id = ?");
+            statement.setInt(1, id);
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean deleteVideo(int id) {
+        try {
+            if (!existsVideo(id)) {
+                return false;
+            }
+            PreparedStatement statement = this.connection.prepareStatement("DELETE FROM video WHERE id = ?");
+            statement.setInt(1, id);
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override

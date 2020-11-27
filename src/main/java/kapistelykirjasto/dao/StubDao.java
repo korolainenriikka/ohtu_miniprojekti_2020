@@ -70,6 +70,16 @@ public class StubDao implements Dao {
     }
 
     @Override
+    public boolean deleteBook(int id) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteVideo(int id) {
+        return false;
+    }
+
+    @Override
     public boolean deleteEntryBasedOnTitle(String title) {
         if (!existsEntry(new Entry(title))) {
             return false;

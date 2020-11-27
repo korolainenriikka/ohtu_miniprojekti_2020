@@ -31,6 +31,10 @@ public interface Dao {
 
     public ArrayList<Video> getVideos();
 
+    public boolean deleteBook(int id);
+
+    public boolean deleteVideo(int id);
+
     public boolean deleteEntryBasedOnTitle(String title);
 
 }
