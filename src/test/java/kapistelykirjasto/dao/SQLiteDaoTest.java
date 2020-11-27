@@ -145,6 +145,36 @@ public class SQLiteDaoTest {
     }
 
     @Test
+    public void getBooksReturnsListContainingAllAddedBooks() {
+        this.dao.createBook(new Book("title","comment", "author","ISBN123"));
+        this.dao.createBook(new Book("title2","comment", "author","ISBN1234"));
+        this.dao.createBook(new Book("title3","comment", "author","ISBN12345"));
+
+        assertEquals("title", this.dao.getBooks().get(0).getTitle());
+        assertEquals("title2", this.dao.getBooks().get(1).getTitle());
+        assertEquals("title3", this.dao.getBooks().get(2).getTitle());
+    }
+
+    @Test
+    public void getVideosReturnsListContainingAllAddedVideos() {
+        this.dao.createVideo(new Video("title","comment", "author","1.23"));
+        this.dao.createVideo(new Video("title2","comment", "author","1.59"));
+        this.dao.createVideo(new Video("title3","comment", "author","2"));
+
+        assertEquals("title", this.dao.getVideos().get(0).getTitle());
+        assertEquals("title2", this.dao.getVideos().get(1).getTitle());
+        assertEquals("title3", this.dao.getVideos().get(2).getTitle());
+    }
+    @Test
+    public void getBooksReturnsEmptyListWhenNoBooksInDb() throws SQLException {
+        assertEquals(0, this.dao.getBooks().size());
+    }
+    @Test
+    public void getVideosReturnsEmptyListWhenNoVideosInDb() throws SQLException {
+        assertEquals(0, this.dao.getBooks().size());
+    }
+
+    @Test
     public void createEntryReturnsFalseWhenDatabaseIsClosed() throws SQLException {
         this.dao.close();
         assertFalse(this.dao.createEntry(new Entry("")));
