@@ -29,7 +29,7 @@ public class CLI implements UserInterface {
             } else if (action.equals("2")) {
                 getEntries();
             } else if (action.equals("3")) {
-                deleteEntryBasedOnTitle();
+                deleteEntry();
             } else {
                 io.print("epäkelpo toiminto");
             }
@@ -135,9 +135,59 @@ public class CLI implements UserInterface {
         }
     }
 
-    //run() metodissa ei ole vielä tämä käytössä, vaan siinä on tuo edellinen deleteEntryBasedOnTitle()
     private void deleteEntry() {
         String typeOfEntryDeleted = io.readLine("[1]: poista kirja\n[2]: poista video");
 
+        if (typeOfEntryDeleted.equals("1")) {
+            for (int i = 0; i < app.getBooks().size(); i++) {
+                io.print(i + 1 + ": " + app.getBooks().get(i).getTitle());
+            }
+            deleteBook();
+
+        } if (typeOfEntryDeleted.equals("2")) {
+            for (int i = 0; i < app.getVideos().size(); i++) {
+                io.print(i + 1 + ": " + app.getVideos().get(i).getTitle());
+            }
+            deleteVideo();
+        } else {
+
+        }
+    }
+
+    private void deleteBook() {
+
+        String id = io.readLine("Syötä kirjan numero, jonka haluat poistaa");
+    /*    int selectedNumber = Integer.valueOf(id);
+
+        tää toimii, sitte kun kirjalle tulee metodi getId
+
+        int bookId = app.getBooks().get(selectedNumber-1).getId();
+        String nimi = app.getBooks().get(bookId).getTitle();
+
+        if (this.app.deleteBook(bookId)) {
+            io.print("Kirjan (" + nimi + ") poistaminen onnistui");
+        } else {
+            io.print("Kirjan poistaminen ei onnistunut");
+        }
+    } */
+    }
+
+    private void deleteVideo() {
+
+        String id = io.readLine("Syötä videon numero, jonka haluat poistaa");
+     /*   int selectedNumber = Integer.valueOf(id);
+
+        tää toimii, sitte kun videolle tulee metodi getId
+
+        int videoId = app.getVideos().get(selectedNumber-1).getId();
+        String nimi = app.getVideos().get(videoId).getTitle();
+
+        if (this.app.deleteVideo(videoId)) {
+            io.print("Videon (" + nimi + ") poistaminen onnistui");
+        } else {
+            io.print("Videon poistaminen ei onnistunut");
+        }
+    } */
     }
 }
+
