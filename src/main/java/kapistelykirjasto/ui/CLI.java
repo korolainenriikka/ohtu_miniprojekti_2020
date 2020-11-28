@@ -59,12 +59,10 @@ public class CLI implements UserInterface {
     }
 
     private void addEntry() {
-        String typeOfEntryAdded = io.readLine("[1]: lisää vain otsikko\n[2]: lisää kirja \n[3]: lisää video");
+        String typeOfEntryAdded = io.readLine("[1]: lisää kirja \n[2]: lisää video");
         if (typeOfEntryAdded.equals("1")) {
-            addEntryWithTitle();
-        } else if (typeOfEntryAdded.equals("2")) {
             addBook();
-        } else if (typeOfEntryAdded.equals("3")) {
+        } else if (typeOfEntryAdded.equals("2")) {
             addVideo();
         } else {
             io.print("epäkelpo toiminto");
@@ -97,15 +95,6 @@ public class CLI implements UserInterface {
         }
     }
 
-    private void addEntryWithTitle() {
-        String entryTitle = io.readLine("Syötä lukuvinkin otsikko:");
-        if (app.createEntry(entryTitle)) {
-            io.print("Lukuvinkki lisätty onnistuneesti");
-        } else {
-            io.print("Lukuvinkin lisääminen epäonnistui");
-        }
-    }
-
     private void getEntries() {
 
         io.print("Kirjavinkit: ");
@@ -123,15 +112,6 @@ public class CLI implements UserInterface {
         }
         for (int i = 0; i < app.getVideos().size(); i++) {
             io.print(app.getVideos().get(i).getTitle());
-        }
-    }
-
-    private void deleteEntryBasedOnTitle() {
-        String entryTitle = io.readLine("Syötä poistettavan lukuvinkin otsikko:");
-        if (app.deleteEntryBasedOnTitle(entryTitle)) {
-            io.print("Lukuvinkki poistettu onnistuneesti");
-        } else {
-            io.print("Lukuvinkin poistaminen epäonnistui");
         }
     }
 

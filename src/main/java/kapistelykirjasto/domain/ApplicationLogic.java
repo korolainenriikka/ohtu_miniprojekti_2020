@@ -11,15 +11,6 @@ public class ApplicationLogic implements Application {
     public ApplicationLogic(Dao dao) {
         this.dao = dao;
     }
-    
-    @Override
-    public boolean createEntry(String name) {
-        Entry entry = new Entry(name);
-        if (name.length() == 0 || !this.dao.createEntry(entry)) {
-        	return false;
-        }
-        return true;
-    }
 
     @Override
     public boolean createBook(String title, String comment, String author, String ISBN) {
@@ -41,8 +32,9 @@ public class ApplicationLogic implements Application {
 
     @Override
     public ArrayList<Entry> getEntries() {
-        ArrayList<Entry>entries = new ArrayList<>();
-        entries = this.dao.getEntries();
+        ArrayList<Entry> entries = new ArrayList<>();
+        entries.addAll(this.dao.getBooks());
+        entries.addAll(this.dao.getVideos());
 
         return entries;
     }
@@ -61,14 +53,6 @@ public class ApplicationLogic implements Application {
         videos = this.dao.getVideos();
 
         return videos;
-    }
-
-    @Override
-    public boolean deleteEntryBasedOnTitle(String title) {
-        if (!this.dao.deleteEntryBasedOnTitle(title)) {
-            return false;
-        }
-        return true;
     }
 
     @Override

@@ -28,11 +28,8 @@ public class Book extends Entry {
         return ISBN;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
-    }
+	@Override
+	public Type getType() {
+		return Type.BOOK;
+	}
 }

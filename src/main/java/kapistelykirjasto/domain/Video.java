@@ -22,16 +22,13 @@ public class Video extends Entry {
     public String getUrl() {
         return url;
     }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
     
     public String getDuration() {
         return this.duration;
     }
-    
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
+
+	@Override
+	public Type getType() {
+		return Type.VIDEO;
+	}
 }

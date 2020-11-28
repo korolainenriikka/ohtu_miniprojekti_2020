@@ -22,8 +22,6 @@ public class SQLiteDao implements Dao {
 
             Statement statement = this.connection.createStatement();
             statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS entry (title TEXT UNIQUE);");
-            statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS book (id INTEGER PRIMARY KEY AUTOINCREMENT"
                             + ", title TEXT UNIQUE, comment TEXT, author TEXT, ISBN TEXT);");
             statement.executeUpdate(
@@ -42,24 +40,6 @@ public class SQLiteDao implements Dao {
      */
     public SQLiteDao() throws SQLException {
         this("production.db");
-    }
-
-    @Override
-    public boolean createEntry(Entry entry) {
-        try {
-            if (existsEntry(entry)) {
-                return false;
-            }
-            PreparedStatement statement = this.connection.prepareStatement("INSERT INTO entry(title) VALUES(?);");
-            statement.setString(1, entry.getTitle());
-            statement.executeUpdate();
-            statement.close();
-        } catch (SQLException e) {
-            e.getErrorCode();
-            e.printStackTrace();
-            return false;
-        }
-        return true;
     }
 
     private boolean existsEntry(Entry entry) throws SQLException {
@@ -111,38 +91,21 @@ public class SQLiteDao implements Dao {
     }
 
     @Override
-    public ArrayList<Entry> getEntries() {
-
-        ArrayList<Entry> entryes = new ArrayList<>();
-
-        try {
-            PreparedStatement statement = this.connection.prepareStatement(
-                    "SELECT * FROM entry");
-            ResultSet res = statement.executeQuery();
-            while (res.next()) {
-                entryes.add(new Entry(res.getString("title")));
-            }
-            statement.close();
-            return entryes;
-
-        } catch (SQLException e) {
-            e.getErrorCode();
-            e.printStackTrace();
-        }
-        return entryes;
-    }
-
-    @Override
     public ArrayList<Book> getBooks() {
-        ArrayList<Book> books = new ArrayList<>();
-
         try {
             PreparedStatement statement = this.connection.prepareStatement(
                     "SELECT * FROM book");
             ResultSet res = statement.executeQuery();
+            ArrayList<Book> books = new ArrayList<>();
             while (res.next()) {
-                books.add(new Book(res.getString("title"), res.getString("comment"), res.getString("author"),
-                        res.getString("ISBN")));
+            	books.add(
+            		new Book(
+            			res.getString("title"), 
+            			res.getString("comment"), 
+            			res.getString("author"),
+                        res.getString("ISBN")
+            		)
+            	);
             }
             statement.close();
             return books;
@@ -151,20 +114,23 @@ public class SQLiteDao implements Dao {
             e.getErrorCode();
             e.printStackTrace();
         }
-        return books;
+        return null;
     }
 
-    @Override
     public ArrayList<Video> getVideos() {
-        ArrayList<Video> videos = new ArrayList<>();
-
         try {
-            PreparedStatement statement = this.connection.prepareStatement(
-                    "SELECT * FROM video");
+            PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM video");
             ResultSet res = statement.executeQuery();
+            ArrayList<Video> videos = new ArrayList<>();
             while (res.next()) {
-                videos.add(new Video(res.getString("title"), res.getString("comment"), res.getString("url"),
-                        res.getString("duration")));
+            	videos.add(
+            		new Video(
+            			res.getString("title"), 
+            			res.getString("comment"), 
+            			res.getString("url"),
+                        res.getString("duration")
+            		)
+            	);
             }
             statement.close();
             return videos;
@@ -173,7 +139,7 @@ public class SQLiteDao implements Dao {
             e.getErrorCode();
             e.printStackTrace();
         }
-        return videos;
+        return null;
     }
 
     private boolean existsBook(int id) {
@@ -210,7 +176,6 @@ public class SQLiteDao implements Dao {
         }
     }
 
-    @Override
     public boolean deleteBook(int id) {
         try {
             if (!existsBook(id)) {
@@ -227,7 +192,7 @@ public class SQLiteDao implements Dao {
         }
         return true;
     }
-
+    
     @Override
     public boolean deleteVideo(int id) {
         try {
@@ -236,24 +201,6 @@ public class SQLiteDao implements Dao {
             }
             PreparedStatement statement = this.connection.prepareStatement("DELETE FROM video WHERE id = ?");
             statement.setInt(1, id);
-            statement.executeUpdate();
-            statement.close();
-        } catch (SQLException e) {
-            e.getErrorCode();
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean deleteEntryBasedOnTitle(String title) {
-        try {
-            if (!existsEntry(new Entry(title))) {
-                return false;
-            }
-            PreparedStatement statement = this.connection.prepareStatement("DELETE FROM entry WHERE title = ?");
-            statement.setString(1, title);
             statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {

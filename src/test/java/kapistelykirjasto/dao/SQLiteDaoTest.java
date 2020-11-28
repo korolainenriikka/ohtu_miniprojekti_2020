@@ -29,34 +29,18 @@ public class SQLiteDaoTest {
     }
 
     @Test
-    public void constructorCreatesEntryTable() throws SQLException {
+    public void constructorCreatesBookTable() throws SQLException {
         Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
         ResultSet tables = connection.getMetaData().getTables(null, null, null, null);
 
         boolean entryTableExists = false;
         while (tables.next()) {
-            if (tables.getString("TABLE_NAME").equals("entry")) {
+            if (tables.getString("TABLE_NAME").equals("book")) {
                 entryTableExists = true;
             }
         }
 
         assertTrue(entryTableExists);
-    }
-
-    @Test
-    public void createEntryCreatesRowInTableEntry() throws SQLException {
-        this.dao.createEntry(new Entry("Test"));
-
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
-        Statement statement = connection.createStatement();
-        ResultSet entries = statement.executeQuery("SELECT * FROM entry");
-
-        assertTrue(entries.next());
-        assertTrue(entries.getString("title").equals("Test"));
-
-        entries.close();
-        statement.close();
-        connection.close();
     }
 
     @Test
@@ -98,21 +82,6 @@ public class SQLiteDaoTest {
     }
 
     @Test
-    public void createEntryReturnsFalseForDuplicateEntry() throws SQLException {
-        this.dao.createEntry(new Entry("Test"));
-        assertFalse(this.dao.createEntry(new Entry("Test")));
-    }
-
-    @Test
-    public void getEntriesReturnsRightSizeList() throws SQLException {
-        this.dao.createEntry(new Entry("Test1"));
-        this.dao.createEntry(new Entry("Test2"));
-        this.dao.createEntry(new Entry("Test3"));
-
-        assertEquals(3, this.dao.getEntries().size());
-    }
-
-    @Test
     public void getBooksReturnsRightSizeList() throws SQLException {
         this.dao.createBook(new Book("otsikko", "kommentti", "tekija", "123"));
         this.dao.createBook(new Book("otsikko2", "kommentti", "tekija", "1234"));
@@ -128,20 +97,6 @@ public class SQLiteDaoTest {
         this.dao.createVideo(new Video("otsikko3", "kommentti", "tekija", "1235"));
 
         assertEquals(3, this.dao.getVideos().size());
-    }
-
-    @Test
-    public void getEntriesReturnsEmptyListWhenNoEntriesInDb() throws SQLException {
-        assertEquals(0, this.dao.getEntries().size());
-    }
-
-    @Test
-    public void getEntriesReturnsListContainingAllAddedEntries() {
-        this.dao.createEntry(new Entry("Test1"));
-        this.dao.createEntry(new Entry("Test2"));
-
-        assertEquals("Test1", this.dao.getEntries().get(0).getTitle());
-        assertEquals("Test2", this.dao.getEntries().get(1).getTitle());
     }
 
     @Test
@@ -175,9 +130,9 @@ public class SQLiteDaoTest {
     }
 
     @Test
-    public void createEntryReturnsFalseWhenDatabaseIsClosed() throws SQLException {
+    public void createVideoReturnsFalseWhenDatabaseIsClosed() throws SQLException {
         this.dao.close();
-        assertFalse(this.dao.createEntry(new Entry("")));
+        assertFalse(this.dao.createVideo(new Video("title", null, null, null)));
     }
 
     @Test
@@ -189,25 +144,4 @@ public class SQLiteDaoTest {
                 "978-0132350884")));
     }
 
-    @Test
-    public void deleteEntryBasedOnTitleReturnsFalseWhenGivenTitleIsNotInDb() {
-        assertFalse(this.dao.deleteEntryBasedOnTitle("Not here"));
-    }
-
-    @Test
-    public void deleteEntryBasedOnTitleReturnsTrueWhenGivenTitleIsInDb() {
-        this.dao.createEntry(new Entry("Testbook"));
-        assertTrue(this.dao.deleteEntryBasedOnTitle("Testbook"));
-    }
-
-    @Test
-    public void deleteEntryBasedOnTitleReturnsFalseWhenDbClosed() {
-        this.dao.close();
-        assertFalse(this.dao.deleteEntryBasedOnTitle("TestTitle"));
-    }
-
-    @Test
-    public void deleteEntryBasedOnTitleReturnsFalseIfNoTitleGiven() {
-        assertFalse(this.dao.deleteEntryBasedOnTitle(""));
-    }
 }

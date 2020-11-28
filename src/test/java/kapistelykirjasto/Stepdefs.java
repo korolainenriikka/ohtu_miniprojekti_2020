@@ -22,11 +22,6 @@ public class Stepdefs {
         app = new ApplicationLogic(new SQLiteDao(":memory:"));
     }
 
-    @Given("entry with title {string} is added")
-    public void entryWithTitleIsAdded(String string) {
-        app.createEntry(string);
-    }
-
     @Given("book with title {string} is added")
     public void bookWithTitleIsAdded(String string) {
         app.createBook(string, string, string, string);
