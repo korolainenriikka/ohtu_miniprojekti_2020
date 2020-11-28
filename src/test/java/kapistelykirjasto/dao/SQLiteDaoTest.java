@@ -113,6 +113,24 @@ public class SQLiteDaoTest {
     }
 
     @Test
+    public void getBooksReturnsRightSizeList() throws SQLException {
+        this.dao.createBook(new Book("otsikko", "kommentti", "tekija", "123"));
+        this.dao.createBook(new Book("otsikko2", "kommentti", "tekija", "1234"));
+        this.dao.createBook(new Book("otsikko3", "kommentti", "tekija", "1235"));
+
+        assertEquals(3, this.dao.getBooks().size());
+    }
+
+    @Test
+    public void getVideosReturnsRightSizeList() throws SQLException {
+        this.dao.createVideo(new Video("otsikko", "kommentti", "tekija", "123"));
+        this.dao.createVideo(new Video("otsikko2", "kommentti", "tekija", "1234"));
+        this.dao.createVideo(new Video("otsikko3", "kommentti", "tekija", "1235"));
+
+        assertEquals(3, this.dao.getVideos().size());
+    }
+
+    @Test
     public void getEntriesReturnsEmptyListWhenNoEntriesInDb() throws SQLException {
         assertEquals(0, this.dao.getEntries().size());
     }
@@ -124,6 +142,36 @@ public class SQLiteDaoTest {
 
         assertEquals("Test1", this.dao.getEntries().get(0).getTitle());
         assertEquals("Test2", this.dao.getEntries().get(1).getTitle());
+    }
+
+    @Test
+    public void getBooksReturnsListContainingAllAddedBooks() {
+        this.dao.createBook(new Book("title","comment", "author","ISBN123"));
+        this.dao.createBook(new Book("title2","comment", "author","ISBN1234"));
+        this.dao.createBook(new Book("title3","comment", "author","ISBN12345"));
+
+        assertEquals("title", this.dao.getBooks().get(0).getTitle());
+        assertEquals("title2", this.dao.getBooks().get(1).getTitle());
+        assertEquals("title3", this.dao.getBooks().get(2).getTitle());
+    }
+
+    @Test
+    public void getVideosReturnsListContainingAllAddedVideos() {
+        this.dao.createVideo(new Video("title","comment", "author","1.23"));
+        this.dao.createVideo(new Video("title2","comment", "author","1.59"));
+        this.dao.createVideo(new Video("title3","comment", "author","2"));
+
+        assertEquals("title", this.dao.getVideos().get(0).getTitle());
+        assertEquals("title2", this.dao.getVideos().get(1).getTitle());
+        assertEquals("title3", this.dao.getVideos().get(2).getTitle());
+    }
+    @Test
+    public void getBooksReturnsEmptyListWhenNoBooksInDb() throws SQLException {
+        assertEquals(0, this.dao.getBooks().size());
+    }
+    @Test
+    public void getVideosReturnsEmptyListWhenNoVideosInDb() throws SQLException {
+        assertEquals(0, this.dao.getBooks().size());
     }
 
     @Test

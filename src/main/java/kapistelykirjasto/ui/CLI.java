@@ -59,11 +59,13 @@ public class CLI implements UserInterface {
     }
 
     private void addEntry() {
-        String typeOfEntryAdded = io.readLine("[1]: lisää vain otsikko\n[2]: lisää kirja");
+        String typeOfEntryAdded = io.readLine("[1]: lisää vain otsikko\n[2]: lisää kirja \n[3]: lisää video");
         if (typeOfEntryAdded.equals("1")) {
             addEntryWithTitle();
         } else if (typeOfEntryAdded.equals("2")) {
             addBook();
+        } else if (typeOfEntryAdded.equals("3")) {
+            addVideo();
         } else {
             io.print("epäkelpo toiminto");
         }
@@ -82,26 +84,49 @@ public class CLI implements UserInterface {
         }
     }
 
+    private void addVideo() {
+        String title = io.readLine("Syötä videon nimi:");
+        String url = io.readLine("Syötä videon url-osoite:");
+        String duration = io.readLine("Syötä videon kesto (vapaaehtoinen):");
+        String comment = io.readLine("Syötä kommentti (vapaavalintainen):");
+
+        if (app.createVideo(title, comment, url, duration)) {
+            io.print("Lukuvinkki lisätty onnistuneesti");
+        } else {
+            io.print("Lukuvinkin lisääminen epäonnistui");
+        }
+    }
+
     private void addEntryWithTitle() {
         String entryTitle = io.readLine("Syötä lukuvinkin otsikko:");
         if (app.createEntry(entryTitle)) {
-        	io.print("Lukuvinkki lisätty onnistuneesti");
+            io.print("Lukuvinkki lisätty onnistuneesti");
         } else {
-        	io.print("Lukuvinkin lisääminen epäonnistui");
+            io.print("Lukuvinkin lisääminen epäonnistui");
         }
     }
 
     private void getEntries() {
-        if (app.getEntries().isEmpty()) {
-            io.print("Ei lisättyjä lukuvinkkejä");
+
+        io.print("Kirjavinkit: ");
+        if (app.getBooks().isEmpty()) {
+            io.print("Ei lisättyjä kirjavinkkejä");
+        }
+        for (int i = 0; i < app.getBooks().size(); i++) {
+            io.print(app.getBooks().get(i).getTitle());
         }
 
-        for (int i = 0; i < app.getEntries().size(); i++) {
-            io.print(app.getEntries().get(i).getTitle());
+        io.print("");
+        io.print("Videovinkit: ");
+        if (app.getVideos().isEmpty()) {
+            io.print("Ei lisättyjä videovinkkejä");
+        }
+        for (int i = 0; i < app.getVideos().size(); i++) {
+            io.print(app.getVideos().get(i).getTitle());
         }
     }
 
-    private void deleteEntry() {
+    private void deleteEntryBasedOnTitle() {
         String entryTitle = io.readLine("Syötä poistettavan lukuvinkin otsikko:");
         if (app.deleteEntryBasedOnTitle(entryTitle)) {
             io.print("Lukuvinkki poistettu onnistuneesti");
@@ -109,4 +134,60 @@ public class CLI implements UserInterface {
             io.print("Lukuvinkin poistaminen epäonnistui");
         }
     }
+
+    private void deleteEntry() {
+        String typeOfEntryDeleted = io.readLine("[1]: poista kirja\n[2]: poista video");
+
+        if (typeOfEntryDeleted.equals("1")) {
+            for (int i = 0; i < app.getBooks().size(); i++) {
+                io.print(i + 1 + ": " + app.getBooks().get(i).getTitle());
+            }
+            deleteBook();
+
+        } if (typeOfEntryDeleted.equals("2")) {
+            for (int i = 0; i < app.getVideos().size(); i++) {
+                io.print(i + 1 + ": " + app.getVideos().get(i).getTitle());
+            }
+            deleteVideo();
+        } else {
+
+        }
+    }
+
+    private void deleteBook() {
+
+        String id = io.readLine("Syötä kirjan numero, jonka haluat poistaa");
+    /*    int selectedNumber = Integer.valueOf(id);
+
+        tää toimii, sitte kun kirjalle tulee metodi getId
+
+        int bookId = app.getBooks().get(selectedNumber-1).getId();
+        String nimi = app.getBooks().get(bookId).getTitle();
+
+        if (this.app.deleteBook(bookId)) {
+            io.print("Kirjan (" + nimi + ") poistaminen onnistui");
+        } else {
+            io.print("Kirjan poistaminen ei onnistunut");
+        }
+    } */
+    }
+
+    private void deleteVideo() {
+
+        String id = io.readLine("Syötä videon numero, jonka haluat poistaa");
+     /*   int selectedNumber = Integer.valueOf(id);
+
+        tää toimii, sitte kun videolle tulee metodi getId
+
+        int videoId = app.getVideos().get(selectedNumber-1).getId();
+        String nimi = app.getVideos().get(videoId).getTitle();
+
+        if (this.app.deleteVideo(videoId)) {
+            io.print("Videon (" + nimi + ") poistaminen onnistui");
+        } else {
+            io.print("Videon poistaminen ei onnistunut");
+        }
+    } */
+    }
 }
+

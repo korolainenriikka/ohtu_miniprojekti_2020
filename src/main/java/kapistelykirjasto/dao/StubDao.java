@@ -1,6 +1,7 @@
 package kapistelykirjasto.dao;
 
 import java.util.ArrayList;
+
 import kapistelykirjasto.domain.*;
 
 public class StubDao implements Dao {
@@ -12,9 +13,9 @@ public class StubDao implements Dao {
 
     @Override
     public boolean createEntry(Entry entry) {
-    	if (closed || existsEntry(entry)) {
-    		return false;
-    	}
+        if (closed || existsEntry(entry)) {
+            return false;
+        }
 
         entries.add(entry);
         return true;
@@ -38,7 +39,7 @@ public class StubDao implements Dao {
         books.add(book);
         return true;
     }
-    
+
     @Override
     public boolean createVideo(Video video) {
         if (closed) {
@@ -56,6 +57,26 @@ public class StubDao implements Dao {
 
     public ArrayList<Entry> getEntries() {
         return this.entries;
+    }
+
+    @Override
+    public ArrayList<Book> getBooks() {
+        return this.books;
+    }
+
+    @Override
+    public ArrayList<Video> getVideos() {
+        return this.videos;
+    }
+
+    @Override
+    public boolean deleteBook(int id) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteVideo(int id) {
+        return false;
     }
 
     @Override

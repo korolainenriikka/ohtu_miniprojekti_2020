@@ -2,6 +2,7 @@ package kapistelykirjasto.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import kapistelykirjasto.domain.*;
 
 public interface Dao {
@@ -25,6 +26,14 @@ public interface Dao {
     public void close();
 
     public ArrayList<Entry> getEntries();
+
+    public ArrayList<Book> getBooks();
+
+    public ArrayList<Video> getVideos();
+
+    public boolean deleteBook(int id);
+
+    public boolean deleteVideo(int id);
 
     public boolean deleteEntryBasedOnTitle(String title);
 

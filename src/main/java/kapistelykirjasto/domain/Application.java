@@ -16,5 +16,13 @@ public interface Application {
 
     public ArrayList<Entry>getEntries();
 
+    public ArrayList<Book>getBooks();
+
+    public ArrayList<Video>getVideos();
+
     public boolean deleteEntryBasedOnTitle(String title);
+
+    public boolean deleteBook(int id);
+
+    public boolean deleteVideo(int id);
 }
