@@ -5,9 +5,9 @@ import kapistelykirjasto.dao.Dao;
 import java.util.ArrayList;
 
 public class ApplicationLogic implements Application {
-    
+
     private Dao dao;
-    
+
     public ApplicationLogic(Dao dao) {
         this.dao = dao;
     }
@@ -20,7 +20,7 @@ public class ApplicationLogic implements Application {
         }
         return true;
     }
-    
+
     @Override
     public boolean createVideo(String title, String comment, String url, String duration) {
         Video video = new Video(title, comment, url, duration);
@@ -41,7 +41,7 @@ public class ApplicationLogic implements Application {
 
     @Override
     public ArrayList<Book> getBooks() {
-        ArrayList<Book>books = new ArrayList<>();
+        ArrayList<Book> books = new ArrayList<>();
         books = this.dao.getBooks();
 
         return books;
@@ -49,10 +49,25 @@ public class ApplicationLogic implements Application {
 
     @Override
     public ArrayList<Video> getVideos() {
-        ArrayList<Video>videos = new ArrayList<>();
+        ArrayList<Video> videos = new ArrayList<>();
         videos = this.dao.getVideos();
 
         return videos;
+    }
+
+    @Override
+    public boolean deleteEntry(int id) {
+
+        if (getEntries().get(id).getType() == Entry.Type.BOOK) {
+            if (deleteBook(id)) {
+                return true;
+            }
+        } else {
+            if (deleteVideo(id)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

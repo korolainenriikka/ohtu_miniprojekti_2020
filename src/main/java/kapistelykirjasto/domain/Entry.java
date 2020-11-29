@@ -11,7 +11,7 @@ public abstract class Entry {
 	}
 	
 	public abstract Type getType();
-	
+
 	//luodaan toisessa taskissa:
 	//private List<Tag> tags; Tagilla name
 	//private List<Course> courses; Coursella courseCode, name
