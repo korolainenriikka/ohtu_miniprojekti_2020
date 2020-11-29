@@ -30,5 +30,10 @@ public class Video extends Entry {
 		return model.getDuration();
 	}
 
+	@Override
+	public Type getType() {
+		return Type.VIDEO;
+	}
+
 	
 }

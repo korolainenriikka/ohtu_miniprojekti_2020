@@ -2,7 +2,6 @@ package kapistelykirjasto.domain;
 
 import kapistelykirjasto.dao.Dao;
 import kapistelykirjasto.dao.models.BookModel;
-import kapistelykirjasto.dao.models.Model;
 import kapistelykirjasto.dao.models.VideoModel;
 
 import java.util.ArrayList;
@@ -61,6 +60,21 @@ public class ApplicationLogic implements Application {
 	}
 
 	@Override
+	public boolean deleteEntry(Entry e) {
+
+		if (e.getType() == Entry.Type.BOOK) {
+			if (deleteBook(e.getId())) {
+				return true;
+			}
+		} else {
+			if (deleteVideo(e.getId())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
 	public boolean deleteBook(int id) {
 		if (!this.dao.deleteBook(id)) {
 			return false;
@@ -75,5 +89,4 @@ public class ApplicationLogic implements Application {
 		}
 		return true;
 	}
-
 }

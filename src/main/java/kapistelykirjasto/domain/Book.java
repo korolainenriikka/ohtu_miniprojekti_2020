@@ -29,4 +29,9 @@ public class Book extends Entry {
 	public String getISBN() {
 		return model.getISBN();
 	}
+
+	@Override
+	public Type getType() {
+		return Type.BOOK;
+	}
 }

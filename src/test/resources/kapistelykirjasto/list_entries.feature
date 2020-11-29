@@ -1,12 +1,8 @@
 Feature: as an user I want to see a list of all entries
 
-    Scenario: Books are listed when there are no books added
+    Scenario: Entries are listed when there are no entries added
         When action "2" is chosen
-        Then system will respond with "Ei lisättyjä kirjavinkkejä"
-
-    Scenario: Videos are listed when there are no videos added
-        When action "2" is chosen
-        Then system will respond with "Ei lisättyjä videovinkkejä"
+        Then system will respond with "Ei lisättyjä lukuvinkkejä"
 
     Scenario: Added book is listed
         Given book with title "kirja" is added

@@ -1,6 +1,7 @@
 package kapistelykirjasto.ui;
 
 import kapistelykirjasto.domain.Application;
+import kapistelykirjasto.domain.Entry;
 
 import java.util.Scanner;
 
@@ -97,77 +98,44 @@ public class CLI implements UserInterface {
 
     private void getEntries() {
 
-        io.print("Kirjavinkit: ");
-        if (app.getBooks().isEmpty()) {
-            io.print("Ei lisättyjä kirjavinkkejä");
-        }
-        for (int i = 0; i < app.getBooks().size(); i++) {
-            io.print(app.getBooks().get(i).getTitle());
-        }
-
-        io.print("");
-        io.print("Videovinkit: ");
-        if (app.getVideos().isEmpty()) {
-            io.print("Ei lisättyjä videovinkkejä");
-        }
-        for (int i = 0; i < app.getVideos().size(); i++) {
-            io.print(app.getVideos().get(i).getTitle());
+        if (app.getEntries().isEmpty()) {
+            io.print("Ei lisättyjä lukuvinkkejä");
+        } else {
+            io.print("Lukuvinkit: ");
+            String type = "";
+            for (int i = 0; i < app.getEntries().size(); i++) {
+                if (app.getEntries().get(i).getType() == Entry.Type.BOOK) {
+                    type = "kirja";
+                } else {
+                    type = "video";
+                }
+                io.print(type + ": " + app.getEntries().get(i).getTitle());
+            }
         }
     }
 
     private void deleteEntry() {
-        String typeOfEntryDeleted = io.readLine("[1]: poista kirja\n[2]: poista video");
 
-        if (typeOfEntryDeleted.equals("1")) {
-            for (int i = 0; i < app.getBooks().size(); i++) {
-                io.print(i + 1 + ": " + app.getBooks().get(i).getTitle());
+        String type = "";
+        for (int i = 0; i < app.getEntries().size(); i++) {
+            if (app.getEntries().get(i).getType() == Entry.Type.BOOK) {
+                type = "kirja";
+            } else {
+                type = "video";
             }
-            deleteBook();
-
-        } if (typeOfEntryDeleted.equals("2")) {
-            for (int i = 0; i < app.getVideos().size(); i++) {
-                io.print(i + 1 + ": " + app.getVideos().get(i).getTitle());
-            }
-            deleteVideo();
-        } else {
-
+            io.print(i + 1 + ". " + type + ": " + app.getEntries().get(i).getTitle());
         }
-    }
+        String id = io.readLine("Syötä lukuvinkin numero, jonka haluat poistaa: ");
+        int selectedNumber = Integer.valueOf(id);
+    /*    int entryId = app.getEntries().get(selectedNumber-1).getId();
 
-    private void deleteBook() {
-
-        String id = io.readLine("Syötä kirjan numero, jonka haluat poistaa");
-    /*    int selectedNumber = Integer.valueOf(id);
-
-        tää toimii, sitte kun kirjalle tulee metodi getId
-
-        int bookId = app.getBooks().get(selectedNumber-1).getId();
-        String nimi = app.getBooks().get(bookId).getTitle();
-
-        if (this.app.deleteBook(bookId)) {
-            io.print("Kirjan (" + nimi + ") poistaminen onnistui");
+        if (this.app.deleteEntry(entryId) {
+            io.print("Lukuvinkin poistaminen onnistui");
         } else {
-            io.print("Kirjan poistaminen ei onnistunut");
+            io.print("Lukuvinkin poistaminen ei onnistunut");
         }
     } */
     }
 
-    private void deleteVideo() {
-
-        String id = io.readLine("Syötä videon numero, jonka haluat poistaa");
-     /*   int selectedNumber = Integer.valueOf(id);
-
-        tää toimii, sitte kun videolle tulee metodi getId
-
-        int videoId = app.getVideos().get(selectedNumber-1).getId();
-        String nimi = app.getVideos().get(videoId).getTitle();
-
-        if (this.app.deleteVideo(videoId)) {
-            io.print("Videon (" + nimi + ") poistaminen onnistui");
-        } else {
-            io.print("Videon poistaminen ei onnistunut");
-        }
-    } */
-    }
 }
 
