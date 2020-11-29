@@ -14,15 +14,6 @@ public class StubDao implements Dao {
     private ArrayList<VideoModel> videos = new ArrayList<>();
     private boolean closed = false;
 
-    private boolean existsEntry(Model entry) {
-        for (int i = 0; i < entries.size(); i++) {
-            if (entries.get(i).equals(entry)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public boolean createBook(String title, String comment, String author, String ISBN) {
         if (closed) {
@@ -60,7 +51,7 @@ public class StubDao implements Dao {
 
     @Override
     public boolean deleteBook(int id) {
-        return false;
+    	return false;
     }
 
     @Override

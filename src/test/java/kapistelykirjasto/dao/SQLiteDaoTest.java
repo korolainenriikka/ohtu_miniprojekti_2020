@@ -138,5 +138,19 @@ public class SQLiteDaoTest {
                 "Robert Martin",
                 "978-0132350884"));
     }
+    
+    @Test
+    public void deleteBookDeletesBook() {
+    	this.dao.createBook("testi", "testi", "testi", "testi");
+    	this.dao.deleteBook(this.dao.getBooks().get(0).getId());
+    	assertEquals(0, this.dao.getBooks().size());
+    }
+    
+    @Test
+    public void deleteVideoDeletesVideo() {
+    	this.dao.createVideo("testi", "testi", "testi", "testi");
+    	this.dao.deleteVideo(this.dao.getVideos().get(0).getId());
+    	assertEquals(0, this.dao.getVideos().size());
+    }
 
 }

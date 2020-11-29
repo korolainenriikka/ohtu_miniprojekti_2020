@@ -1,6 +1,5 @@
 package kapistelykirjasto.domain;
 
-import java.util.Random;
 
 import kapistelykirjasto.dao.SQLiteDao;
 import kapistelykirjasto.dao.StubDao;
@@ -14,11 +13,11 @@ import static org.junit.Assert.*;
 public class ApplicationTest {
 
     private ApplicationLogic logic;
-    private StubDao dao;
+    private SQLiteDao dao;
     
     @Before
     public void setUp() {
-        this.dao = new StubDao();
+        this.dao = new SQLiteDao(":memory:");
         this.logic = new ApplicationLogic(dao);
     }
 
@@ -74,5 +73,43 @@ public class ApplicationTest {
         assertEquals(3, this.logic.getVideos().size());
         assertEquals(this.dao.getVideos().get(0).getTitle(), "title");
         assertEquals(this.dao.getVideos().get(2).getTitle(), "title2");
+    }
+    
+    @Test
+    public void deleteBookDeletesBook() {
+    	this.logic.createBook("title", "comment", "author", "ISBN");
+    	this.logic.deleteBook(this.logic.getBooks().get(0).getId());
+    	assertEquals(0, this.logic.getBooks().size());
+    }
+    
+    @Test
+    public void deleteVideoDeletesVideo() {
+    	this.logic.createVideo("title", "comment", "url", "duration");
+    	this.logic.deleteVideo(this.logic.getVideos().get(0).getId());
+    	assertEquals(0, this.logic.getVideos().size());
+    }
+    
+    @Test
+    public void deleteEntryDeletesBook() {
+    	this.logic.createBook("title", "comment", "author", "ISBN");
+    	this.logic.deleteEntry(this.logic.getBooks().get(0));
+    	assertEquals(0, this.logic.getBooks().size());
+    }
+    
+    @Test
+    public void deleteEntryDeletesVideo() {
+    	this.logic.createVideo("title", "comment", "url", "duration");
+    	this.logic.deleteEntry(this.logic.getVideos().get(0));
+    	assertEquals(0, this.logic.getVideos().size());
+    }
+    
+    @Test
+    public void deleteBookReturnsFalseOnInvalidId() {
+    	assertFalse(this.logic.deleteBook(0));
+    }
+    
+    @Test
+    public void deleteVideoReturnsFalseOnInvalidId() {
+    	assertFalse(this.logic.deleteVideo(0));
     }
 }
