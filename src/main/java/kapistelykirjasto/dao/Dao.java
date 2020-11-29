@@ -2,13 +2,14 @@ package kapistelykirjasto.dao;
 
 import java.util.ArrayList;
 
-import kapistelykirjasto.domain.*;
+import kapistelykirjasto.dao.models.BookModel;
+import kapistelykirjasto.dao.models.VideoModel;
 
 public interface Dao {
 
-    public boolean createBook(Book book);
+    public boolean createBook(String title, String comment, String author, String ISBN);
 
-    public boolean createVideo(Video video);
+    public boolean createVideo(String title, String comment, String url, String duration);
 
     /**
      * Closes the connection to the database. Call when you no longer need this
@@ -16,9 +17,9 @@ public interface Dao {
      */
     public void close();
 
-    public ArrayList<Book> getBooks();
+    public ArrayList<BookModel> getBooks();
 
-    public ArrayList<Video> getVideos();
+    public ArrayList<VideoModel> getVideos();
 
     public boolean deleteBook(int id);
 

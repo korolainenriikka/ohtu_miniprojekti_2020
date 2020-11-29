@@ -1,35 +1,32 @@
 package kapistelykirjasto.domain;
 
+import kapistelykirjasto.dao.models.BookModel;
+
 public class Book extends Entry {
-    /*
-    SPEKSISTÄ ESIMERKKIKIRJA:
-        Kirjoittaja: Robert Martin /book
-        Otsikko: Clean Code: A Handbook of Agile Software Craftsmanship /entry
-        Tyyppi: Kirja
-        ISBN: 978-0132350884 /book
-        Tagit: Ohjelmointi, design patterns /entry
-        Related courses: TKT20006 Ohjelmistotuotanto /entry
-     */
+	
+	private BookModel model;
+	
+	public Book(BookModel model) {
+		this.model = model;
+	}
+	
+	public int getId() {
+		return model.getId();
+	}
 
-    private String author;
-    private String ISBN;
+	public String getTitle() {
+		return model.getTitle();
+	}
 
-    public Book(String title, String comment, String author, String ISBN) {
-        super(title, comment);
-        this.author = author;
-        this.ISBN = ISBN;
-    }
+	public String getAuthor() {
+		return model.getAuthor();
+	}
 
-    public String getAuthor() {
-        return author;
-    }
+	public String getComment() {
+		return model.getComment();
+	}
 
-    public String getISBN() {
-        return ISBN;
-    }
-
-	@Override
-	public Type getType() {
-		return Type.BOOK;
+	public String getISBN() {
+		return model.getISBN();
 	}
 }

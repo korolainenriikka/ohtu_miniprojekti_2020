@@ -2,6 +2,10 @@ package kapistelykirjasto.domain;
 
 import java.util.ArrayList;
 
+import kapistelykirjasto.dao.models.BookModel;
+import kapistelykirjasto.dao.models.Model;
+import kapistelykirjasto.dao.models.VideoModel;
+
 public interface Application {
 
     public boolean createBook(String title, String comment, String author, String ISBN);

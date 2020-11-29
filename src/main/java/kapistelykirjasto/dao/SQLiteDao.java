@@ -3,7 +3,8 @@ package kapistelykirjasto.dao;
 import java.sql.*;
 import java.util.ArrayList;
 
-import kapistelykirjasto.domain.*;
+import kapistelykirjasto.dao.models.BookModel;
+import kapistelykirjasto.dao.models.VideoModel;
 
 public class SQLiteDao implements Dao {
 
@@ -42,26 +43,14 @@ public class SQLiteDao implements Dao {
         this("production.db");
     }
 
-    private boolean existsEntry(Entry entry) throws SQLException {
-        PreparedStatement statement = this.connection.prepareStatement(
-                "SELECT * FROM entry WHERE"
-                        + " title=?;"
-        );
-        statement.setString(1, entry.getTitle());
-        ResultSet res = statement.executeQuery();
-        boolean exists = res.next(); // If there is an element available in the result set, next() returns true.
-        statement.close();
-        return exists;
-    }
-
     @Override
-    public boolean createBook(Book book) {
+    public boolean createBook(String title, String comment, String author, String ISBN) {
         try {
             PreparedStatement statement = this.connection.prepareStatement("INSERT INTO book(title, comment, author, isbn) VALUES(?,?,?,?);");
-            statement.setString(1, book.getTitle());
-            statement.setString(2, book.getComment());
-            statement.setString(3, book.getAuthor());
-            statement.setString(4, book.getISBN());
+            statement.setString(1, title);
+            statement.setString(2, comment);
+            statement.setString(3, author);
+            statement.setString(4, ISBN);
             statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {
@@ -73,13 +62,13 @@ public class SQLiteDao implements Dao {
     }
 
     @Override
-    public boolean createVideo(Video video) {
+    public boolean createVideo(String title, String comment, String url, String duration) {
         try {
             PreparedStatement statement = this.connection.prepareStatement("INSERT INTO video(title, comment, url, duration) VALUES(?,?,?,?);");
-            statement.setString(1, video.getTitle());
-            statement.setString(2, video.getComment());
-            statement.setString(3, video.getUrl());
-            statement.setString(4, video.getDuration());
+            statement.setString(1, title);
+            statement.setString(2, comment);
+            statement.setString(3, url);
+            statement.setString(4, duration);
             statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {
@@ -91,15 +80,16 @@ public class SQLiteDao implements Dao {
     }
 
     @Override
-    public ArrayList<Book> getBooks() {
+    public ArrayList<BookModel> getBooks() {
         try {
             PreparedStatement statement = this.connection.prepareStatement(
                     "SELECT * FROM book");
             ResultSet res = statement.executeQuery();
-            ArrayList<Book> books = new ArrayList<>();
+            ArrayList<BookModel> books = new ArrayList<>();
             while (res.next()) {
             	books.add(
-            		new Book(
+            		new BookModel(
+            			res.getInt("id"),
             			res.getString("title"), 
             			res.getString("comment"), 
             			res.getString("author"),
@@ -117,14 +107,15 @@ public class SQLiteDao implements Dao {
         return null;
     }
 
-    public ArrayList<Video> getVideos() {
+    public ArrayList<VideoModel> getVideos() {
         try {
             PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM video");
             ResultSet res = statement.executeQuery();
-            ArrayList<Video> videos = new ArrayList<>();
+            ArrayList<VideoModel> videos = new ArrayList<>();
             while (res.next()) {
             	videos.add(
-            		new Video(
+            		new VideoModel(
+            			res.getInt("id"),
             			res.getString("title"), 
             			res.getString("comment"), 
             			res.getString("url"),
