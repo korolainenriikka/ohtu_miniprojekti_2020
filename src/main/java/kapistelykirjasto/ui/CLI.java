@@ -3,6 +3,7 @@ package kapistelykirjasto.ui;
 import kapistelykirjasto.domain.Application;
 import kapistelykirjasto.domain.Entry;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CLI implements UserInterface {
@@ -115,26 +116,34 @@ public class CLI implements UserInterface {
     }
 
     private void deleteEntry() {
+    	ArrayList<Entry> entries = app.getEntries();
 
         String type = "";
         for (int i = 0; i < app.getEntries().size(); i++) {
-            if (app.getEntries().get(i).getType() == Entry.Type.BOOK) {
+            if (entries.get(i).getType() == Entry.Type.BOOK) {
                 type = "kirja";
             } else {
                 type = "video";
             }
             io.print(i + 1 + ". " + type + ": " + app.getEntries().get(i).getTitle());
         }
-        String id = io.readLine("Syötä lukuvinkin numero, jonka haluat poistaa: ");
-        int selectedNumber = Integer.valueOf(id);
-    /*    int entryId = app.getEntries().get(selectedNumber-1).getId();
+        
+        int selectedIndex;
+        
+        while (true) {
+        	String index = io.readLine("Syötä lukuvinkin numero, jonka haluat poistaa: ");
+        	selectedIndex = Integer.valueOf(index);
+        	if (selectedIndex > 0 && selectedIndex <= entries.size()) {
+        		break;
+        	}
+        	io.print("Vääränlainen syöte");
+        }
 
-        if (this.app.deleteEntry(entryId) {
+        if (this.app.deleteEntry(entries.get(selectedIndex - 1))) {
             io.print("Lukuvinkin poistaminen onnistui");
         } else {
             io.print("Lukuvinkin poistaminen ei onnistunut");
         }
-    } */
     }
 
 }
