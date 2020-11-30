@@ -1,7 +1,9 @@
 package kapistelykirjasto.ui;
 
 import kapistelykirjasto.domain.Application;
+import kapistelykirjasto.domain.Book;
 import kapistelykirjasto.domain.Entry;
+import kapistelykirjasto.domain.Video;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,13 +155,36 @@ public class CLI implements UserInterface {
         ArrayList<Entry> entries = app.getEntries();
         printEntriesWithNumbers(entries);
 
-        String index = io.readLine("Syötä lukuvinkin numero, jota haluat muokata: ");
+        String index = io.readLine("Syötä muokattavan lukuvinkin numero: ");
 
-        if (validIndexGiven(index, entries)) {
+        if (!validIndexGiven(index, entries)) {
+            io.print("Virheellinen syöte");
+            return;
+        }
 
-            int selectedEntryIndex = Integer.parseInt(index);
-            Entry e = entries.get(selectedEntryIndex - 1);
-                if (e.getType() == Entry.Type.BOOK) {
+        int selectedEntryIndex = Integer.parseInt(index);
+        Entry e = entries.get(selectedEntryIndex - 1);
+
+        if (e.getType() == Entry.Type.BOOK) {
+            Book b = ((Book) e);
+            editBook(b, selectedEntryIndex - 1);
+        } else if (e.getType() == Entry.Type.VIDEO) {
+            editVideo(e);
+        }
+    }
+
+    private void editBook(Book b, int index) {
+        String[] fields = new String[]{"nimi", "kirjailija", "ISBN", "kommentti"};
+        String[] currentValues = new String[]{b.getTitle(), b.getAuthor(), b.getISBN(), b.getComment()};
+
+        for (int i = 0; i < fields.length; i++ ) {
+            io.print("[" + (i + 1) + "]" + fields[i] + ": " + currentValues[i]);
+        }
+
+        String fieldsToEdit = io.readLine("Syötä muokattavien kenttien numerot: (1,2,3)");
+        if (validFieldSelectInputGiven(fieldsToEdit)) {
+
+        }
             /*      näin voisi muokata yksittäistä tietokenttää
             int selectedFieldIndex;
             while (true) {
@@ -178,28 +203,33 @@ public class CLI implements UserInterface {
             String newValue = io.readLine("Syötä tietokentän uusi arvo: ");
              */
 
-                io.print("Nykyiset tiedot:\n" + e.toString());
-                String title = io.readLine("Syötä kirjan nimi:");
-                String author = io.readLine("Syötä kirjan kirjoittaja:");
-                String isbn = io.readLine("Syötä ISBN:");
-                String comment = io.readLine("Syötä kommentti (vapaavalintainen):");
+        io.print("Nykyiset tiedot:\n" + e.toString());
+        String title = io.readLine("Syötä kirjan nimi:");
+        String author = io.readLine("Syötä kirjan kirjoittaja:");
+        String isbn = io.readLine("Syötä ISBN:");
+        String comment = io.readLine("Syötä kommentti (vapaavalintainen):");
 
-                if (app.editBook(Integer.parseInt(index) - 1, title, comment, author, isbn)) {
-                    io.print("Lukuvinkki muokattu onnistuneesti");
-                } else {
-                    io.print("Lukuvinkin muokkaaminen epäonnistui");
-                }
-
-            } else if (e.getType() == Entry.Type.VIDEO) {
-                System.out.println("not implemented yet");
-                return;
-            }
-
+        if (app.editBook( index, title, comment, author, isbn)) {
+            io.print("Lukuvinkki muokattu onnistuneesti");
         } else {
-            io.print("Väärä syöte");
+            io.print("Lukuvinkin muokkaaminen epäonnistui");
         }
-
     }
 
+    private boolean validFieldSelectInputGiven(String input) {
+        String[] inputSplitted = input.split(",");
+        try {
+            for (String fieldNo: inputSplitted) {
+                Integer.parseInt(fieldNo);
+            }
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private void editVideo(Entry e) {
+        io.print("not implemented :(");
+    }
 }
 
