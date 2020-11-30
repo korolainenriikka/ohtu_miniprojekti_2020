@@ -49,14 +49,40 @@ public class StubDao implements Dao {
         return this.videos;
     }
 
+    private boolean existsBook(int id) {
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean existsVideo(int id) {
+        for (int i = 0; i < videos.size(); i++) {
+            if (videos.get(i).getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public boolean deleteBook(int id) {
-    	return false;
+    	if (!existsBook(id)) {
+    	    return false;
+        }
+    	books.removeIf(book -> book.getId() == id);
+    	return true;
     }
 
     @Override
     public boolean deleteVideo(int id) {
-        return false;
+        if (!existsVideo(id)) {
+            return false;
+        }
+        videos.removeIf(video -> video.getId() == id);
+        return true;
     }
 
     @Override
