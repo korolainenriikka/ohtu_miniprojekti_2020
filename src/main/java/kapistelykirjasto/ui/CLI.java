@@ -4,6 +4,7 @@ import kapistelykirjasto.domain.Application;
 import kapistelykirjasto.domain.Entry;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CLI implements UserInterface {
 
@@ -106,75 +107,59 @@ public class CLI implements UserInterface {
             io.print("Ei lisättyjä lukuvinkkejä");
         } else {
             io.print("Lukuvinkit: ");
-            String type = "";
             for (int i = 0; i < entries.size(); i++) {
-                if (entries.get(i).getType() == Entry.Type.BOOK) {
-                    type = "kirja";
-                } else {
-                    type = "video";
-                }
-                io.print(type + ": " + entries.get(i).getTitle());
+                io.print(entries.get(i).toString());
             }
+        }
+    }
+
+    private void printEntriesWithNumbers(List<Entry> entries) {
+        //refaktoroitua: deletelle tai editille metodi joka tulostaa numeroidun listan
+        for (int i = 0; i < entries.size(); i++) {
+            io.print("[" + (i + 1) + "]: " + entries.get(i).toString());
         }
     }
 
     private void deleteEntry() {
     	ArrayList<Entry> entries = app.getEntries();
+        printEntriesWithNumbers(entries);
 
-        String type = "";
-        for (int i = 0; i < entries.size(); i++) {
-            if (entries.get(i).getType() == Entry.Type.BOOK) {
-                type = "kirja";
+        String index = io.readLine("Syötä poistettavan lukuvinkin numero: ");
+
+        if (validIndexGiven(index, entries)) {
+            if (this.app.deleteEntry(entries.get(Integer.valueOf(index) - 1))) {
+                io.print("Lukuvinkin poistaminen onnistui");
             } else {
-                type = "video";
+                io.print("Lukuvinkin poistaminen ei onnistunut");
             }
-            io.print(i + 1 + ". " + type + ": " +entries.get(i).getTitle());
-        }
-        
-        int selectedIndex;
-        
-        while (true) {
-        	String index = io.readLine("Syötä lukuvinkin numero, jonka haluat poistaa: ");
-        	selectedIndex = Integer.valueOf(index);
-        	if (selectedIndex > 0 && selectedIndex <= entries.size()) {
-        		break;
-        	}
-        	io.print("Vääränlainen syöte");
-        }
-
-        if (this.app.deleteEntry(entries.get(selectedIndex - 1))) {
-            io.print("Lukuvinkin poistaminen onnistui");
         } else {
-            io.print("Lukuvinkin poistaminen ei onnistunut");
+            io.print("Virhe: Vääränlainen syöte");
+        }
+    }
+
+    private boolean validIndexGiven(String input, List<Entry> entries) {
+        return parsable(input) && Integer.valueOf(input) > 0 && Integer.valueOf(input) <= entries.size();
+    }
+
+    private boolean parsable(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (final NumberFormatException e) {
+            return false;
         }
     }
 
     private void editEntry() {
         ArrayList<Entry> entries = app.getEntries();
+        printEntriesWithNumbers(entries);
 
-        String type = "";
-        for (int i = 0; i < app.getEntries().size(); i++) {
-            if (entries.get(i).getType() == Entry.Type.BOOK) {
-                type = "kirja";
-            } else {
-                type = "video";
-            }
-            io.print(i + 1 + ". " + type + ": " + app.getEntries().get(i).toString());
-        }
+        String index = io.readLine("Syötä lukuvinkin numero, jota haluat muokata: ");
 
-        int selectedEntryIndex;
+        if (validIndexGiven(index, entries)) {
 
-        while (true) {
-            String index = io.readLine("Syötä lukuvinkin numero, jota haluat muokata: ");
-            selectedEntryIndex = Integer.valueOf(index);
-            if (selectedEntryIndex > 0 && selectedEntryIndex <= entries.size()) {
-                break;
-            }
-            io.print("Vääränlainen syöte");
-        }
-
-        Entry e = entries.get(selectedEntryIndex - 1);
-        if (e.getType() == Entry.Type.BOOK) {
+            Entry e = entries.get(selectedEntryIndex - 1);
+            if (e.getType() == Entry.Type.BOOK) {
             /*      näin voisi muokata yksittäistä tietokenttää
             int selectedFieldIndex;
             while (true) {
@@ -193,23 +178,26 @@ public class CLI implements UserInterface {
             String newValue = io.readLine("Syötä tietokentän uusi arvo: ");
              */
 
-            io.print("Nykyiset tiedot:\n" + e.toString());
-            String title = io.readLine("Syötä kirjan nimi:");
-            String author = io.readLine("Syötä kirjan kirjoittaja:");
-            String isbn = io.readLine("Syötä ISBN:");
-            String comment = io.readLine("Syötä kommentti (vapaavalintainen):");
+                io.print("Nykyiset tiedot:\n" + e.toString());
+                String title = io.readLine("Syötä kirjan nimi:");
+                String author = io.readLine("Syötä kirjan kirjoittaja:");
+                String isbn = io.readLine("Syötä ISBN:");
+                String comment = io.readLine("Syötä kommentti (vapaavalintainen):");
 
-            if (app.editBook(selectedEntryIndex-1, title, comment, author, isbn)) {
-                io.print("Lukuvinkki muokattu onnistuneesti");
-            } else {
-                io.print("Lukuvinkin muokkaaminen epäonnistui");
+                if (app.editBook(selectedEntryIndex-1, title, comment, author, isbn)) {
+                    io.print("Lukuvinkki muokattu onnistuneesti");
+                } else {
+                    io.print("Lukuvinkin muokkaaminen epäonnistui");
+                }
+
+            } else if (e.getType() == Entry.Type.VIDEO) {
+                System.out.println("not implemented yet");
+                return;
             }
 
-        } else if (e.getType() == Entry.Type.VIDEO) {
-            System.out.println("not implemented yet");
-            return;
+        } else {
+            io.print("Väärä syöte");
         }
-
 
     }
 
