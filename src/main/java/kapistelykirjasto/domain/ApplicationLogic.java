@@ -89,4 +89,38 @@ public class ApplicationLogic implements Application {
 		}
 		return true;
 	}
+
+	/*
+	@Override
+	public boolean editEntry(int id, String title, String comment, String author, String ISBN) {
+
+		if (e.getType() == Entry.Type.BOOK) {
+			if (editBook(id)) {
+				return true;
+			}
+		} else if (e.getType() == Entry.Type.VIDEO){
+			Video v = (Video) e;
+			if (editVideo(v.getId(), v.getTitle(), v.getComment(), v.getUrl(), v.getDuration())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	 */
+
+	@Override
+	public boolean editBook(int id, String title, String comment, String author, String ISBN) {
+		if (!this.dao.editBook(id, title, comment, author, ISBN)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean editVideo(int id, String title, String comment, String url, String duration) {
+		if (!this.dao.editVideo(id, title, comment, url, duration)) {
+			return false;
+		}
+		return true;
+	}
 }

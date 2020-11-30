@@ -35,5 +35,21 @@ public class Video extends Entry {
 		return Type.VIDEO;
 	}
 
-	
+	@Override
+	public String toString() {
+		String s = getTitle();
+		String duration = getDuration();
+		if (!duration.equals("")) {
+			s += " (" + duration + ")";
+		}
+		String url = getUrl();
+		if (!url.equals("")) {
+			s += "\n\t" + url;
+		}
+		String comment = getComment();
+		if (!comment.equals("")) {
+			s += "\n\t" + comment;
+		}
+		return s;
+	}
 }
