@@ -114,7 +114,6 @@ public class CLI implements UserInterface {
     }
 
     private void printEntriesWithNumbers(List<Entry> entries) {
-        //refaktoroitua: deletelle tai editille metodi joka tulostaa numeroidun listan
         for (int i = 0; i < entries.size(); i++) {
             io.print("[" + (i + 1) + "]: " + entries.get(i).toString());
         }
@@ -158,8 +157,9 @@ public class CLI implements UserInterface {
 
         if (validIndexGiven(index, entries)) {
 
+            int selectedEntryIndex = Integer.parseInt(index);
             Entry e = entries.get(selectedEntryIndex - 1);
-            if (e.getType() == Entry.Type.BOOK) {
+                if (e.getType() == Entry.Type.BOOK) {
             /*      näin voisi muokata yksittäistä tietokenttää
             int selectedFieldIndex;
             while (true) {
@@ -184,7 +184,7 @@ public class CLI implements UserInterface {
                 String isbn = io.readLine("Syötä ISBN:");
                 String comment = io.readLine("Syötä kommentti (vapaavalintainen):");
 
-                if (app.editBook(selectedEntryIndex-1, title, comment, author, isbn)) {
+                if (app.editBook(Integer.parseInt(index) - 1, title, comment, author, isbn)) {
                     io.print("Lukuvinkki muokattu onnistuneesti");
                 } else {
                     io.print("Lukuvinkin muokkaaminen epäonnistui");

@@ -40,15 +40,15 @@ public class Video extends Entry {
 		String s = getTitle();
 		String duration = getDuration();
 		if (!duration.equals("")) {
-			s += " (" + duration + ")";
+			s += "\n\tkesto: " + duration;
 		}
 		String url = getUrl();
 		if (!url.equals("")) {
-			s += "\n\t" + url;
+			s += "\n\tURL: " + url;
 		}
 		String comment = getComment();
 		if (!comment.equals("")) {
-			s += "\n\t" + comment;
+			s += "\n\tkommentti: " + comment;
 		}
 		return s;
 	}

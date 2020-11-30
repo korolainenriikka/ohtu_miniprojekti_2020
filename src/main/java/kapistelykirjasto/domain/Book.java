@@ -37,19 +37,18 @@ public class Book extends Entry {
 
 	@Override
 	public String toString() {
-		String s = "";
+		String s = getTitle();
 		String author = getAuthor();
 		if (!author.equals("")) {
-			s += author + ": ";
+			s += "\n\tkirjailija: " + author;
 		}
-		s += getTitle();
 		String isbn = getISBN();
 		if (!isbn.equals("")) {
-			s += "\n\t" + isbn;
+			s += "\n\tISBN: " + isbn;
 		}
 		String comment = getComment();
 		if (!comment.equals("")) {
-			s += "\n\t" + comment;
+			s += "\n\tkommentti: " + comment;
 		}
 		return s;
 	}
