@@ -4,7 +4,6 @@ import kapistelykirjasto.domain.Application;
 import kapistelykirjasto.domain.Entry;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class CLI implements UserInterface {
 
@@ -98,19 +97,20 @@ public class CLI implements UserInterface {
     }
 
     private void getEntries() {
+        ArrayList<Entry> entries = app.getEntries();
 
-        if (app.getEntries().isEmpty()) {
+        if (entries.isEmpty()) {
             io.print("Ei lisättyjä lukuvinkkejä");
         } else {
             io.print("Lukuvinkit: ");
             String type = "";
-            for (int i = 0; i < app.getEntries().size(); i++) {
-                if (app.getEntries().get(i).getType() == Entry.Type.BOOK) {
+            for (int i = 0; i < entries.size(); i++) {
+                if (entries.get(i).getType() == Entry.Type.BOOK) {
                     type = "kirja";
                 } else {
                     type = "video";
                 }
-                io.print(type + ": " + app.getEntries().get(i).getTitle());
+                io.print(type + ": " + entries.get(i).getTitle());
             }
         }
     }
@@ -119,13 +119,13 @@ public class CLI implements UserInterface {
     	ArrayList<Entry> entries = app.getEntries();
 
         String type = "";
-        for (int i = 0; i < app.getEntries().size(); i++) {
+        for (int i = 0; i < entries.size(); i++) {
             if (entries.get(i).getType() == Entry.Type.BOOK) {
                 type = "kirja";
             } else {
                 type = "video";
             }
-            io.print(i + 1 + ". " + type + ": " + app.getEntries().get(i).getTitle());
+            io.print(i + 1 + ". " + type + ": " +entries.get(i).getTitle());
         }
         
         int selectedIndex;
