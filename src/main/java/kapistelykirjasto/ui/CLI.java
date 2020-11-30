@@ -110,7 +110,7 @@ public class CLI implements UserInterface {
                 } else {
                     type = "video";
                 }
-                io.print(type + ": " + app.getEntries().get(i).getTitle());
+                io.print(type + ": " + app.getEntries().get(i).toString());
             }
         }
     }

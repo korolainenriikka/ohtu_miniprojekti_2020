@@ -34,4 +34,23 @@ public class Book extends Entry {
 	public Type getType() {
 		return Type.BOOK;
 	}
+
+	@Override
+	public String toString() {
+		String s = "";
+		String author = getAuthor();
+		if (!author.equals("")) {
+			s += author + ": ";
+		}
+		s += getTitle();
+		String isbn = getISBN();
+		if (!isbn.equals("")) {
+			s += "\n\t" + isbn;
+		}
+		String comment = getComment();
+		if (!comment.equals("")) {
+			s += "\n\t" + comment;
+		}
+		return s;
+	}
 }
