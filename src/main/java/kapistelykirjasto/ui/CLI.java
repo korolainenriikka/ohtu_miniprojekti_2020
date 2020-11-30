@@ -48,7 +48,7 @@ public class CLI implements UserInterface {
         io.print("*  - 1: lisää lukuvinkki          *");
         io.print("*  - 2: näytä lukuvinkit          *");
         io.print("*  - 3: poista lukuvinkki         *");
-        io.print("*  - 4: muokkaa lukuvinkkiä         *");
+        io.print("*  - 4: muokkaa lukuvinkkiä       *");
         io.print("*  - X: poistu sovelluksesta      *");
         io.print("***********************************");
         io.print("");
