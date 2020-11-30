@@ -202,6 +202,52 @@ public class SQLiteDao implements Dao {
         return true;
     }
 
+    public boolean editBook(int id, String title, String comment, String author, String ISBN) {
+        try {
+            if (!existsBook(id)) {
+                return false;
+            }
+            PreparedStatement statement = this.connection.prepareStatement(
+                    "UPDATE book SET title=?, comment=?, author=?, isbn=? " +
+                            "WHERE id=?");
+            statement.setString(1, title);
+            statement.setString(2, comment);
+            statement.setString(3, author);
+            statement.setString(4, ISBN);
+            statement.setString(5, String.valueOf(id));
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean editVideo(int id, String title, String comment, String url, String duration) {
+        try {
+            if (!existsBook(id)) {
+                return false;
+            }
+            PreparedStatement statement = this.connection.prepareStatement(
+                    "UPDATE book SET title=?, comment=?, url=?, duration=? " +
+                            "WHERE id=?");
+            statement.setString(1, title);
+            statement.setString(2, comment);
+            statement.setString(3, url);
+            statement.setString(4, duration);
+            statement.setString(5, String.valueOf(id));
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void close() {
         try {
