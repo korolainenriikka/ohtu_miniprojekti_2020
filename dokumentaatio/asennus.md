@@ -5,7 +5,7 @@
 Lataa tämän GitHub-repositorion releaseista jar-tiedosto. Releasit löydät repositorion etusivun oikeasta laidasta tai README-tiedoston linkistä.  
 
 Siirry koneellasi siihen hakemistoon, jonka juuressa ladattu tiedosto sijaitsee ja suorita komento:  
-`java -jar Käpistelykirjasto-all.jar`
+`java -jar KäpistelyKirjasto-all.jar`
 
 
 ## Repositorion kloonaus omalle koneelle
@@ -20,6 +20,6 @@ Sovelluksen suorittamiseen tarvitaan gradle työkalua, käytä ohjeiden "gradle"
 `gradle build` sekä `gradle -q --console plain run`  
 
 
-### Asennuksen jälkeen
+## Asennuksen jälkeen
 Nyt sovellus on toiminnassa. Voit tutustua sovelluksen käyttöön tarkemmin [käyttöohjeissa](https://github.com/korolainenriikka/ohtu_miniprojekti_2020/blob/master/dokumentaatio/kaytto.md)  
 
