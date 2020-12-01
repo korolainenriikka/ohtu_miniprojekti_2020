@@ -168,7 +168,8 @@ public class CLI implements UserInterface {
             Book b = ((Book) entry);
             editBook(b, entryId);
         } else if (entry.getType() == Entry.Type.VIDEO) {
-            editVideo(entry);
+            Video v = ((Video) entry);
+            editVideo(v, entryId);
         }
     }
 
@@ -227,8 +228,25 @@ public class CLI implements UserInterface {
         return true;
     }
 
-    private void editVideo(Entry e) {
-        io.print("not implemented :(");
+    private void editVideo(Video v, int index) {
+        String[] fields = new String[]{"nimi", "url", "kesto", "kommentti"};
+        String[] currentValues = new String[]{v.getTitle(), v.getUrl(), v.getDuration(), v.getComment()};
+
+        for (int i = 0; i < fields.length; i++ ) {
+            io.print("[" + (i + 1) + "]" + fields[i] + ": " + currentValues[i]);
+        }
+
+        io.print("Nykyiset tiedot:\n" + v.toString());
+        String title = io.readLine("Syötä videon nimi:");
+        String url = io.readLine("Syötä videon url:");
+        String duration = io.readLine("Syötä videon kesto (vapaavalintainen)");
+        String comment = io.readLine("Syötä kommentti (vapaavalintainen):");
+
+        if (app.editVideo( index, title, comment, url, duration)) {
+            io.print("Lukuvinkki muokattu onnistuneesti");
+        } else {
+            io.print("Lukuvinkin muokkaaminen epäonnistui");
+        }
     }
 }
 

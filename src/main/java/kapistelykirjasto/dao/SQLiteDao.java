@@ -227,11 +227,11 @@ public class SQLiteDao implements Dao {
 
     public boolean editVideo(int id, String title, String comment, String url, String duration) {
         try {
-            if (!existsBook(id)) {
+            if (!existsVideo(id)) {
                 return false;
             }
             PreparedStatement statement = this.connection.prepareStatement(
-                    "UPDATE book SET title=?, comment=?, url=?, duration=? " +
+                    "UPDATE video SET title=?, comment=?, url=?, duration=? " +
                             "WHERE id=?");
             statement.setString(1, title);
             statement.setString(2, comment);
