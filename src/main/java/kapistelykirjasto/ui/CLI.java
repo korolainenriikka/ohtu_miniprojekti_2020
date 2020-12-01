@@ -231,8 +231,8 @@ public class CLI implements UserInterface {
 
         io.print("Nykyiset tiedot:\n" + "        videon nimi: " + video.toString());
         String title = io.readLine("Syötä videon nimi:");
-        String url = io.readLine("Syötä videon url:");
         String duration = io.readLine("Syötä videon kesto (vapaavalintainen)");
+        String url = io.readLine("Syötä videon url:");
         String comment = io.readLine("Syötä kommentti (vapaavalintainen):");
 
         if (app.editVideo(index, title, comment, url, duration)) {
