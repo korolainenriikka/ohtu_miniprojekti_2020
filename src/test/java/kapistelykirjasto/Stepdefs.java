@@ -119,22 +119,32 @@ public class Stepdefs {
 
     @Then("book with title {string}, author {string}, ISBN {string} and comment {string} exists")
     public void bookWithParamsExists(String title, String author, String isbn, String comment) {
-        StringBuilder sb = new StringBuilder("");
+    	boolean exists = false;
         for (Book b : app.getBooks()) {
-            sb.append(b.toString());
+            if (b.getTitle().equals(title)
+            		&& b.getAuthor().equals(author)
+            		&& b.getISBN().equals(isbn)
+            		&& b.getComment().equals(comment)) {
+            	exists = true;
+            }
         }
-        String s = sb.toString();
-        assertTrue(s.contains(title));
-        assertTrue(s.contains(author));
-        assertTrue(s.contains(isbn));
-        assertTrue(s.contains(comment));
+        assertTrue(exists);
     }
 
-    /*
+    
     @Then("book with title {string}, author {string}, ISBN {string} and comment {string} does not exist")
     public void bookWithParamsDoesNotExist(String title, String author, String isbn, String comment) {
-        // täytynee tarkistaa ettei yhdessäkään kirjassa ole kaikki tässä annetut arvot
+    	boolean exists = false;
+        for (Book b : app.getBooks()) {
+            if (b.getTitle().equals(title)
+            		&& b.getAuthor().equals(author)
+            		&& b.getISBN().equals(isbn)
+            		&& b.getComment().equals(comment)) {
+            	exists = true;
+            }
+        }
+        assertFalse(exists);
     }
-     */
+     
 
 }

@@ -110,7 +110,7 @@ public class ApplicationLogic implements Application {
 
 	@Override
 	public boolean editBook(int id, String title, String comment, String author, String ISBN) {
-		if (!this.dao.editBook(id, title, comment, author, ISBN)) {
+		if (title.length() == 0 || !this.dao.editBook(id, title, comment, author, ISBN)) {
 			return false;
 		}
 		return true;
@@ -118,7 +118,7 @@ public class ApplicationLogic implements Application {
 
 	@Override
 	public boolean editVideo(int id, String title, String comment, String url, String duration) {
-		if (!this.dao.editVideo(id, title, comment, url, duration)) {
+		if (title.length() == 0 || !this.dao.editVideo(id, title, comment, url, duration)) {
 			return false;
 		}
 		return true;
