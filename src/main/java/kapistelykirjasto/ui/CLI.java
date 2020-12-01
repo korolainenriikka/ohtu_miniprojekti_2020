@@ -6,16 +6,32 @@ import kapistelykirjasto.domain.Entry;
 import kapistelykirjasto.domain.Video;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 public class CLI implements UserInterface {
 
     private Application app;
     private IO io;
+    
+	private HashMap<String, Action> topLevelActions;
+    
+	interface Action {
+		public void run();
+	}
 
     public CLI(Application app, IO io) {
         this.app = app;
         this.io = io;
+        
+        this.topLevelActions = new HashMap<String, Action>();
+        this.topLevelActions.put("0", this::printActions);
+        this.topLevelActions.put("1", this::addEntry);
+        this.topLevelActions.put("2", this::getEntries);
+        this.topLevelActions.put("3", this::deleteEntry);
+        this.topLevelActions.put("4", this::editEntry);
     }
 
     @Override
@@ -26,16 +42,8 @@ public class CLI implements UserInterface {
             if (action.equals("X")) {
                 io.print("suljetaan");
                 break;
-            } else if (action.equals("0")) {
-                printActions();
-            } else if (action.equals("1")) {
-                addEntry();
-            } else if (action.equals("2")) {
-                getEntries();
-            } else if (action.equals("3")) {
-                deleteEntry();
-            } else if (action.equals("4")) {
-                editEntry();
+            } else if (this.topLevelActions.containsKey(action)) {
+                this.topLevelActions.get(action).run();
             } else {
                 io.print("epäkelpo toiminto");
             }
