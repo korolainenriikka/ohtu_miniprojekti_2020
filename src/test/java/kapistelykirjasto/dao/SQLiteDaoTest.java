@@ -96,9 +96,9 @@ public class SQLiteDaoTest {
 
     @Test
     public void getBooksReturnsListContainingAllAddedBooks() {
-        this.dao.createBook("title","comment", "author","ISBN123");
-        this.dao.createBook("title2","comment", "author","ISBN1234");
-        this.dao.createBook("title3","comment", "author","ISBN12345");
+        this.dao.createBook("title", "comment", "author", "ISBN123");
+        this.dao.createBook("title2", "comment", "author", "ISBN1234");
+        this.dao.createBook("title3", "comment", "author", "ISBN12345");
 
         assertEquals("title", this.dao.getBooks().get(0).getTitle());
         assertEquals("title2", this.dao.getBooks().get(1).getTitle());
@@ -107,21 +107,35 @@ public class SQLiteDaoTest {
 
     @Test
     public void getVideosReturnsListContainingAllAddedVideos() {
-        this.dao.createVideo("title","comment", "author","1.23");
-        this.dao.createVideo("title2","comment", "author","1.59");
-        this.dao.createVideo("title3","comment", "author","2");
+        this.dao.createVideo("title", "comment", "author", "1.23");
+        this.dao.createVideo("title2", "comment", "author", "1.59");
+        this.dao.createVideo("title3", "comment", "author", "2");
 
         assertEquals("title", this.dao.getVideos().get(0).getTitle());
         assertEquals("title2", this.dao.getVideos().get(1).getTitle());
         assertEquals("title3", this.dao.getVideos().get(2).getTitle());
     }
+
     @Test
     public void getBooksReturnsEmptyListWhenNoBooksInDb() throws SQLException {
         assertEquals(0, this.dao.getBooks().size());
     }
+
+    @Test
+    public void getBooksReturnsNullWhenDatabaseClosed() {
+        this.dao.close();
+        assertEquals(null, this.dao.getBooks());
+    }
+
     @Test
     public void getVideosReturnsEmptyListWhenNoVideosInDb() throws SQLException {
         assertEquals(0, this.dao.getBooks().size());
+    }
+
+    @Test
+    public void getVideosReturnsNullWhenDatabaseClosed() {
+        this.dao.close();
+        assertEquals(null, this.dao.getVideos());
     }
 
     @Test
@@ -138,19 +152,35 @@ public class SQLiteDaoTest {
                 "Robert Martin",
                 "978-0132350884"));
     }
-    
+
     @Test
     public void deleteBookDeletesBook() {
-    	this.dao.createBook("testi", "testi", "testi", "testi");
-    	this.dao.deleteBook(this.dao.getBooks().get(0).getId());
-    	assertEquals(0, this.dao.getBooks().size());
+        this.dao.createBook("testi", "testi", "testi", "testi");
+        this.dao.deleteBook(this.dao.getBooks().get(0).getId());
+        assertEquals(0, this.dao.getBooks().size());
+    }
+
+    @Test
+    public void deleteVideoDeletesVideo() {
+        this.dao.createVideo("testi", "testi", "testi", "testi");
+        this.dao.deleteVideo(this.dao.getVideos().get(0).getId());
+        assertEquals(0, this.dao.getVideos().size());
+    }
+
+    @Test
+    public void existsBookReturnsFalseWhenDatabaseClosed() {
+        this.dao.createBook("testi", "testi", "testi", "testi");
+        int id = this.dao.getBooks().get(0).getId();
+        this.dao.close();
+        assertFalse(this.dao.deleteBook(id));
     }
     
     @Test
-    public void deleteVideoDeletesVideo() {
-    	this.dao.createVideo("testi", "testi", "testi", "testi");
-    	this.dao.deleteVideo(this.dao.getVideos().get(0).getId());
-    	assertEquals(0, this.dao.getVideos().size());
+    public void existsVideoReturnsFalseWhenDatabaseClosed() {
+        this.dao.createVideo("testi", "testi", "testi", "testi");
+        int id = this.dao.getVideos().get(0).getId();
+        this.dao.close();
+        assertFalse(this.dao.deleteVideo(id));
     }
 
 }
