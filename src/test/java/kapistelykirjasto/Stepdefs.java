@@ -129,4 +129,12 @@ public class Stepdefs {
         assertTrue(s.contains(isbn));
         assertTrue(s.contains(comment));
     }
+
+    /*
+    @Then("book with title {string}, author {string}, ISBN {string} and comment {string} does not exist")
+    public void bookWithParamsDoesNotExist(String title, String author, String isbn, String comment) {
+        // täytynee tarkistaa ettei yhdessäkään kirjassa ole kaikki tässä annetut arvot
+    }
+     */
+
 }
