@@ -27,6 +27,11 @@ public class Stepdefs {
         app.createBook(string, string, string, string);
     }
 
+    @Given("book with title {string}, author {string}, ISBN {string} and comment {string} is added")
+    public void bookWithTitleAuthorAndIsbnIsAdded(String title, String author, String isbn, String comment) {
+        app.createBook(title, comment, author, isbn);
+    }
+
     @Given("video with title {string} is added")
     public void videoWithTitleIsAdded(String string) {
         app.createVideo(string, string, string, string);
@@ -110,5 +115,18 @@ public class Stepdefs {
         }
 
         assertTrue(ioResponse.contains(response));
+    }
+
+    @Then("book with title {string}, author {string}, ISBN {string} and comment {string} exists")
+    public void bookWithParamsExists(String title, String author, String isbn, String comment) {
+        StringBuilder sb = new StringBuilder("");
+        for (Book b : app.getBooks()) {
+            sb.append(b.toString());
+        }
+        String s = sb.toString();
+        assertTrue(s.contains(title));
+        assertTrue(s.contains(author));
+        assertTrue(s.contains(isbn));
+        assertTrue(s.contains(comment));
     }
 }
