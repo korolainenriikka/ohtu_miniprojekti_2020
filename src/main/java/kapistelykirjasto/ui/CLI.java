@@ -172,11 +172,10 @@ public class CLI implements UserInterface {
             editVideo(video, entryId);
         }
     }
-    private void editBook2(Book book, int index){
-           /*
-        String[] fields = new String[]{"nimi", "kirjailija", "ISBN", "kommentti"};
-        String[] currentValues = new String[]{b.getTitle(), b.getAuthor(), b.getISBN(), b.getComment()};
 
+    private void editBook2(Book book, int index) {
+     /*   String[] fields = new String[]{"nimi", "kirjailija", "ISBN", "kommentti"};
+          String[] currentValues = new String[]{b.getTitle(), b.getAuthor(), b.getISBN(), b.getComment()};
             for (int i = 0; i < fields.length; i++) {
             io.print("[" + (i + 1) + "] " + fields[i] + ": " + currentValues[i]);
         }
@@ -198,10 +197,10 @@ public class CLI implements UserInterface {
                 }
                 io.print("Vääränlainen syöte");
             }
-            String newValue = io.readLine("Syötä tietokentän uusi arvo: ");
-             */
+            String newValue = io.readLine("Syötä tietokentän uusi arvo: ");*/
     }
-    private void editVideo2(){
+
+    private void editVideo2() {
 
         /*  String[] fields = new String[]{"nimi", "url", "kesto", "kommentti"};
         String[] currentValues = new String[]{v.getTitle(), v.getUrl(), v.getDuration(), v.getComment()};
@@ -241,6 +240,7 @@ public class CLI implements UserInterface {
             io.print("Lukuvinkin muokkaaminen epäonnistui");
         }
     }
+
     private boolean validFieldSelectInputGiven(String input) {
         String[] inputSplitted = input.split(",");
         try {
