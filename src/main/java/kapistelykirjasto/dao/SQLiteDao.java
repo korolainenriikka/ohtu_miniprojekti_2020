@@ -205,11 +205,16 @@ public class SQLiteDao implements Dao {
             statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {
-            e.getErrorCode();
-            e.printStackTrace();
+            printSQLException(e);
             return false;
         }
         return true;
+    }
+
+    public void printSQLException(SQLException exception) {
+
+        exception.getErrorCode();
+        exception.printStackTrace();
     }
 
     public boolean editVideo(int id, String title, String comment, String url, String duration) {
@@ -227,8 +232,7 @@ public class SQLiteDao implements Dao {
             statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {
-            e.getErrorCode();
-            e.printStackTrace();
+            printSQLException(e);
             return false;
         }
         return true;
