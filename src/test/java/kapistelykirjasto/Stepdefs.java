@@ -27,6 +27,11 @@ public class Stepdefs {
         app.createBook(string, string, string, string);
     }
 
+    @Given("book with title {string}, author {string}, ISBN {string} and comment {string} is added")
+    public void bookWithTitleAuthorAndIsbnIsAdded(String title, String author, String isbn, String comment) {
+        app.createBook(title, comment, author, isbn);
+    }
+
     @Given("video with title {string} is added")
     public void videoWithTitleIsAdded(String string) {
         app.createVideo(string, string, string, string);
@@ -71,6 +76,17 @@ public class Stepdefs {
     public void videoAllParamsEntered(String title, String url, String duration, String comment) {
         addVideoParams(title, url, duration, comment);
     }
+    
+    @When("existing entry {string} is selected")
+    public void deleteExistingEntry(String entry) {
+        app.createVideo("What is Coding?", "www.youtube.com/watch?v=cKhVupvyhKk", "1:15", "Opettavainen!");
+        inputLines.add(entry);
+    }
+
+    @When("non-existent entry {string} is selected")
+    public void deleteNonexistentEntry(String entry) {
+        inputLines.add(entry);
+    }
 
     public void addBookParams(String title, String author, String ISBN, String comment) {
         inputLines.add(title);
@@ -100,4 +116,35 @@ public class Stepdefs {
 
         assertTrue(ioResponse.contains(response));
     }
+
+    @Then("book with title {string}, author {string}, ISBN {string} and comment {string} exists")
+    public void bookWithParamsExists(String title, String author, String isbn, String comment) {
+    	boolean exists = false;
+        for (Book b : app.getBooks()) {
+            if (b.getTitle().equals(title)
+            		&& b.getAuthor().equals(author)
+            		&& b.getISBN().equals(isbn)
+            		&& b.getComment().equals(comment)) {
+            	exists = true;
+            }
+        }
+        assertTrue(exists);
+    }
+
+    
+    @Then("book with title {string}, author {string}, ISBN {string} and comment {string} does not exist")
+    public void bookWithParamsDoesNotExist(String title, String author, String isbn, String comment) {
+    	boolean exists = false;
+        for (Book b : app.getBooks()) {
+            if (b.getTitle().equals(title)
+            		&& b.getAuthor().equals(author)
+            		&& b.getISBN().equals(isbn)
+            		&& b.getComment().equals(comment)) {
+            	exists = true;
+            }
+        }
+        assertFalse(exists);
+    }
+     
+
 }

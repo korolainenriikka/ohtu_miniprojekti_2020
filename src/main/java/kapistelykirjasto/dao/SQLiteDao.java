@@ -82,20 +82,14 @@ public class SQLiteDao implements Dao {
     @Override
     public ArrayList<BookModel> getBooks() {
         try {
-            PreparedStatement statement = this.connection.prepareStatement(
-                    "SELECT * FROM book");
+            PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM book");
             ResultSet res = statement.executeQuery();
             ArrayList<BookModel> books = new ArrayList<>();
             while (res.next()) {
-            	books.add(
-            		new BookModel(
-            			res.getInt("id"),
-            			res.getString("title"), 
-            			res.getString("comment"), 
-            			res.getString("author"),
-                        res.getString("ISBN")
-            		)
-            	);
+                books.add(
+                        new BookModel(res.getInt("id"), res.getString("title"), res.getString("comment"),
+                                res.getString("author"), res.getString("ISBN"))
+                );
             }
             statement.close();
             return books;
@@ -113,15 +107,9 @@ public class SQLiteDao implements Dao {
             ResultSet res = statement.executeQuery();
             ArrayList<VideoModel> videos = new ArrayList<>();
             while (res.next()) {
-            	videos.add(
-            		new VideoModel(
-            			res.getInt("id"),
-            			res.getString("title"), 
-            			res.getString("comment"), 
-            			res.getString("url"),
-                        res.getString("duration")
-            		)
-            	);
+                videos.add(
+                        new VideoModel(res.getInt("id"), res.getString("title"), res.getString("comment"),
+                                res.getString("url"), res.getString("duration")));
             }
             statement.close();
             return videos;
@@ -183,7 +171,7 @@ public class SQLiteDao implements Dao {
         }
         return true;
     }
-    
+
     @Override
     public boolean deleteVideo(int id) {
         try {
@@ -208,8 +196,7 @@ public class SQLiteDao implements Dao {
                 return false;
             }
             PreparedStatement statement = this.connection.prepareStatement(
-                    "UPDATE book SET title=?, comment=?, author=?, isbn=? " +
-                            "WHERE id=?");
+                    "UPDATE book SET title=?, comment=?, author=?, isbn=? " + "WHERE id=?");
             statement.setString(1, title);
             statement.setString(2, comment);
             statement.setString(3, author);
@@ -218,21 +205,25 @@ public class SQLiteDao implements Dao {
             statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {
-            e.getErrorCode();
-            e.printStackTrace();
+            printSQLException(e);
             return false;
         }
         return true;
     }
 
+    public void printSQLException(SQLException exception) {
+
+        exception.getErrorCode();
+        exception.printStackTrace();
+    }
+
     public boolean editVideo(int id, String title, String comment, String url, String duration) {
         try {
-            if (!existsBook(id)) {
+            if (!existsVideo(id)) {
                 return false;
             }
             PreparedStatement statement = this.connection.prepareStatement(
-                    "UPDATE book SET title=?, comment=?, url=?, duration=? " +
-                            "WHERE id=?");
+                    "UPDATE video SET title=?, comment=?, url=?, duration=? " + "WHERE id=?");
             statement.setString(1, title);
             statement.setString(2, comment);
             statement.setString(3, url);
@@ -241,8 +232,7 @@ public class SQLiteDao implements Dao {
             statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {
-            e.getErrorCode();
-            e.printStackTrace();
+            printSQLException(e);
             return false;
         }
         return true;

@@ -70,6 +70,7 @@ public class CLI implements UserInterface {
         io.print("- 1: lisää lukuvinkki");
         io.print("- 2: näytä lukuvinkit");
         io.print("- 3: poista lukuvinkki");
+        io.print("- 4: muokkaa lukuvinkkiä");
         io.print("- X: poistu sovelluksesta");
     }
 
@@ -130,10 +131,10 @@ public class CLI implements UserInterface {
     }
 
     private void deleteEntry() {
-    	ArrayList<Entry> entries = app.getEntries();
+        ArrayList<Entry> entries = app.getEntries();
         printEntriesWithNumbers(entries);
 
-        String index = io.readLine("Syötä poistettavan lukuvinkin numero: ");
+        String index = io.readLine("Syötä poistettavan lukuvinkin numero:");
 
         if (validIndexGiven(index, entries)) {
             if (this.app.deleteEntry(entries.get(Integer.valueOf(index) - 1))) {
@@ -162,62 +163,107 @@ public class CLI implements UserInterface {
     private void editEntry() {
         ArrayList<Entry> entries = app.getEntries();
         printEntriesWithNumbers(entries);
-
         String index = io.readLine("Syötä muokattavan lukuvinkin numero: ");
 
         if (!validIndexGiven(index, entries)) {
             io.print("Virheellinen syöte");
             return;
         }
+        Entry entry = entries.get(Integer.valueOf(index) - 1);
+        int entryId = entry.getId();
 
-        int selectedEntryIndex = Integer.parseInt(index);
-        Entry e = entries.get(selectedEntryIndex - 1);
-
-        if (e.getType() == Entry.Type.BOOK) {
-            Book b = ((Book) e);
-            editBook(b, selectedEntryIndex - 1);
-        } else if (e.getType() == Entry.Type.VIDEO) {
-            editVideo(e);
+        if (entry.getType() == Entry.Type.BOOK) {
+            Book book = ((Book) entry);
+            editBook(book, entryId);
+        } else if (entry.getType() == Entry.Type.VIDEO) {
+            Video video = ((Video) entry);
+            editVideo(video, entryId);
         }
     }
 
-    private void editBook(Book b, int index) {
+    private void printBookData(Book book) {
+
         String[] fields = new String[]{"nimi", "kirjailija", "ISBN", "kommentti"};
-        String[] currentValues = new String[]{b.getTitle(), b.getAuthor(), b.getISBN(), b.getComment()};
-
-        for (int i = 0; i < fields.length; i++ ) {
-            io.print("[" + (i + 1) + "]" + fields[i] + ": " + currentValues[i]);
+        String[] currentValues = new String[]{book.getTitle(), book.getAuthor(), book.getISBN(), book.getComment()};
+        for (int i = 0; i < fields.length; i++) {
+            io.print("[" + (i + 1) + "] " + fields[i] + ": " + currentValues[i]);
         }
+    }
 
-        String fieldsToEdit = io.readLine("Syötä muokattavien kenttien numerot: (1,2,3)");
-        if (validFieldSelectInputGiven(fieldsToEdit)) {
+    private void printVideoData(Video video) {
 
+        String[] fields = new String[]{"nimi", "kesto", "url", "kommentti"};
+        String[] currentValues = new String[]{video.getTitle(), video.getDuration(), video.getUrl(), video.getComment()};
+        for (int i = 0; i < fields.length; i++) {
+            io.print("[" + (i + 1) + "] " + fields[i] + ": " + currentValues[i]);
         }
-            /*      näin voisi muokata yksittäistä tietokenttää
-            int selectedFieldIndex;
-            while (true) {
-                String index = io.readLine(
-                        "[1] otsikko\n" +
-                                "[2] kommentti\n" +
-                                "[3] kirjoittaja\n" +
-                                "[4] ISBN\n" +
-                                "Syötä tietokentän numero, jota haluat muokata: ");
-                selectedFieldIndex = Integer.valueOf(index);
-                if (selectedFieldIndex > 0 && selectedFieldIndex <= 4) {
-                    break;
-                }
-                io.print("Vääränlainen syöte");
+    }
+
+    private void editBook2(Book book, int index) {
+
+        /* näin voisi muokata yksittäistä tietokenttää
+        printBookData(book);
+        String fieldsToEdit = io.readLine("Syötä muokattavien kenttien numerot: (1,2,3,4)");
+
+        int selectedFieldIndex;
+        String selectedField = "";
+
+        while (true) {
+            selectedField = io.readLine("[1] otsikko\n" + "[2] kommentti\n" + "[3] kirjoittaja\n" +
+                            "[4] ISBN\n" + "Syötä tietokentän numero, jota haluat muokata: ");
+            selectedFieldIndex = Integer.valueOf(selectedField);
+            if (selectedFieldIndex > 0 && selectedFieldIndex <= 4) {
+                break;
             }
-            String newValue = io.readLine("Syötä tietokentän uusi arvo: ");
-             */
+            io.print("Vääränlainen syöte");
+        }
+        String newValue = io.readLine("Syötä tietokentän uusi arvo: "); */
+    }
 
-        io.print("Nykyiset tiedot:\n" + b.toString());
+    private void editVideo2(Video video, int index) {
+
+        /*     näin voisi muokata yksittäistä tietokenttää
+        String fieldsToEdit = io.readLine("Syötä muokattavien kenttien numerot: (1,2,3,4)");
+
+        int selectedFieldIndex;
+        String selectedField = "";
+
+        while (true) {
+            selectedField = io.readLine("[1] otsikko\n" + "[2] kesto\n" + "[3] url\n" +
+                    "[4] kommentti\n" + "Syötä tietokentän numero, jota haluat muokata: ");
+            selectedFieldIndex = Integer.valueOf(selectedField);
+            if (selectedFieldIndex > 0 && selectedFieldIndex <= 4) {
+                break;
+            }
+            io.print("Vääränlainen syöte");
+        }
+        String newValue = io.readLine("Syötä tietokentän uusi arvo: "); */
+    }
+
+    private void editBook(Book book, int index) {
+
+        io.print("Nykyiset tiedot:\n" + "        kirjan nimi: " + book.toString());
         String title = io.readLine("Syötä kirjan nimi:");
         String author = io.readLine("Syötä kirjan kirjoittaja:");
         String isbn = io.readLine("Syötä ISBN:");
         String comment = io.readLine("Syötä kommentti (vapaavalintainen):");
 
-        if (app.editBook( index, title, comment, author, isbn)) {
+        if (app.editBook(index, title, comment, author, isbn)) {
+            io.print("Lukuvinkki muokattu onnistuneesti");
+        } else {
+            io.print("Lukuvinkin muokkaaminen epäonnistui");
+        }
+    }
+
+    private void editVideo(Video video, int index) {
+
+        io.print("Nykyiset tiedot:\n" + "        videon nimi: " + video.toString());
+        String title = io.readLine("Syötä videon nimi:");
+        String duration = io.readLine("Syötä videon kesto (vapaavalintainen)");
+        String url = io.readLine("Syötä videon url:");
+        String comment = io.readLine("Syötä kommentti (vapaavalintainen):");
+
+        if (app.editVideo(index, title, comment, url, duration)) {
             io.print("Lukuvinkki muokattu onnistuneesti");
         } else {
             io.print("Lukuvinkin muokkaaminen epäonnistui");
@@ -227,17 +273,13 @@ public class CLI implements UserInterface {
     private boolean validFieldSelectInputGiven(String input) {
         String[] inputSplitted = input.split(",");
         try {
-            for (String fieldNo: inputSplitted) {
+            for (String fieldNo : inputSplitted) {
                 Integer.parseInt(fieldNo);
             }
         } catch (NumberFormatException e) {
             return false;
         }
         return true;
-    }
-
-    private void editVideo(Entry e) {
-        io.print("not implemented :(");
     }
 }
 

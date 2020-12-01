@@ -15,3 +15,9 @@ Feature: as a user I want to be able to navigate the user interface
     Scenario: Invalid input
         When action "heimoi" is chosen
         Then system will respond with "epäkelpo toiminto"
+
+    Scenario: Invalid input when adding an entry
+        Given action "1" is chosen
+        When type "4" is selected
+        Then system will respond with "epäkelpo toiminto"
+
