@@ -3,6 +3,8 @@ package kapistelykirjasto.dao;
 import java.io.*;
 import java.sql.*;
 
+import kapistelykirjasto.dao.models.BookModel;
+import kapistelykirjasto.dao.models.VideoModel;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -183,4 +185,37 @@ public class SQLiteDaoTest {
         assertFalse(this.dao.deleteVideo(id));
     }
 
+    @Test
+    public void editBookUpdatesValues() {
+        this.dao.createBook("testi", "testi", "testi", "testi");
+        int id = this.dao.getBooks().get(0).getId();
+        this.dao.editBook(id, "edit1", "edit2", "edit3", "edit4");
+        BookModel b = this.dao.getBooks().get(0);
+        assertEquals(b.getAuthor(), "edit3");
+        assertEquals(b.getTitle(), "edit1");
+        assertEquals(b.getComment(), "edit2");
+        assertEquals(b.getISBN(), "edit4");
+    }
+
+    @Test
+    public void editVideoUpdatesValues() {
+        this.dao.createVideo("testi", "testi", "testi", "testi");
+        int id = this.dao.getVideos().get(0).getId();
+        this.dao.editVideo(id, "edit1", "edit2", "edit3", "edit4");
+        VideoModel b = this.dao.getVideos().get(0);
+        assertEquals(b.getUrl(), "edit3");
+        assertEquals(b.getTitle(), "edit1");
+        assertEquals(b.getComment(), "edit2");
+        assertEquals(b.getDuration(), "edit4");
+    }
+
+    @Test
+    public void editBookReturnsFalseIfBookDoesNotExist() {
+        assertFalse(this.dao.editBook(5, "edit1", "edit2", "edit3", "edit4"));
+    }
+
+    @Test
+    public void editVideoReturnsFalseIfVideoDoesNotExist() {
+        assertFalse(this.dao.editVideo(5, "edit1", "edit2", "edit3", "edit4"));
+    }
 }
