@@ -155,7 +155,7 @@ public class CLI implements UserInterface {
         try {
             Integer.parseInt(input);
             return true;
-        } catch (final NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return false;
         }
     }
