@@ -126,7 +126,7 @@ public class CLI implements UserInterface {
         ArrayList<Entry> entries = app.getEntries();
         printEntriesWithNumbers(entries);
 
-        String index = io.readLine("Syötä poistettavan lukuvinkin numero: ");
+        String index = io.readLine("Syötä poistettavan lukuvinkin numero:");
 
         if (validIndexGiven(index, entries)) {
             if (this.app.deleteEntry(entries.get(Integer.valueOf(index) - 1))) {
