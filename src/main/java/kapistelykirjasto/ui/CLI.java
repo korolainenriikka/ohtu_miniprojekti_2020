@@ -203,7 +203,7 @@ public class CLI implements UserInterface {
             String newValue = io.readLine("Syötä tietokentän uusi arvo: ");
              */
 
-        io.print("Nykyiset tiedot:\n" + e.toString());
+        io.print("Nykyiset tiedot:\n" + b.toString());
         String title = io.readLine("Syötä kirjan nimi:");
         String author = io.readLine("Syötä kirjan kirjoittaja:");
         String isbn = io.readLine("Syötä ISBN:");

@@ -71,6 +71,17 @@ public class Stepdefs {
     public void videoAllParamsEntered(String title, String url, String duration, String comment) {
         addVideoParams(title, url, duration, comment);
     }
+    
+    @When("existing entry {string} is selected")
+    public void deleteExistingEntry(String entry) {
+        app.createVideo("What is Coding?", "www.youtube.com/watch?v=cKhVupvyhKk", "1:15", "Opettavainen!");
+        inputLines.add(entry);
+    }
+
+    @When("non-existent entry {string} is selected")
+    public void deleteNonexistentEntry(String entry) {
+        inputLines.add(entry);
+    }
 
     public void addBookParams(String title, String author, String ISBN, String comment) {
         inputLines.add(title);
