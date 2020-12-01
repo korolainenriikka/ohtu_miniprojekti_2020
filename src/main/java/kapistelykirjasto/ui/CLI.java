@@ -156,7 +156,7 @@ public class CLI implements UserInterface {
         printEntriesWithNumbers(entries);
 
         String index = io.readLine("Syötä muokattavan lukuvinkin numero: ");
-        Entry entry = this.app.getEntries().get(Integer.valueOf(index));
+        Entry entry = entries.get(Integer.valueOf(index)-1);
         int entryId = entry.getId();
 
         if (!validIndexGiven(index, entries)) {
@@ -164,14 +164,11 @@ public class CLI implements UserInterface {
             return;
         }
 
-        int selectedEntryIndex = Integer.parseInt(index);
-        Entry e = entries.get(selectedEntryIndex - 1);
-
-        if (e.getType() == Entry.Type.BOOK) {
-            Book b = ((Book) e);
-            editBook(b, entryId-1);
-        } else if (e.getType() == Entry.Type.VIDEO) {
-            editVideo(e);
+        if (entry.getType() == Entry.Type.BOOK) {
+            Book b = ((Book) entry);
+            editBook(b, entryId);
+        } else if (entry.getType() == Entry.Type.VIDEO) {
+            editVideo(entry);
         }
     }
 
