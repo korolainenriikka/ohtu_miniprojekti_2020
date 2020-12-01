@@ -8,22 +8,24 @@ Sovelluksen käynnistyessa avautuu valikko:
 
 Valitse haluamasi toiminto valikosta.  
 
-Söytteellä "1" sovellus kysyy lukuvinkin otsikkoa.  
-```
-Syötä lukuvinkin otsikko:
-```
-Otsikko ei voi olla tyhjä eikä täysin samanlainen kuin jokin toinen jo kirjastossa oleva otsikko. Sovellus ilmoittaa lisäyksen onnistumisesta tai epäonnistumisesta käyttäjälle.  
+* Valitsemalla "1" voit lisätä lukuvinkkejä.  
+	* Sovellus kysyy haluatko lisätä kirjan vai videon. Valitse sopiva vaihtoehto ja vastaa lisäkysymyksiin.  
+![kirja](https://raw.githubusercontent.com/korolainenriikka/ohtu_miniprojekti_2020/master/dokumentaatio/addbook.png)   
+![video](https://raw.githubusercontent.com/korolainenriikka/ohtu_miniprojekti_2020/master/dokumentaatio/addvideo.png)  
 
-Syöteellä "2" sovellus listaa kaikki jo kirjastossa olevat lukuvinkit.  
-```
-Laskennan mallit  
-Database System Concepts  
-Hello Ruby - Matka tietokoneeseen  
-```  
+* Valitsemalla "2" sovellus listaa kaikki jo kirjastossa olevat lukuvinkit.  
+  
+* Valitsemalla "3" voi poistaa haluamasi lukuvinkin.  
+	* Valitse avautuvasta listasta sen lukuvinkin numero, jonka haluat poistaa.    
+![delete](https://raw.githubusercontent.com/korolainenriikka/ohtu_miniprojekti_2020/master/dokumentaatio/delete.png)  
 
-Syöteellä "0" sovellus tulostaa valikon uudestaan.  
+* Valitsemalla "4" voit muokata jo lisäämiäsi lukuvinkkejä.  
+	* Valitse muokattava lukuvinkki ja vastaa lisäkysymyksiin.  
+![edit](https://raw.githubusercontent.com/korolainenriikka/ohtu_miniprojekti_2020/master/dokumentaatio/edit.png)  
 
-Syöteellä "X" sovellus sulkeutuu.
+* Syöteellä "0" sovellus tulostaa valikon uudestaan.  
+
+* Syöteellä "X" sovellus sulkeutuu.
 
 
 
