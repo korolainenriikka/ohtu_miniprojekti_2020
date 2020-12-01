@@ -69,11 +69,11 @@ public class StubDao implements Dao {
 
     @Override
     public boolean deleteBook(int id) {
-    	if (!existsBook(id)) {
-    	    return false;
+        if (!existsBook(id)) {
+            return false;
         }
-    	books.removeIf(book -> book.getId() == id);
-    	return true;
+        books.removeIf(book -> book.getId() == id);
+        return true;
     }
 
     @Override
@@ -87,11 +87,35 @@ public class StubDao implements Dao {
 
     @Override
     public boolean editBook(int id, String title, String comment, String author, String ISBN) {
-        return false;
+        if (closed) {
+            return false;
+        }
+        BookModel editedBook = new BookModel(id, title, comment, author, ISBN);
+
+        for (int i = 0; i < this.books.size(); i++) {
+            if (this.books.get(i).getId() == id) {
+                this.books.remove(i);
+                this.books.add(editedBook);
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean editVideo(int id, String title, String comment, String url, String duration) {
-        return false;
+
+        if (closed) {
+            return false;
+        }
+        VideoModel editedVideo = new VideoModel(id, title, comment, url, duration);
+
+        for (int i = 0; i < this.videos.size(); i++) {
+            if (this.videos.get(i).getId() == id) {
+                this.videos.remove(i);
+                this.videos.add(editedVideo);
+            }
+        }
+        return true;
     }
 }
+
