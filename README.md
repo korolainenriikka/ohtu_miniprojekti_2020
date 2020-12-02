@@ -6,7 +6,7 @@
 
 [Product backlog](https://docs.google.com/spreadsheets/d/1lKrgeEqtPNm9kK6SKzxoq1SbjpOKOZiiZukaj-w0T6M/edit#gid=1)
 
-[Sprint backlog](https://docs.google.com/spreadsheets/d/1lKrgeEqtPNm9kK6SKzxoq1SbjpOKOZiiZukaj-w0T6M/edit#gid=8)
+[Sprint backlog](https://docs.google.com/spreadsheets/d/1lKrgeEqtPNm9kK6SKzxoq1SbjpOKOZiiZukaj-w0T6M/edit#gid=9)
 
 [Definition of done](https://github.com/korolainenriikka/ohtu_miniprojekti_2020/blob/master/dokumentaatio/DoD.md)
 
