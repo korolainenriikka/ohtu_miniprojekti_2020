@@ -5,7 +5,7 @@
 Lataa tämän GitHub-repositorion releaseista jar-tiedosto. Releasit löydät repositorion etusivun oikeasta laidasta tai README-tiedoston linkistä.  
 
 Siirry koneellasi siihen hakemistoon, jonka juuressa ladattu tiedosto sijaitsee ja suorita komento:  
-`java -jar KäpistelyKirjasto-all.jar`
+`java -jar KapistelyKirjasto.jar`
 
 
 ## Repositorion kloonaus omalle koneelle
