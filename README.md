@@ -15,3 +15,7 @@
 * [asennusohje](https://github.com/korolainenriikka/ohtu_miniprojekti_2020/blob/master/dokumentaatio/asennus.md)
 
 * [käyttöohje](https://github.com/korolainenriikka/ohtu_miniprojekti_2020/blob/master/dokumentaatio/kaytto.md)
+
+## Releaset
+
+*[release viikko 2](https://github.com/korolainenriikka/ohtu_miniprojekti_2020/releases/tag/2)
