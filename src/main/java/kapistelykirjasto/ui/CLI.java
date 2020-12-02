@@ -181,65 +181,6 @@ public class CLI implements UserInterface {
         }
     }
 
-    private void printBookData(Book book) {
-
-        String[] fields = new String[]{"nimi", "kirjailija", "ISBN", "kommentti"};
-        String[] currentValues = new String[]{book.getTitle(), book.getAuthor(), book.getISBN(), book.getComment()};
-        for (int i = 0; i < fields.length; i++) {
-            io.print("[" + (i + 1) + "] " + fields[i] + ": " + currentValues[i]);
-        }
-    }
-
-    private void printVideoData(Video video) {
-
-        String[] fields = new String[]{"nimi", "kesto", "url", "kommentti"};
-        String[] currentValues = new String[]{video.getTitle(), video.getDuration(), video.getUrl(), video.getComment()};
-        for (int i = 0; i < fields.length; i++) {
-            io.print("[" + (i + 1) + "] " + fields[i] + ": " + currentValues[i]);
-        }
-    }
-
-    private void editBook2(Book book, int index) {
-
-        /* näin voisi muokata yksittäistä tietokenttää
-        printBookData(book);
-        String fieldsToEdit = io.readLine("Syötä muokattavien kenttien numerot: (1,2,3,4)");
-
-        int selectedFieldIndex;
-        String selectedField = "";
-
-        while (true) {
-            selectedField = io.readLine("[1] otsikko\n" + "[2] kommentti\n" + "[3] kirjoittaja\n" +
-                            "[4] ISBN\n" + "Syötä tietokentän numero, jota haluat muokata: ");
-            selectedFieldIndex = Integer.valueOf(selectedField);
-            if (selectedFieldIndex > 0 && selectedFieldIndex <= 4) {
-                break;
-            }
-            io.print("Vääränlainen syöte");
-        }
-        String newValue = io.readLine("Syötä tietokentän uusi arvo: "); */
-    }
-
-    private void editVideo2(Video video, int index) {
-
-        /*     näin voisi muokata yksittäistä tietokenttää
-        String fieldsToEdit = io.readLine("Syötä muokattavien kenttien numerot: (1,2,3,4)");
-
-        int selectedFieldIndex;
-        String selectedField = "";
-
-        while (true) {
-            selectedField = io.readLine("[1] otsikko\n" + "[2] kesto\n" + "[3] url\n" +
-                    "[4] kommentti\n" + "Syötä tietokentän numero, jota haluat muokata: ");
-            selectedFieldIndex = Integer.valueOf(selectedField);
-            if (selectedFieldIndex > 0 && selectedFieldIndex <= 4) {
-                break;
-            }
-            io.print("Vääränlainen syöte");
-        }
-        String newValue = io.readLine("Syötä tietokentän uusi arvo: "); */
-    }
-
     private void editBook(Book book, int index) {
 
         io.print("Nykyiset tiedot:\n" + "        kirjan nimi: " + book.toString());
@@ -268,18 +209,6 @@ public class CLI implements UserInterface {
         } else {
             io.print("Lukuvinkin muokkaaminen epäonnistui");
         }
-    }
-
-    private boolean validFieldSelectInputGiven(String input) {
-        String[] inputSplitted = input.split(",");
-        try {
-            for (String fieldNo : inputSplitted) {
-                Integer.parseInt(fieldNo);
-            }
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
     }
 }
 
