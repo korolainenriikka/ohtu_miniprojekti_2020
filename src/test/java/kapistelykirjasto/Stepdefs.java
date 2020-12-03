@@ -1,4 +1,3 @@
-
 package kapistelykirjasto;
 
 import io.cucumber.java.Before;
@@ -112,7 +111,6 @@ public class Stepdefs {
         inputLines.add(comment);
     }
 
-
     public void addVideoParams(String title, String url, String duration, String comment) {
         inputLines.add(title);
         inputLines.add(url);
@@ -133,6 +131,19 @@ public class Stepdefs {
 
         assertTrue(ioResponse.contains(response));
     }
+    
+    @Then("the last line system will respond with is {string}")
+    public void firstLineSystemResponse(String response) {
+        this.io = new StubIO(this.inputLines);
+        userInterface = new CLI(app, io);
+        userInterface.run();
+
+        int last = io.getPrints().size() - 1;
+        String ioResponse = io.getPrints().get(last);
+        String lastWord = ioResponse.substring(ioResponse.lastIndexOf(" ") + 1);
+        
+        assertTrue(lastWord.equals(response));
+    }
 
     @Then("book with title {string}, author {string}, ISBN {string} and comment {string} exists")
     public void bookWithParamsExists(String title, String author, String isbn, String comment) {
@@ -147,7 +158,6 @@ public class Stepdefs {
         }
         assertTrue(exists);
     }
-
 
     @Then("book with title {string}, author {string}, ISBN {string} and comment {string} does not exist")
     public void bookWithParamsDoesNotExist(String title, String author, String isbn, String comment) {
@@ -218,5 +228,6 @@ public class Stepdefs {
         }
         assertFalse(exists);
     }
+    
+    
 }
-
