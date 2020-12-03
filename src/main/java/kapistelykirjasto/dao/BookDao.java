@@ -20,5 +20,6 @@ public interface BookDao {
     public ArrayList<BookModel> getReadBooks();
 
     public ArrayList<BookModel> getNotReadBooks();
+
     public void close();
 }

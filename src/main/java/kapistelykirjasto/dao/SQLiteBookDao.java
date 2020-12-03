@@ -43,6 +43,7 @@ public class SQLiteBookDao implements BookDao {
         }
         return true;
     }
+
     @Override
     public ArrayList<BookModel> getBooks() {
         try {
@@ -127,8 +128,6 @@ public class SQLiteBookDao implements BookDao {
         exception.getErrorCode();
         exception.printStackTrace();
     }
-
-
 
     @Override
     public boolean markBookAsRead(int id) {
