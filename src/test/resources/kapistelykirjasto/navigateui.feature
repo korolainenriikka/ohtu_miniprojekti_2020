@@ -21,3 +21,13 @@ Feature: as a user I want to be able to navigate the user interface
         When type "4" is selected
         Then system will respond with "epäkelpo toiminto"
 
+    Scenario: Leave listing function
+        Given action "2" is chosen
+        When type "X" is selected
+        Then system will respond with "Anna toiminto:"
+
+    Scenario: Invalid input when listing entries
+        Given action "2" is chosen
+        When type "K" is selected
+        Then system will respond with "epäkelpo toiminto"
+

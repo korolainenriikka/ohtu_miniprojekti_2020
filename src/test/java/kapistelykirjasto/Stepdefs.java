@@ -131,7 +131,7 @@ public class Stepdefs {
 
         assertTrue(ioResponse.contains(response));
     }
-    
+
     @Then("the last line system will respond with is {string}")
     public void firstLineSystemResponse(String response) {
         this.io = new StubIO(this.inputLines);
@@ -141,7 +141,7 @@ public class Stepdefs {
         int last = io.getPrints().size() - 1;
         String ioResponse = io.getPrints().get(last);
         String lastWord = ioResponse.substring(ioResponse.lastIndexOf(" ") + 1);
-        
+
         assertTrue(lastWord.equals(response));
     }
 
@@ -172,62 +172,4 @@ public class Stepdefs {
         }
         assertFalse(exists);
     }
-
-    @Then("read book with title {string}, author {string}, ISBN {string} and comment {string} is listed as read")
-    public void readBooksListContainsReadBook(String title, String author, String isbn, String comment) {
-        boolean exists = false;
-        for (Book b : app.getReadBooks()) {
-            if (b.getTitle().equals(title)
-                    && b.getAuthor().equals(author)
-                    && b.getISBN().equals(isbn)
-                    && b.getComment().equals(comment)) {
-                exists = true;
-            }
-        }
-        assertTrue(exists);
-    }
-
-    @Then("not read book with title {string}, author {string}, ISBN {string} and comment {string} is not listed as read")
-    public void readBooksListContainsOnlyReadBooks(String title, String author, String isbn, String comment) {
-        boolean exists = false;
-        for (Book b : app.getReadBooks()) {
-            if (b.getTitle().equals(title)
-                    && b.getAuthor().equals(author)
-                    && b.getISBN().equals(isbn)
-                    && b.getComment().equals(comment)) {
-                exists = true;
-            }
-        }
-        assertFalse(exists);
-    }
-
-    @Then("read video with title {string}, url {string}, duration {string} and comment {string} is listed as read")
-    public void readVideosListContainsReadVideos(String title, String url, String duration, String comment) {
-        boolean exists = false;
-        for (Video v : app.getReadVideos()) {
-            if (v.getTitle().equals(title)
-                    && v.getUrl().equals(url)
-                    && v.getDuration().equals(duration)
-                    && v.getComment().equals(comment)) {
-                exists = true;
-            }
-        }
-        assertTrue(exists);
-    }
-
-    @Then("not read video with title {string}, url {string}, duration {string} and comment {string} is not listed as read")
-    public void notReadVideosListContainsNotReadVideos(String title, String url, String duration, String comment) {
-        boolean exists = false;
-        for (Video v : app.getReadVideos()) {
-            if (v.getTitle().equals(title)
-                    && v.getUrl().equals(url)
-                    && v.getDuration().equals(duration)
-                    && v.getComment().equals(comment)) {
-                exists = true;
-            }
-        }
-        assertFalse(exists);
-    }
-    
-    
 }
