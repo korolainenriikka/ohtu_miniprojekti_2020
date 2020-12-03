@@ -7,7 +7,7 @@ import kapistelykirjasto.dao.models.Model;
 import kapistelykirjasto.dao.models.VideoModel;
 import kapistelykirjasto.domain.*;
 
-public class StubDao implements Dao {
+public class StubDao implements BookDao, VideoDao {
 
     private ArrayList<Model> entries = new ArrayList<>();
     private ArrayList<BookModel> books = new ArrayList<>();

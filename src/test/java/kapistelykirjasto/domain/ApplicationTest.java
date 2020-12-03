@@ -1,9 +1,7 @@
 package kapistelykirjasto.domain;
 
 
-import kapistelykirjasto.dao.SQLiteDao;
 import kapistelykirjasto.dao.StubDao;
-import kapistelykirjasto.dao.models.Model;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +17,7 @@ public class ApplicationTest {
     public void setUp() {
         //  this.dao = new SQLiteDao(":memory:");
         this.dao = new StubDao();
-        this.logic = new ApplicationLogic(dao);
+        this.logic = new ApplicationLogic(dao, dao);
     }
 
     @Test

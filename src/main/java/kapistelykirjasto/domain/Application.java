@@ -24,8 +24,6 @@ public interface Application {
 
     public boolean deleteVideo(int id);
 
-    //public boolean editEntry(Entry entry);
-
     public boolean editBook(int id, String title, String comment, String author, String ISBN);
 
     public boolean editVideo(int id, String title, String comment, String url, String duration);

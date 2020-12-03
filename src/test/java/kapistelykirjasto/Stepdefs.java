@@ -3,7 +3,8 @@ package kapistelykirjasto;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
-import kapistelykirjasto.dao.SQLiteDao;
+import kapistelykirjasto.dao.SQLiteBookDao;
+import kapistelykirjasto.dao.SQLiteVideoDao;
 import kapistelykirjasto.ui.*;
 import kapistelykirjasto.domain.*;
 
@@ -21,7 +22,7 @@ public class Stepdefs {
     @Before
     public void setup() {
         this.inputLines = new ArrayList<>();
-        app = new ApplicationLogic(new SQLiteDao(":memory:"));
+        app = new ApplicationLogic(new SQLiteBookDao(":memory:"), new SQLiteVideoDao(":memory:"));
     }
 
     @Given("book with title {string} is added")
