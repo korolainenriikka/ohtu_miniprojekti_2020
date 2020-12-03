@@ -134,9 +134,9 @@ public class CLI implements UserInterface {
             String typeOfFilter = io.readLine(
                     "\n Suodata listaa:\n[1]: luetut \n[2]: lukemattomat \n[X]: poistu");
             if (typeOfFilter.equals("1")) {
-                printReadEntriesWithNumbers();
+                printEntriesWithNumbers(this.app.getReadEntries(), "ei luettuja lukuvinkkejä");
             } else if (typeOfFilter.equals("2")) {
-                printNotReadEntriesWithNumbers();
+                printEntriesWithNumbers(this.app.getNotReadEntries(), "Olet lukenut jo kaikki lukuvinkit");
             } else if (typeOfFilter.equals("X")) {
                 break;
             } else {
@@ -145,34 +145,18 @@ public class CLI implements UserInterface {
         }
     }
 
-    private void printEntriesWithNumbers(List<Entry> entries) {
+    private void printEntriesWithNumbers(List<Entry> entries, String errormessage) {
+        if (errormessage != "" && entries.isEmpty()) {
+            io.print(errormessage);
+        }
         for (int i = 0; i < entries.size(); i++) {
             io.print("[" + (i + 1) + "]: " + entries.get(i).toString());
         }
     }
 
-    private void printNotReadEntriesWithNumbers() {
-        ArrayList<Entry> notReadEntries = this.app.getNotReadEntries();
-
-        if (notReadEntries.size() == 0) {
-            io.print("Olet lukenut jo kaikki lukuvinkit");
-        }
-        for (int i = 0; i < notReadEntries.size(); i++) {
-            io.print("[" + (i + 1) + "]: " + notReadEntries.get(i).toString());
-        }
-    }
-
-    private void printReadEntriesWithNumbers() {
-        ArrayList<Entry> readEntries = this.app.getReadEntries();
-
-        for (int i = 0; i < readEntries.size(); i++) {
-            io.print("[" + (i + 1) + "]: " + readEntries.get(i).toString());
-        }
-    }
-
     private void deleteEntry() {
         ArrayList<Entry> entries = app.getEntries();
-        printEntriesWithNumbers(entries);
+        printEntriesWithNumbers(entries, "");
 
         String index = io.readLine("Syötä poistettavan lukuvinkin numero:");
 
@@ -202,7 +186,7 @@ public class CLI implements UserInterface {
 
     private void editEntry() {
         ArrayList<Entry> entries = app.getEntries();
-        printEntriesWithNumbers(entries);
+        printEntriesWithNumbers(entries, "");
         String index = io.readLine("Syötä muokattavan lukuvinkin numero: ");
 
         if (!validIndexGiven(index, entries)) {
@@ -273,7 +257,7 @@ public class CLI implements UserInterface {
     private void markEntryAsRead() {
 
         ArrayList<Entry> notReadEntries = app.getNotReadEntries();
-        printNotReadEntriesWithNumbers();
+        printEntriesWithNumbers(app.getNotReadEntries(), "Olet lukenut jo kaikki lukuvinkit");
 
         if (notReadEntries.size() > 0) {
             String index = io.readLine("Syötä luetun lukuvinkin numero: ");
