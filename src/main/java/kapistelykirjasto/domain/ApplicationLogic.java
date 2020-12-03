@@ -105,11 +105,13 @@ public class ApplicationLogic implements Application {
 		}
 		return true;
 	}
+
 	@Override
 	public boolean markBookAsRead(int id) {
 		return this.dao.markBookAsRead(id);
 
 	}
+
 	@Override
 	public boolean markVideoAsRead(int id) {
 		return this.dao.markVideoAsRead(id);
@@ -145,6 +147,7 @@ public class ApplicationLogic implements Application {
 		}
 		return notReadEntries;
 	}
+
 	@Override
 	public ArrayList<Entry> getReadEntries() {
 		ArrayList<Entry> readEntries = new ArrayList<>();

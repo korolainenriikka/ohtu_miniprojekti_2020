@@ -6,18 +6,11 @@ import java.util.ArrayList;
 import kapistelykirjasto.dao.models.BookModel;
 import kapistelykirjasto.dao.models.VideoModel;
 
-public class SQLiteDao implements Dao {
+public class SQLiteBookDao implements BookDao {
 
     private Connection connection;
 
-    /**
-     * Creates a new connection to the SQLite database in fileName. Pass in
-     * ":memory:" as the file name to create a in-memory database.
-     *
-     * @param fileName
-     * @throws SQLException
-     */
-    public SQLiteDao(String fileName) {
+    public SQLiteBookDao(String fileName) {
         try {
             this.connection = DriverManager.getConnection("jdbc:sqlite:" + fileName);
 
@@ -25,21 +18,11 @@ public class SQLiteDao implements Dao {
             statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS book (id INTEGER PRIMARY KEY AUTOINCREMENT"
                             + ", title TEXT UNIQUE, comment TEXT, author TEXT, ISBN TEXT, read TIMESTAMP DEFAULT NULL);");
-            statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS video (id INTEGER PRIMARY KEY AUTOINCREMENT"
-                            + ", title TEXT UNIQUE, comment TEXT, url TEXT, duration TEXT, read TIMESTAMP DEFAULT NULL);");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Creates a new connection to a SQLite database with the file name
-     * "production.db"
-     *
-     * @throws SQLException
-     */
-    public SQLiteDao() throws SQLException {
+    public SQLiteBookDao() throws SQLException {
         this("production.db");
     }
 
@@ -60,25 +43,6 @@ public class SQLiteDao implements Dao {
         }
         return true;
     }
-
-    @Override
-    public boolean createVideo(String title, String comment, String url, String duration) {
-        try {
-            PreparedStatement statement = this.connection.prepareStatement("INSERT INTO video(title, comment, url, duration) VALUES(?,?,?,?);");
-            statement.setString(1, title);
-            statement.setString(2, comment);
-            statement.setString(3, url);
-            statement.setString(4, duration);
-            statement.executeUpdate();
-            statement.close();
-        } catch (SQLException e) {
-            e.getErrorCode();
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
     @Override
     public ArrayList<BookModel> getBooks() {
         try {
@@ -93,26 +57,6 @@ public class SQLiteDao implements Dao {
             }
             statement.close();
             return books;
-
-        } catch (SQLException e) {
-            e.getErrorCode();
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public ArrayList<VideoModel> getVideos() {
-        try {
-            PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM video");
-            ResultSet res = statement.executeQuery();
-            ArrayList<VideoModel> videos = new ArrayList<>();
-            while (res.next()) {
-                videos.add(
-                        new VideoModel(res.getInt("id"), res.getString("title"), res.getString("comment"),
-                                res.getString("url"), res.getString("duration")));
-            }
-            statement.close();
-            return videos;
 
         } catch (SQLException e) {
             e.getErrorCode();
@@ -138,23 +82,7 @@ public class SQLiteDao implements Dao {
         }
     }
 
-    private boolean existsVideo(int id) {
-        try {
-            PreparedStatement statement = this.connection.prepareStatement(
-                    "SELECT * FROM video WHERE id=?;"
-            );
-            statement.setInt(1, id);
-            ResultSet res = statement.executeQuery();
-            boolean exists = res.next(); // If there is an element available in the result set, next() returns true.
-            statement.close();
-            return exists;
-        } catch (SQLException e) {
-            e.getErrorCode();
-            e.printStackTrace();
-            return false;
-        }
-    }
-
+    @Override
     public boolean deleteBook(int id) {
         try {
             if (!existsBook(id)) {
@@ -173,23 +101,6 @@ public class SQLiteDao implements Dao {
     }
 
     @Override
-    public boolean deleteVideo(int id) {
-        try {
-            if (!existsVideo(id)) {
-                return false;
-            }
-            PreparedStatement statement = this.connection.prepareStatement("DELETE FROM video WHERE id = ?");
-            statement.setInt(1, id);
-            statement.executeUpdate();
-            statement.close();
-        } catch (SQLException e) {
-            e.getErrorCode();
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
     public boolean editBook(int id, String title, String comment, String author, String ISBN) {
         try {
             if (!existsBook(id)) {
@@ -217,26 +128,7 @@ public class SQLiteDao implements Dao {
         exception.printStackTrace();
     }
 
-    public boolean editVideo(int id, String title, String comment, String url, String duration) {
-        try {
-            if (!existsVideo(id)) {
-                return false;
-            }
-            PreparedStatement statement = this.connection.prepareStatement(
-                    "UPDATE video SET title=?, comment=?, url=?, duration=? " + "WHERE id=?");
-            statement.setString(1, title);
-            statement.setString(2, comment);
-            statement.setString(3, url);
-            statement.setString(4, duration);
-            statement.setString(5, String.valueOf(id));
-            statement.executeUpdate();
-            statement.close();
-        } catch (SQLException e) {
-            printSQLException(e);
-            return false;
-        }
-        return true;
-    }
+
 
     @Override
     public boolean markBookAsRead(int id) {
@@ -248,26 +140,6 @@ public class SQLiteDao implements Dao {
                 return false;
             }
             PreparedStatement statement = this.connection.prepareStatement("UPDATE book SET read=? " + "WHERE id=?");
-            statement.setString(1, setTime);
-            statement.setString(2, String.valueOf(id));
-            statement.executeUpdate();
-            statement.close();
-        } catch (SQLException e) {
-            printSQLException(e);
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean markVideoAsRead(int id) {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        String setTime = String.valueOf(timestamp.getTime());
-        try {
-            if (!existsVideo(id)) {
-                return false;
-            }
-            PreparedStatement statement = this.connection.prepareStatement("UPDATE video SET read=? " + "WHERE id=?");
             statement.setString(1, setTime);
             statement.setString(2, String.valueOf(id));
             statement.executeUpdate();
@@ -301,26 +173,6 @@ public class SQLiteDao implements Dao {
         return null;
     }
 
-    public ArrayList<VideoModel> getReadVideos() {
-        try {
-            PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM video WHERE read IS NOT NULL");
-            ResultSet res = statement.executeQuery();
-            ArrayList<VideoModel> videos = new ArrayList<>();
-            while (res.next()) {
-                videos.add(
-                        new VideoModel(res.getInt("id"), res.getString("title"), res.getString("comment"),
-                                res.getString("url"), res.getString("duration")));
-            }
-            statement.close();
-            return videos;
-
-        } catch (SQLException e) {
-            e.getErrorCode();
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     @Override
     public ArrayList<BookModel> getNotReadBooks() {
         try {
@@ -342,27 +194,6 @@ public class SQLiteDao implements Dao {
         }
         return null;
     }
-
-    public ArrayList<VideoModel> getNotReadVideos() {
-        try {
-            PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM video WHERE read IS NULL");
-            ResultSet res = statement.executeQuery();
-            ArrayList<VideoModel> videos = new ArrayList<>();
-            while (res.next()) {
-                videos.add(
-                        new VideoModel(res.getInt("id"), res.getString("title"), res.getString("comment"),
-                                res.getString("url"), res.getString("duration")));
-            }
-            statement.close();
-            return videos;
-
-        } catch (SQLException e) {
-            e.getErrorCode();
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 
     @Override
     public void close() {

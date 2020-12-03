@@ -1,9 +1,7 @@
 package kapistelykirjasto.domain;
 
 
-import kapistelykirjasto.dao.SQLiteDao;
 import kapistelykirjasto.dao.StubDao;
-import kapistelykirjasto.dao.models.Model;
 import org.junit.Before;
 import org.junit.Test;
 

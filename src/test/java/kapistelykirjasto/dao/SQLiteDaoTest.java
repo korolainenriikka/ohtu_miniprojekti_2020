@@ -12,13 +12,13 @@ import static org.junit.Assert.*;
 
 public class SQLiteDaoTest {
 
-    private SQLiteDao dao;
+    private SQLiteBookDao dao;
     private final File testDatabaseFile = new File("test_database.db");
 
     @Before
     public void setUp() throws SQLException, IOException {
         assertTrue(testDatabaseFile.createNewFile());
-        this.dao = new SQLiteDao(testDatabaseFile.getAbsolutePath());
+        this.dao = new SQLiteBookDao(testDatabaseFile.getAbsolutePath());
     }
 
     @After
