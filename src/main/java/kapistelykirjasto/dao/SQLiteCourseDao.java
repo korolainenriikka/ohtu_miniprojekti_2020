@@ -1,12 +1,9 @@
 package kapistelykirjasto.dao;
 
-import kapistelykirjasto.dao.models.BookModel;
 import kapistelykirjasto.dao.models.CourseModel;
-import kapistelykirjasto.dao.models.Model;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SQLiteCourseDao implements CourseDao {
 
@@ -48,7 +45,7 @@ public class SQLiteCourseDao implements CourseDao {
 
     @Override
     public boolean addVideoCourseRelation(int courseId, int videoId) {
-        return executeSQLUpdate("INSERT INTO courseBook(courseid, bookId) VALUES(?,?);",
+        return executeSQLUpdate("INSERT INTO courseVideo(courseid, videoId) VALUES(?,?);",
                 courseId + "", videoId + "");
     }
 

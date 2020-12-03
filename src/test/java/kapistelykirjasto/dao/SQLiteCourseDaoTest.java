@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class SQLiteCourseDaoTest {
@@ -45,19 +46,42 @@ public class SQLiteCourseDaoTest {
     }
 
     @Test
-    public void createCourseAddsRowToCourseTable() throws SQLException{
+    public void createCourseAddsRowToCourseTable() throws SQLException {
         this.dao.createCourse("TKT123", "refaktoroinnin perusteet");
         assertTrue(dao.getCourses().get(0).getName().equals("refaktoroinnin perusteet"));
     }
 
     @Test
-    public void addBookCourseRelationAddsRowToRelationTable() {
+    public void addBookCourseRelationAddsRowToRelationTable() throws SQLException {
+        this.dao.addBookCourseRelation(1, 2);
 
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
+        Statement statement = connection.createStatement();
+        ResultSet rows = statement.executeQuery("SELECT * FROM courseBook");
+
+        assertTrue(rows.next());
+        assertEquals(1, Integer.parseInt(rows.getString("courseId")));
+        assertEquals(2, Integer.parseInt(rows.getString("bookId")));
+
+        rows.close();
+        statement.close();
+        connection.close();
     }
 
     @Test
-    public void addVideoCourseRelationAddsRowToRelationTable() {
+    public void addVideoCourseRelationAddsRowToRelationTable() throws SQLException {
+        this.dao.addVideoCourseRelation(1, 2);
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
+        Statement statement = connection.createStatement();
+        ResultSet rows = statement.executeQuery("SELECT * FROM courseVideo");
 
+        assertTrue(rows.next());
+        assertEquals(1, Integer.parseInt(rows.getString("courseId")));
+        assertEquals(2, Integer.parseInt(rows.getString("videoId")));
+
+        rows.close();
+        statement.close();
+        connection.close();
     }
 
     @Test
