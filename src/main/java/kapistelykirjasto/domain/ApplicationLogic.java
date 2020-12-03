@@ -1,17 +1,18 @@
 package kapistelykirjasto.domain;
 
-import kapistelykirjasto.dao.Dao;
-import kapistelykirjasto.dao.models.BookModel;
-import kapistelykirjasto.dao.models.VideoModel;
+import kapistelykirjasto.dao.*;
+import kapistelykirjasto.dao.models.*;
 
 import java.util.ArrayList;
 
 public class ApplicationLogic implements Application {
 
-	private Dao dao;
+	private BookDao bookDao;
+	private VideoDao videoDao;
 
-	public ApplicationLogic(Dao dao) {
-		this.dao = dao;
+	public ApplicationLogic(BookDao bookDao, VideoDao videoDao) {
+		this.bookDao = bookDao;
+		this.videoDao = videoDao;
 	}
 
 	@Override
@@ -19,7 +20,7 @@ public class ApplicationLogic implements Application {
 		if (title.length() == 0 || author.length() == 0 || ISBN.length() == 0) {
 			return false;
 		}
-		return this.dao.createBook(title, comment, author, ISBN);
+		return this.bookDao.createBook(title, comment, author, ISBN);
 	}
 
 	@Override
@@ -27,7 +28,7 @@ public class ApplicationLogic implements Application {
 		if (title.length() == 0 || url.length() == 0) {
 			return false;
 		}
-		return this.dao.createVideo(title, comment, url, duration);
+		return this.videoDao.createVideo(title, comment, url, duration);
 	}
 
 	@Override
@@ -42,7 +43,7 @@ public class ApplicationLogic implements Application {
 	@Override
 	public ArrayList<Book> getBooks() {
 		ArrayList<Book> books = new ArrayList<>();
-		for (BookModel model : this.dao.getBooks()) {
+		for (BookModel model : this.bookDao.getBooks()) {
 			books.add(new Book(model));
 		}
 
@@ -52,7 +53,7 @@ public class ApplicationLogic implements Application {
 	@Override
 	public ArrayList<Video> getVideos() {
 		ArrayList<Video> videos = new ArrayList<>();
-		for (VideoModel model : this.dao.getVideos()) {
+		for (VideoModel model : this.videoDao.getVideos()) {
 			videos.add(new Video(model));
 		}
 
@@ -76,7 +77,7 @@ public class ApplicationLogic implements Application {
 
 	@Override
 	public boolean deleteBook(int id) {
-		if (!this.dao.deleteBook(id)) {
+		if (!this.bookDao.deleteBook(id)) {
 			return false;
 		}
 		return true;
@@ -84,7 +85,7 @@ public class ApplicationLogic implements Application {
 
 	@Override
 	public boolean deleteVideo(int id) {
-		if (!this.dao.deleteVideo(id)) {
+		if (!this.videoDao.deleteVideo(id)) {
 			return false;
 		}
 		return true;
@@ -92,7 +93,7 @@ public class ApplicationLogic implements Application {
 
 	@Override
 	public boolean editBook(int id, String title, String comment, String author, String ISBN) {
-		if (title.length() == 0 || !this.dao.editBook(id, title, comment, author, ISBN)) {
+		if (title.length() == 0 || !this.bookDao.editBook(id, title, comment, author, ISBN)) {
 			return false;
 		}
 		return true;
@@ -100,7 +101,7 @@ public class ApplicationLogic implements Application {
 
 	@Override
 	public boolean editVideo(int id, String title, String comment, String url, String duration) {
-		if (title.length() == 0 || !this.dao.editVideo(id, title, comment, url, duration)) {
+		if (title.length() == 0 || !this.videoDao.editVideo(id, title, comment, url, duration)) {
 			return false;
 		}
 		return true;
@@ -108,19 +109,19 @@ public class ApplicationLogic implements Application {
 
 	@Override
 	public boolean markBookAsRead(int id) {
-		return this.dao.markBookAsRead(id);
+		return this.bookDao.markBookAsRead(id);
 
 	}
 
 	@Override
 	public boolean markVideoAsRead(int id) {
-		return this.dao.markVideoAsRead(id);
+		return this.videoDao.markVideoAsRead(id);
 	}
 
 	@Override
 	public ArrayList<Book> getReadBooks() {
 		ArrayList<Book> books = new ArrayList<>();
-		for (BookModel model : this.dao.getReadBooks()) {
+		for (BookModel model : this.bookDao.getReadBooks()) {
 			books.add(new Book(model));
 		}
 		return books;
@@ -129,7 +130,7 @@ public class ApplicationLogic implements Application {
 	@Override
 	public ArrayList<Video> getReadVideos() {
 		ArrayList<Video> videos = new ArrayList<>();
-		for (VideoModel model : this.dao.getReadVideos()) {
+		for (VideoModel model : this.videoDao.getReadVideos()) {
 			videos.add(new Video(model));
 		}
 		return videos;
@@ -139,10 +140,10 @@ public class ApplicationLogic implements Application {
 	public ArrayList<Entry> getNotReadEntries() {
 		ArrayList<Entry> notReadEntries = new ArrayList<>();
 
-		for (BookModel model : this.dao.getNotReadBooks()) {
+		for (BookModel model : this.bookDao.getNotReadBooks()) {
 			notReadEntries.add(new Book(model));
 		}
-		for (VideoModel model : this.dao.getNotReadVideos()) {
+		for (VideoModel model : this.videoDao.getNotReadVideos()) {
 			notReadEntries.add(new Video(model));
 		}
 		return notReadEntries;
@@ -152,10 +153,10 @@ public class ApplicationLogic implements Application {
 	public ArrayList<Entry> getReadEntries() {
 		ArrayList<Entry> readEntries = new ArrayList<>();
 
-		for (BookModel model : this.dao.getReadBooks()) {
+		for (BookModel model : this.bookDao.getReadBooks()) {
 			readEntries.add(new Book(model));
 		}
-		for (VideoModel model : this.dao.getReadVideos()) {
+		for (VideoModel model : this.videoDao.getReadVideos()) {
 			readEntries.add(new Video(model));
 		}
 		return readEntries;
