@@ -1,6 +1,12 @@
 package kapistelykirjasto.dao;
 
+import kapistelykirjasto.dao.models.BookModel;
+import kapistelykirjasto.dao.models.CourseModel;
+import kapistelykirjasto.dao.models.Model;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SQLiteCourseDao implements CourseDao {
 
@@ -44,6 +50,27 @@ public class SQLiteCourseDao implements CourseDao {
     public boolean addVideoCourseRelation(int courseId, int videoId) {
         return executeSQLUpdate("INSERT INTO courseBook(courseid, bookId) VALUES(?,?);",
                 courseId + "", videoId + "");
+    }
+
+    @Override
+    public List<CourseModel> getCourses() {
+        try {
+            PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM course;");
+            ResultSet res = statement.executeQuery();
+            ArrayList<CourseModel> courses = new ArrayList<>();
+            while (res.next()) {
+                courses.add(
+                        new CourseModel(res.getInt("id"), res.getString("coursecode"), res.getString("name"))
+                );
+            }
+            statement.close();
+            return courses;
+
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private boolean executeSQLUpdate(String SQLstatement, String... params) {

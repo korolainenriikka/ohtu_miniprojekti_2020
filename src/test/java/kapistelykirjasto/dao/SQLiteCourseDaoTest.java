@@ -1,5 +1,6 @@
 package kapistelykirjasto.dao;
 
+import kapistelykirjasto.dao.models.CourseModel;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,6 +8,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
@@ -45,17 +47,7 @@ public class SQLiteCourseDaoTest {
     @Test
     public void createCourseAddsRowToCourseTable() throws SQLException{
         this.dao.createCourse("TKT123", "refaktoroinnin perusteet");
-
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + testDatabaseFile.getAbsolutePath());
-        Statement statement = connection.createStatement();
-        ResultSet courses = statement.executeQuery("SELECT * FROM course");
-
-        assertTrue(courses.next());
-        assertTrue(courses.getString("name").equals("refaktoroinnin perusteet"));
-
-        courses.close();
-        statement.close();
-        connection.close();
+        assertTrue(dao.getCourses().get(0).getName().equals("refaktoroinnin perusteet"));
     }
 
     @Test
@@ -66,6 +58,22 @@ public class SQLiteCourseDaoTest {
     @Test
     public void addVideoCourseRelationAddsRowToRelationTable() {
 
+    }
+
+    @Test
+    public void getCoursesReturnsEmptyListWhenNoCoursesInDb() {
+        assertTrue(dao.getCourses().isEmpty());
+    }
+
+    @Test
+    public void getCoursesReturnsAllCoursesAddedToDb() {
+        this.dao.createCourse("TKT123", "refaktoroinnin perusteet");
+        this.dao.createCourse("TKT123", "refaktoroinnin jatkokurssi");
+
+        List<CourseModel> courses = dao.getCourses();
+        assertTrue(courses.size() == 2);
+        assertTrue(courses.get(0).getName().equals("refaktoroinnin perusteet"));
+        assertTrue(courses.get(1).getName().equals("refaktoroinnin jatkokurssi"));
     }
 
 }
