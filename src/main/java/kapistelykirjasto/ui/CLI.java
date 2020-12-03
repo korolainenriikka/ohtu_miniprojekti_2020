@@ -40,7 +40,7 @@ public class CLI implements UserInterface {
     public void run() {
         printWelcomeMessage();
         while (io.hasNextLine()) {
-            String action = io.readLine("Anna toiminto: ");
+            String action = io.readLine("\nAnna toiminto: ");
             if (action.equals("X")) {
                 io.print("suljetaan");
                 break;
@@ -130,17 +130,18 @@ public class CLI implements UserInterface {
     }
 
     private void filterList() {
-
-        io.print("\n Suodata listaa:");
-        String typeOfFilter = io.readLine("[1]: luetut \n[2]: lukemattomat \n[X]: poistu");
-        if (typeOfFilter.equals("1")) {
-            printReadEntriesWithNumbers();
-        } else if (typeOfFilter.equals("2")) {
-            printNotReadEntriesWithNumbers();
-        } else if (typeOfFilter.equals("X")) {
-            printActions();
-        } else {
-            io.print("epäkelpo toiminto");
+        while (io.hasNextLine()) {
+            String typeOfFilter = io.readLine(
+                    "\n Suodata listaa:\n[1]: luetut \n[2]: lukemattomat \n[X]: poistu");
+            if (typeOfFilter.equals("1")) {
+                printReadEntriesWithNumbers();
+            } else if (typeOfFilter.equals("2")) {
+                printNotReadEntriesWithNumbers();
+            } else if (typeOfFilter.equals("X")) {
+                break;
+            } else {
+                io.print("epäkelpo toiminto");
+            }
         }
     }
 
