@@ -117,15 +117,8 @@ public class CLI implements UserInterface {
 
     private void getEntries() {
         ArrayList<Entry> entries = app.getEntries();
+        printEntriesWithoutNumbers(entries, "Ei lisättyjä lukuvinkkejä");
 
-        if (entries.isEmpty()) {
-            io.print("Ei lisättyjä lukuvinkkejä");
-        } else {
-            io.print("Lukuvinkit: ");
-            for (int i = 0; i < entries.size(); i++) {
-                io.print(entries.get(i).toString());
-            }
-        }
         filterList();
     }
 
@@ -134,9 +127,9 @@ public class CLI implements UserInterface {
             String typeOfFilter = io.readLine(
                     "\n Suodata listaa:\n[1]: luetut \n[2]: lukemattomat \n[X]: poistu");
             if (typeOfFilter.equals("1")) {
-                printEntriesWithNumbers(this.app.getReadEntries(), "ei luettuja lukuvinkkejä");
+                printEntriesWithoutNumbers(this.app.getReadEntries(), "ei luettuja lukuvinkkejä");
             } else if (typeOfFilter.equals("2")) {
-                printEntriesWithNumbers(this.app.getNotReadEntries(), "Olet lukenut jo kaikki lukuvinkit");
+                printEntriesWithoutNumbers(this.app.getNotReadEntries(), "Olet lukenut jo kaikki lukuvinkit");
             } else if (typeOfFilter.equals("X")) {
                 break;
             } else {
@@ -145,9 +138,18 @@ public class CLI implements UserInterface {
         }
     }
 
-    private void printEntriesWithNumbers(List<Entry> entries, String errormessage) {
-        if (errormessage != "" && entries.isEmpty()) {
-            io.print(errormessage);
+    private void printEntriesWithoutNumbers(List<Entry> entries, String noEntriesMessage) {
+        if (noEntriesMessage != "" && entries.isEmpty()) {
+            io.print(noEntriesMessage);
+        }
+        for (int i = 0; i < entries.size(); i++) {
+            io.print("[" + (i + 1) + "]: " + entries.get(i).toString());
+        }
+    }
+
+    private void printEntriesWithNumbers(List<Entry> entries, String noEntriesMessage) {
+        if (noEntriesMessage != "" && entries.isEmpty()) {
+            io.print(noEntriesMessage);
         }
         for (int i = 0; i < entries.size(); i++) {
             io.print("[" + (i + 1) + "]: " + entries.get(i).toString());
