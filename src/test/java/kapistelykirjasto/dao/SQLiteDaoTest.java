@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import kapistelykirjasto.dao.models.BookModel;
 import kapistelykirjasto.dao.models.VideoModel;
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 public class SQLiteDaoTest {
@@ -177,7 +178,7 @@ public class SQLiteDaoTest {
         this.dao.close();
         assertFalse(this.dao.deleteBook(id));
     }
-    
+
     @Test
     public void existsVideoReturnsFalseWhenDatabaseClosed() {
         this.dao.createVideo("testi", "testi", "testi", "testi");
@@ -219,8 +220,9 @@ public class SQLiteDaoTest {
     public void editVideoReturnsFalseIfVideoDoesNotExist() {
         assertFalse(this.dao.editVideo(5, "edit1", "edit2", "edit3", "edit4"));
     }
+
     @Test
-    public void getNotReadBooksReturnsOnlyNotReadBooks(){
+    public void getNotReadBooksReturnsOnlyNotReadBooks() {
         this.dao.createBook("testi", "testi", "testi", "testi");
         this.dao.createBook("testi2", "testi", "testi", "testi");
         int id1 = this.dao.getBooks().get(0).getId();
@@ -231,8 +233,9 @@ public class SQLiteDaoTest {
         assertEquals(notReadBooks.get(0).getTitle(), "testi2");
         assertEquals(notReadBooks.size(), 1);
     }
+
     @Test
-    public void getReadBooksReturnsOnlyReadBooks(){
+    public void getReadBooksReturnsOnlyReadBooks() {
         this.dao.createBook("testi", "testi", "testi", "testi");
         this.dao.createBook("testi2", "testi", "testi", "testi");
         int id1 = this.dao.getBooks().get(0).getId();
@@ -243,8 +246,9 @@ public class SQLiteDaoTest {
         assertEquals(readBooks.get(0).getTitle(), "testi");
         assertEquals(readBooks.size(), 1);
     }
+
     @Test
-    public void addedBooksAreAutomaticallyNotRead(){
+    public void addedBooksAreAutomaticallyNotRead() {
         this.dao.createBook("testi", "testi", "testi", "testi");
         this.dao.createBook("testi2", "testi", "testi", "testi");
         int id1 = this.dao.getBooks().get(0).getId();
