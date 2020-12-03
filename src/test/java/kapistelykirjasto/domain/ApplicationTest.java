@@ -17,7 +17,7 @@ public class ApplicationTest {
     public void setUp() {
         //  this.dao = new SQLiteDao(":memory:");
         this.dao = new StubDao();
-        this.logic = new ApplicationLogic(dao);
+        this.logic = new ApplicationLogic(dao, dao);
     }
 
     @Test
