@@ -23,8 +23,8 @@ public class StubDao implements BookDao, VideoDao {
         if (closed) {
             return false;
         }
-
         books.add(new BookModel(books.size(), title, comment, author, ISBN));
+        notReadBooks.add(new BookModel(books.size(), title, comment, author, ISBN));
         return true;
     }
 
@@ -33,8 +33,8 @@ public class StubDao implements BookDao, VideoDao {
         if (closed) {
             return false;
         }
-
         videos.add(new VideoModel(videos.size(), title, comment, url, duration));
+        notReadVideos.add(new VideoModel(videos.size(), title, comment, url, duration));
         return true;
     }
 
@@ -125,20 +125,20 @@ public class StubDao implements BookDao, VideoDao {
     @Override
     public boolean markBookAsRead(int id) {
 
-        if (closed || this.books.size() < id) {
+        if (closed || this.books.size() <= id) {
             return false;
         }
-        this.notReadBooks.add(this.books.get(id));
+        this.readBooks.add(this.books.get(id));
         return true;
     }
 
     @Override
     public boolean markVideoAsRead(int id) {
 
-        if (closed || this.videos.size() < id) {
+        if (closed || this.videos.size() <= id) {
             return false;
         }
-        this.notReadVideos.add(this.videos.get(id));
+        this.readVideos.add(this.videos.get(id));
         return true;
     }
 

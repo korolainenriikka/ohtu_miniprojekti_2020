@@ -110,7 +110,6 @@ public class ApplicationLogic implements Application {
 	@Override
 	public boolean markBookAsRead(int id) {
 		return this.bookDao.markBookAsRead(id);
-
 	}
 
 	@Override

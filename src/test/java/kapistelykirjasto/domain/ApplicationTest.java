@@ -5,6 +5,9 @@ import kapistelykirjasto.dao.StubDao;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class ApplicationTest {
@@ -59,8 +62,8 @@ public class ApplicationTest {
         this.logic.createBook("title2", "comment", "author", "ISBN3");
 
         assertEquals(3, this.logic.getBooks().size());
-        assertEquals(this.dao.getBooks().get(0).getTitle(), "title");
-        assertEquals(this.dao.getBooks().get(2).getTitle(), "title2");
+        assertEquals(this.logic.getBooks().get(0).getTitle(), "title");
+        assertEquals(this.logic.getBooks().get(2).getTitle(), "title2");
     }
 
     @Test
@@ -70,8 +73,46 @@ public class ApplicationTest {
         this.logic.createVideo("title2", "comment", "author", "12345");
 
         assertEquals(3, this.logic.getVideos().size());
-        assertEquals(this.dao.getVideos().get(0).getTitle(), "title");
-        assertEquals(this.dao.getVideos().get(2).getTitle(), "title2");
+        assertEquals(this.logic.getVideos().get(0).getTitle(), "title");
+        assertEquals(this.logic.getVideos().get(2).getTitle(), "title2");
+    }
+
+    @Test
+    public void getReadBooksReturnsRightList() {
+        this.logic.createBook("title", "comment", "author", "ISBN1");
+        this.logic.createBook("title1", "comment", "author", "ISBN2");
+        ArrayList<Entry>entries = this.logic.getEntries();
+        assertTrue(this.logic.markBookAsRead(entries.get(1).getId()));
+        assertEquals(1, this.logic.getReadBooks().size());
+        assertEquals(this.logic.getReadBooks().get(0).getTitle(), "title1");
+    }
+
+    @Test
+    public void getReadVideosReturnsRightList() {
+        this.logic.createVideo("title", "comment", "author", "123");
+        this.logic.createVideo("title1", "comment", "author", "1234");
+        ArrayList<Entry>entries = this.logic.getEntries();
+        assertTrue(this.logic.markVideoAsRead(entries.get(1).getId()));
+        assertEquals(1, this.logic.getReadVideos().size());
+        assertEquals(this.logic.getReadVideos().get(0).getTitle(), "title1");
+    }
+
+    @Test
+    public void getNotReadEntriesReturnsRightList() {
+        this.logic.createBook("title", "comment", "author", "ISBN1");
+        this.logic.createBook("title1", "comment", "author", "ISBN2");
+        assertEquals(2, this.logic.getNotReadEntries().size());
+        assertEquals(this.logic.getNotReadEntries().get(1).getTitle(), "title1");
+    }
+
+    @Test
+    public void getReadEntriesReturnsRightList() {
+        this.logic.createBook("title", "comment", "author", "ISBN1");
+        this.logic.createBook("title1", "comment", "author", "ISBN2");
+        this.logic.markBookAsRead(0);
+        this.logic.markBookAsRead(1);
+        assertEquals(2, this.logic.getReadEntries().size());
+        assertEquals(this.logic.getReadEntries().get(1).getTitle(), "title1");
     }
 
     @Test
