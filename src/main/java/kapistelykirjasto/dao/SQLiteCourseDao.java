@@ -30,10 +30,30 @@ public class SQLiteCourseDao implements CourseDao {
 
     @Override
     public boolean createCourse(String courseCode, String name) {
+        return executeSQLUpdate("INSERT INTO course(courseCode, name) VALUES(?,?);",
+                courseCode, name);
+    }
+
+    @Override
+    public boolean addBookCourseRelation(int courseId, int bookId) {
+        return executeSQLUpdate("INSERT INTO courseBook(courseid, bookId) VALUES(?,?);",
+                courseId + "", bookId + "");
+    }
+
+    @Override
+    public boolean addVideoCourseRelation(int courseId, int videoId) {
+        return executeSQLUpdate("INSERT INTO courseBook(courseid, bookId) VALUES(?,?);",
+                courseId + "", videoId + "");
+    }
+
+    private boolean executeSQLUpdate(String SQLstatement, String... params) {
         try {
-            PreparedStatement statement = this.connection.prepareStatement("INSERT INTO course(coursecode, name) VALUES(?,?);");
-            statement.setString(1, courseCode);
-            statement.setString(2, name);
+            PreparedStatement statement = this.connection.prepareStatement(SQLstatement);
+            int i = 1;
+            for (String param: params) {
+                statement.setString(i, param);
+                i++;
+            }
             statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {
@@ -42,16 +62,6 @@ public class SQLiteCourseDao implements CourseDao {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public boolean addBookCourseRelation(int courseId, int bookId) {
-        return false;
-    }
-
-    @Override
-    public boolean addVideoCourseRelation(int courseId, int videoId) {
-        return false;
     }
 
     @Override

@@ -58,4 +58,14 @@ public class SQLiteCourseDaoTest {
         connection.close();
     }
 
+    @Test
+    public void addBookCourseRelationAddsRowToRelationTable() {
+
+    }
+
+    @Test
+    public void addVideoCourseRelationAddsRowToRelationTable() {
+
+    }
+
 }
