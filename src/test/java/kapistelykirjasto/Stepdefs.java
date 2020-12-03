@@ -6,7 +6,9 @@ import io.cucumber.java.en.*;
 import kapistelykirjasto.dao.SQLiteDao;
 import kapistelykirjasto.ui.*;
 import kapistelykirjasto.domain.*;
+
 import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class Stepdefs {
@@ -30,6 +32,11 @@ public class Stepdefs {
     @Given("book with title {string}, author {string}, ISBN {string} and comment {string} is added")
     public void bookWithTitleAuthorAndIsbnIsAdded(String title, String author, String isbn, String comment) {
         app.createBook(title, comment, author, isbn);
+    }
+
+    @Given("video with title {string}, url {string}, duration {string} and comment {string} is added")
+    public void videoWithTitleUrlAnddurationIsAdded(String title, String url, String duration, String comment) {
+        app.createVideo(title, comment, url, duration);
     }
 
     @Given("video with title {string} is added")
@@ -66,21 +73,31 @@ public class Stepdefs {
     public void bookParamsWithoutTitleEntered(String author, String ISBN, String comment) {
         addBookParams("", author, ISBN, comment);
     }
-    
+
     @When("title {string} and url {string} is entered")
     public void videoRequiredParamsEntered(String title, String url) {
         addVideoParams(title, url, "", "");
     }
-    
+
     @When("title {string}, url {string}, duration {string} and comment {string} is entered")
     public void videoAllParamsEntered(String title, String url, String duration, String comment) {
         addVideoParams(title, url, duration, comment);
     }
-    
+
     @When("existing entry {string} is selected")
     public void deleteExistingEntry(String entry) {
         app.createVideo("What is Coding?", "www.youtube.com/watch?v=cKhVupvyhKk", "1:15", "Opettavainen!");
         inputLines.add(entry);
+    }
+
+    @When("existing book with id {string} is marked as read")
+    public void markBookAsRead(String id) {
+        app.markBookAsRead(Integer.valueOf(id));
+    }
+
+    @When("existing video with id {string} is marked as read")
+    public void markVideoAsRead(String id) {
+        app.markVideoAsRead(Integer.valueOf(id));
     }
 
     @When("non-existent entry {string} is selected")
@@ -94,8 +111,8 @@ public class Stepdefs {
         inputLines.add(ISBN);
         inputLines.add(comment);
     }
-    
-    
+
+
     public void addVideoParams(String title, String url, String duration, String comment) {
         inputLines.add(title);
         inputLines.add(url);
@@ -119,32 +136,87 @@ public class Stepdefs {
 
     @Then("book with title {string}, author {string}, ISBN {string} and comment {string} exists")
     public void bookWithParamsExists(String title, String author, String isbn, String comment) {
-    	boolean exists = false;
+        boolean exists = false;
         for (Book b : app.getBooks()) {
             if (b.getTitle().equals(title)
-            		&& b.getAuthor().equals(author)
-            		&& b.getISBN().equals(isbn)
-            		&& b.getComment().equals(comment)) {
-            	exists = true;
+                    && b.getAuthor().equals(author)
+                    && b.getISBN().equals(isbn)
+                    && b.getComment().equals(comment)) {
+                exists = true;
             }
         }
         assertTrue(exists);
     }
 
-    
+
     @Then("book with title {string}, author {string}, ISBN {string} and comment {string} does not exist")
     public void bookWithParamsDoesNotExist(String title, String author, String isbn, String comment) {
-    	boolean exists = false;
+        boolean exists = false;
         for (Book b : app.getBooks()) {
             if (b.getTitle().equals(title)
-            		&& b.getAuthor().equals(author)
-            		&& b.getISBN().equals(isbn)
-            		&& b.getComment().equals(comment)) {
-            	exists = true;
+                    && b.getAuthor().equals(author)
+                    && b.getISBN().equals(isbn)
+                    && b.getComment().equals(comment)) {
+                exists = true;
             }
         }
         assertFalse(exists);
     }
-     
 
+    @Then("read book with title {string}, author {string}, ISBN {string} and comment {string} is listed as read")
+    public void readBooksListContainsReadBook(String title, String author, String isbn, String comment) {
+        boolean exists = false;
+        for (Book b : app.getReadBooks()) {
+            if (b.getTitle().equals(title)
+                    && b.getAuthor().equals(author)
+                    && b.getISBN().equals(isbn)
+                    && b.getComment().equals(comment)) {
+                exists = true;
+            }
+        }
+        assertTrue(exists);
+    }
+
+    @Then("not read book with title {string}, author {string}, ISBN {string} and comment {string} is not listed as read")
+    public void readBooksListContainsOnlyReadBooks(String title, String author, String isbn, String comment) {
+        boolean exists = false;
+        for (Book b : app.getReadBooks()) {
+            if (b.getTitle().equals(title)
+                    && b.getAuthor().equals(author)
+                    && b.getISBN().equals(isbn)
+                    && b.getComment().equals(comment)) {
+                exists = true;
+            }
+        }
+        assertFalse(exists);
+    }
+
+    @Then("read video with title {string}, url {string}, duration {string} and comment {string} is listed as read")
+    public void readVideosListContainsReadVideos(String title, String url, String duration, String comment) {
+        boolean exists = false;
+        for (Video v : app.getReadVideos()) {
+            if (v.getTitle().equals(title)
+                    && v.getUrl().equals(url)
+                    && v.getDuration().equals(duration)
+                    && v.getComment().equals(comment)) {
+                exists = true;
+            }
+        }
+        assertTrue(exists);
+    }
+
+    @Then("not read video with title {string}, url {string}, duration {string} and comment {string} is not listed as read")
+    public void notReadVideosListContainsNotReadVideos(String title, String url, String duration, String comment) {
+        boolean exists = false;
+        for (Video v : app.getReadVideos()) {
+            if (v.getTitle().equals(title)
+                    && v.getUrl().equals(url)
+                    && v.getDuration().equals(duration)
+                    && v.getComment().equals(comment)) {
+                exists = true;
+            }
+        }
+        assertFalse(exists);
+    }
 }
+
