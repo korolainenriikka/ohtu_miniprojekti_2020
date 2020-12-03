@@ -31,10 +31,10 @@ Feature: as an user I want to see a list of entries
         And read video with title "otsikko4", url "url", duration "123" and comment "" is listed as read
 
     Scenario: List of not read entries contains all not read books
-       When book with title "otsikko3", author "aaa", ISBN "123" and comment "" is added
+       When book with title "otsikko3", author "aaa", ISBN "123" and comment "kiva" is added
        When action "2" is chosen
        And type "2" is selected
-       Then not read book with title "otsikko3", author "aaa", ISBN "123" and comment "" is not listed as read
+       Then the last line system will respond with is "kiva"
 
     Scenario: List of not read entries contains all not read videos
        When video with title "otsikko6", url "url", duration "123" and comment "" is added
