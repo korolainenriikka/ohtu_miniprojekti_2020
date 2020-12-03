@@ -123,4 +123,57 @@ public class ApplicationLogic implements Application {
 		}
 		return true;
 	}
+	@Override
+	public boolean markBookAsRead(int id) {
+		return this.dao.markBookAsRead(id);
+
+	}
+	@Override
+	public boolean markVideoAsRead(int id) {
+		return this.dao.markVideoAsRead(id);
+	}
+
+	@Override
+	public ArrayList<Book> getReadBooks() {
+		ArrayList<Book> books = new ArrayList<>();
+		for (BookModel model : this.dao.getReadBooks()) {
+			books.add(new Book(model));
+		}
+		return books;
+	}
+
+	@Override
+	public ArrayList<Video> getReadVideos() {
+		ArrayList<Video> videos = new ArrayList<>();
+		for (VideoModel model : this.dao.getReadVideos()) {
+			videos.add(new Video(model));
+		}
+		return videos;
+	}
+
+	@Override
+	public ArrayList<Entry> getNotReadEntries() {
+		ArrayList<Entry> notReadEntries = new ArrayList<>();
+
+		for (BookModel model : this.dao.getNotReadBooks()) {
+			notReadEntries.add(new Book(model));
+		}
+		for (VideoModel model : this.dao.getNotReadVideos()) {
+			notReadEntries.add(new Video(model));
+		}
+		return notReadEntries;
+	}
+	@Override
+	public ArrayList<Entry> getReadEntries() {
+		ArrayList<Entry> readEntries = new ArrayList<>();
+
+		for (BookModel model : this.dao.getReadBooks()) {
+			readEntries.add(new Book(model));
+		}
+		for (VideoModel model : this.dao.getReadVideos()) {
+			readEntries.add(new Video(model));
+		}
+		return readEntries;
+	}
+
 }

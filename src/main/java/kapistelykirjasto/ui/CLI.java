@@ -15,23 +15,25 @@ public class CLI implements UserInterface {
 
     private Application app;
     private IO io;
-    
-	private HashMap<String, Action> topLevelActions;
-    
-	interface Action {
-		public void run();
-	}
+
+    private HashMap<String, Action> topLevelActions;
+
+    interface Action {
+        public void run();
+    }
 
     public CLI(Application app, IO io) {
         this.app = app;
         this.io = io;
-        
+
         this.topLevelActions = new HashMap<String, Action>();
         this.topLevelActions.put("0", this::printActions);
         this.topLevelActions.put("1", this::addEntry);
         this.topLevelActions.put("2", this::getEntries);
         this.topLevelActions.put("3", this::deleteEntry);
         this.topLevelActions.put("4", this::editEntry);
+        this.topLevelActions.put("5", this::markEntryAsRead);
+
     }
 
     @Override
@@ -51,17 +53,18 @@ public class CLI implements UserInterface {
     }
 
     private void printWelcomeMessage() {
-        io.print("***********************************");
-        io.print("* Tervetuloa käpistelykirjastoon! *");
-        io.print("*                                 *");
-        io.print("*  Toiminnot:                     *");
-        io.print("*  - 0: tulosta valikko           *");
-        io.print("*  - 1: lisää lukuvinkki          *");
-        io.print("*  - 2: näytä lukuvinkit          *");
-        io.print("*  - 3: poista lukuvinkki         *");
-        io.print("*  - 4: muokkaa lukuvinkkiä       *");
-        io.print("*  - X: poistu sovelluksesta      *");
-        io.print("***********************************");
+        io.print("**************************************");
+        io.print("* Tervetuloa käpistelykirjastoon!    *");
+        io.print("*                                    *");
+        io.print("*  Toiminnot:                        *");
+        io.print("*  - 0: tulosta valikko              *");
+        io.print("*  - 1: lisää lukuvinkki             *");
+        io.print("*  - 2: näytä lukuvinkit             *");
+        io.print("*  - 3: poista lukuvinkki            *");
+        io.print("*  - 4: muokkaa lukuvinkkiä          *");
+        io.print("*  - 5: merkitse lukuvinkki luetuksi *");
+        io.print("*  - X: poistu sovelluksesta         *");
+        io.print("**************************************");
         io.print("");
     }
 
@@ -71,6 +74,7 @@ public class CLI implements UserInterface {
         io.print("- 2: näytä lukuvinkit");
         io.print("- 3: poista lukuvinkki");
         io.print("- 4: muokkaa lukuvinkkiä");
+        io.print("- 5: merkitse lukuvinkki luetuksi");
         io.print("- X: poistu sovelluksesta");
     }
 
@@ -122,11 +126,46 @@ public class CLI implements UserInterface {
                 io.print(entries.get(i).toString());
             }
         }
+        filterList();
+    }
+
+    private void filterList() {
+
+        io.print("\n Suodata listaa:");
+        String typeOfFilter = io.readLine("[1]: luetut \n[2]: lukemattomat \n[X]: poistu");
+        if (typeOfFilter.equals("1")) {
+            printReadEntriesWithNumbers();
+        } else if (typeOfFilter.equals("2")) {
+            printNotReadEntriesWithNumbers();
+        } else if (typeOfFilter.equals("X")) {
+            printActions();
+        } else {
+            io.print("epäkelpo toiminto");
+        }
     }
 
     private void printEntriesWithNumbers(List<Entry> entries) {
         for (int i = 0; i < entries.size(); i++) {
             io.print("[" + (i + 1) + "]: " + entries.get(i).toString());
+        }
+    }
+
+    private void printNotReadEntriesWithNumbers() {
+        ArrayList<Entry> notReadEntries = this.app.getNotReadEntries();
+
+        if (notReadEntries.size() == 0) {
+            io.print("Olet lukenut jo kaikki lukuvinkit");
+        }
+        for (int i = 0; i < notReadEntries.size(); i++) {
+            io.print("[" + (i + 1) + "]: " + notReadEntries.get(i).toString());
+        }
+    }
+
+    private void printReadEntriesWithNumbers() {
+        ArrayList<Entry> readEntries = this.app.getReadEntries();
+
+        for (int i = 0; i < readEntries.size(); i++) {
+            io.print("[" + (i + 1) + "]: " + readEntries.get(i).toString());
         }
     }
 
@@ -210,5 +249,46 @@ public class CLI implements UserInterface {
             io.print("Lukuvinkin muokkaaminen epäonnistui");
         }
     }
+
+    private void markBookAsRead(int id) {
+
+        if (this.app.markBookAsRead(id)) {
+            io.print("Kirja merkitty luetuksi");
+        } else {
+            io.print("Kirjan merkkaaminen luetuksi epäonnistui");
+        }
+    }
+
+    private void markVideoAsRead(int id) {
+
+        if (this.app.markVideoAsRead(id)) {
+            io.print("Video merkitty luetuksi");
+        } else {
+            io.print("Videon merkkaaminen luetuksi epäonnistui");
+        }
+    }
+
+
+    private void markEntryAsRead() {
+
+        ArrayList<Entry> notReadEntries = app.getNotReadEntries();
+        printNotReadEntriesWithNumbers();
+
+        if (notReadEntries.size() > 0) {
+            String index = io.readLine("Syötä luetun lukuvinkin numero: ");
+            if (!validIndexGiven(index, notReadEntries)) {
+                io.print("Virheellinen syöte");
+                return;
+            }
+            Entry entry = notReadEntries.get(Integer.valueOf(index) - 1);
+            if (entry.getType() == Entry.Type.BOOK) {
+                markBookAsRead(entry.getId());
+            } else if (entry.getType() == Entry.Type.VIDEO) {
+                markVideoAsRead(entry.getId());
+            }
+        }
+    }
 }
+
+
 

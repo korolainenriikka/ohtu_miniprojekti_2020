@@ -24,10 +24,10 @@ public class SQLiteDao implements Dao {
             Statement statement = this.connection.createStatement();
             statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS book (id INTEGER PRIMARY KEY AUTOINCREMENT"
-                            + ", title TEXT UNIQUE, comment TEXT, author TEXT, ISBN TEXT);");
+                            + ", title TEXT UNIQUE, comment TEXT, author TEXT, ISBN TEXT, read TIMESTAMP DEFAULT NULL);");
             statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS video (id INTEGER PRIMARY KEY AUTOINCREMENT"
-                            + ", title TEXT UNIQUE, comment TEXT, url TEXT, duration TEXT);");
+                            + ", title TEXT UNIQUE, comment TEXT, url TEXT, duration TEXT, read TIMESTAMP DEFAULT NULL);");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -237,6 +237,132 @@ public class SQLiteDao implements Dao {
         }
         return true;
     }
+
+    @Override
+    public boolean markBookAsRead(int id) {
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String setTime = String.valueOf(timestamp.getTime());
+        try {
+            if (!existsBook(id)) {
+                return false;
+            }
+            PreparedStatement statement = this.connection.prepareStatement("UPDATE book SET read=? " + "WHERE id=?");
+            statement.setString(1, setTime);
+            statement.setString(2, String.valueOf(id));
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            printSQLException(e);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean markVideoAsRead(int id) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String setTime = String.valueOf(timestamp.getTime());
+        try {
+            if (!existsVideo(id)) {
+                return false;
+            }
+            PreparedStatement statement = this.connection.prepareStatement("UPDATE video SET read=? " + "WHERE id=?");
+            statement.setString(1, setTime);
+            statement.setString(2, String.valueOf(id));
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            printSQLException(e);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public ArrayList<BookModel> getReadBooks() {
+        try {
+            PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM book WHERE read IS NOT NULL;");
+            ResultSet res = statement.executeQuery();
+            ArrayList<BookModel> books = new ArrayList<>();
+            while (res.next()) {
+                books.add(
+                        new BookModel(res.getInt("id"), res.getString("title"), res.getString("comment"),
+                                res.getString("author"), res.getString("ISBN"))
+                );
+            }
+            statement.close();
+            return books;
+
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<VideoModel> getReadVideos() {
+        try {
+            PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM video WHERE read IS NOT NULL");
+            ResultSet res = statement.executeQuery();
+            ArrayList<VideoModel> videos = new ArrayList<>();
+            while (res.next()) {
+                videos.add(
+                        new VideoModel(res.getInt("id"), res.getString("title"), res.getString("comment"),
+                                res.getString("url"), res.getString("duration")));
+            }
+            statement.close();
+            return videos;
+
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<BookModel> getNotReadBooks() {
+        try {
+            PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM book WHERE read IS NULL;");
+            ResultSet res = statement.executeQuery();
+            ArrayList<BookModel> books = new ArrayList<>();
+            while (res.next()) {
+                books.add(
+                        new BookModel(res.getInt("id"), res.getString("title"), res.getString("comment"),
+                                res.getString("author"), res.getString("ISBN"))
+                );
+            }
+            statement.close();
+            return books;
+
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<VideoModel> getNotReadVideos() {
+        try {
+            PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM video WHERE read IS NULL");
+            ResultSet res = statement.executeQuery();
+            ArrayList<VideoModel> videos = new ArrayList<>();
+            while (res.next()) {
+                videos.add(
+                        new VideoModel(res.getInt("id"), res.getString("title"), res.getString("comment"),
+                                res.getString("url"), res.getString("duration")));
+            }
+            statement.close();
+            return videos;
+
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     @Override
     public void close() {

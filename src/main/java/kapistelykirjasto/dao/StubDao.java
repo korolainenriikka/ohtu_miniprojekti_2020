@@ -12,6 +12,10 @@ public class StubDao implements Dao {
     private ArrayList<Model> entries = new ArrayList<>();
     private ArrayList<BookModel> books = new ArrayList<>();
     private ArrayList<VideoModel> videos = new ArrayList<>();
+    private ArrayList<BookModel> notReadBooks = new ArrayList<>();
+    private ArrayList<VideoModel> notReadVideos = new ArrayList<>();
+    private ArrayList<BookModel> readBooks = new ArrayList<>();
+    private ArrayList<VideoModel> readVideos = new ArrayList<>();
     private boolean closed = false;
 
     @Override
@@ -117,5 +121,46 @@ public class StubDao implements Dao {
         }
         return true;
     }
+
+    @Override
+    public boolean markBookAsRead(int id) {
+
+        if (closed || this.books.size() < id) {
+            return false;
+        }
+        this.notReadBooks.add(this.books.get(id));
+        return true;
+    }
+
+    @Override
+    public boolean markVideoAsRead(int id) {
+
+        if (closed || this.videos.size() < id) {
+            return false;
+        }
+        this.notReadVideos.add(this.videos.get(id));
+        return true;
+    }
+
+    @Override
+    public ArrayList<BookModel> getReadBooks() {
+        return this.readBooks;
+    }
+
+    @Override
+    public ArrayList<VideoModel> getReadVideos() {
+        return this.readVideos;
+    }
+
+    @Override
+    public ArrayList<BookModel> getNotReadBooks() {
+        return this.notReadBooks;
+    }
+
+    @Override
+    public ArrayList<VideoModel> getNotReadVideos() {
+        return this.notReadVideos;
+    }
+
 }
 

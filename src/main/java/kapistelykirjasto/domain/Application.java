@@ -29,4 +29,16 @@ public interface Application {
     public boolean editBook(int id, String title, String comment, String author, String ISBN);
 
     public boolean editVideo(int id, String title, String comment, String url, String duration);
+
+    public boolean markBookAsRead(int id);
+
+    public boolean markVideoAsRead(int id);
+
+    public ArrayList<Book> getReadBooks();
+
+    public ArrayList<Video> getReadVideos();
+
+    public ArrayList<Entry> getNotReadEntries();
+
+    public ArrayList<Entry> getReadEntries();
 }
