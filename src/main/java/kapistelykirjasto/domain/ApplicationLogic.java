@@ -9,10 +9,12 @@ public class ApplicationLogic implements Application {
 
 	private BookDao bookDao;
 	private VideoDao videoDao;
+	private CourseDao courseDao;
 
-	public ApplicationLogic(BookDao bookDao, VideoDao videoDao) {
+	public ApplicationLogic(BookDao bookDao, VideoDao videoDao, CourseDao courseDao) {
 		this.bookDao = bookDao;
 		this.videoDao = videoDao;
+		this.courseDao = courseDao;
 	}
 
 	@Override
@@ -160,6 +162,14 @@ public class ApplicationLogic implements Application {
 			readEntries.add(new Video(model));
 		}
 		return readEntries;
+	}
+
+	@Override
+	public boolean createCourse(String courseCode, String name) {
+		if(courseCode.length() == 0 || name.length() == 0) {
+			return false;
+		}
+		return this.courseDao.createCourse(courseCode, name);
 	}
 
 }

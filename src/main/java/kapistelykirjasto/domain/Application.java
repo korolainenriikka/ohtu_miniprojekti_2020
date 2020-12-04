@@ -39,4 +39,6 @@ public interface Application {
     public ArrayList<Entry> getNotReadEntries();
 
     public ArrayList<Entry> getReadEntries();
+
+    public boolean createCourse(String courseCode, String name);
 }

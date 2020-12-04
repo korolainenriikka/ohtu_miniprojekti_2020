@@ -17,7 +17,7 @@ public class ApplicationTest {
     public void setUp() {
         //  this.dao = new SQLiteDao(":memory:");
         this.dao = new StubDao();
-        this.logic = new ApplicationLogic(dao, dao);
+        this.logic = new ApplicationLogic(dao, dao, dao);
     }
 
     @Test
@@ -136,5 +136,25 @@ public class ApplicationTest {
     @Test
     public void deleteVideoReturnsFalseOnInvalidId() {
         assertFalse(this.logic.deleteVideo(0));
+    }
+
+    @Test
+    public void createCourseReturnsTrueIfValidParamsGiven() {
+        assertTrue(this.logic.createCourse("TKT20005", "Laskennan mallit"));
+    }
+
+    @Test
+    public void createCourseReturnsFalseIfInvalidParamsGiven() {
+        assertFalse(this.logic.createCourse("", ""));
+    }
+
+    @Test
+    public void createCourseReturnsFalseIfCourseCodeMissing() {
+        assertFalse(this.logic.createCourse("", "Todennäköisyyslaskenta"));
+    }
+
+    @Test
+    public void createCourseReturnsFalseIfNameMissing() {
+        assertFalse(this.logic.createCourse("TKT20011", ""));
     }
 }
