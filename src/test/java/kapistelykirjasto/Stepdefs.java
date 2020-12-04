@@ -6,6 +6,7 @@ import io.cucumber.java.en.*;
 import kapistelykirjasto.dao.SQLiteBookDao;
 import kapistelykirjasto.dao.SQLiteVideoDao;
 import kapistelykirjasto.ui.*;
+import kapistelykirjasto.ui.cli.CLI;
 import kapistelykirjasto.domain.*;
 import java.util.ArrayList;
 import static org.junit.Assert.*;
