@@ -1,6 +1,7 @@
 package kapistelykirjasto.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import kapistelykirjasto.dao.models.BookModel;
@@ -19,6 +20,8 @@ public class StubDao implements BookDao, VideoDao, CourseDao {
     private ArrayList<VideoModel> notReadVideos = new ArrayList<>();
     private ArrayList<BookModel> readBooks = new ArrayList<>();
     private ArrayList<VideoModel> readVideos = new ArrayList<>();
+    private HashMap<Integer, Integer> bookCourseRelation = new HashMap<>();
+    private HashMap<Integer, Integer> videoCourseRelation = new HashMap<>();
     private boolean closed = false;
 
     @Override
@@ -176,17 +179,25 @@ public class StubDao implements BookDao, VideoDao, CourseDao {
 
     @Override
     public boolean addBookCourseRelation(int courseId, int bookId) {
-        return false;
+        bookCourseRelation.put(courseId, bookId);
+        if (bookCourseRelation.get(courseId) != bookId) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public boolean addVideoCourseRelation(int courseId, int videoId) {
-        return false;
+        videoCourseRelation.put(courseId, videoId);
+        if (bookCourseRelation.get(courseId) != videoId) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public List<CourseModel> getCourses() {
-        return null;
+        return this.courses;
     }
 }
 
