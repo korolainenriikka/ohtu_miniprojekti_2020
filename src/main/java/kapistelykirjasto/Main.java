@@ -2,6 +2,7 @@ package kapistelykirjasto;
 
 import kapistelykirjasto.dao.*;
 import kapistelykirjasto.ui.*;
+import kapistelykirjasto.ui.cli.CLI;
 import kapistelykirjasto.domain.*;
 
 public class Main {
