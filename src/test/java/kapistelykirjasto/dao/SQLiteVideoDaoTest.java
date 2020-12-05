@@ -74,9 +74,9 @@ public class SQLiteVideoDaoTest {
     }
 
     @Test
-    public void createVideoReturnsFalseWhenDatabaseIsClosed() throws SQLException {
+    public void createVideoReturnsErrorWhenDatabaseIsClosed() throws SQLException {
         this.dao.close();
-        assertFalse(this.dao.createVideo("title", null, null, null));
+        assertTrue(this.dao.createVideo("title", null, null, null).isError());
     }
 
     @Test

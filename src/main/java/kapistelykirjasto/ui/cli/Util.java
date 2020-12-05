@@ -7,8 +7,8 @@ import kapistelykirjasto.ui.IO;
 
 public class Util {
 	
-	public static boolean isValidIndex(String input, List<Entry> entries) {
-        return parsable(input) && Integer.valueOf(input) > 0 && Integer.valueOf(input) <= entries.size();
+	public static boolean isValidIndex(String input, List<?> objects) {
+        return parsable(input) && Integer.valueOf(input) > 0 && Integer.valueOf(input) <= objects.size();
     }
 	
 	public static void printEnumeratedList(IO io, List<?> objects, String emptyMessage) {

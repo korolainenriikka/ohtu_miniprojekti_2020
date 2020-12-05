@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import kapistelykirjasto.dao.models.BookModel;
 import kapistelykirjasto.dao.models.VideoModel;
+import kapistelykirjasto.util.Result;
 
 public class SQLiteBookDao implements BookDao {
 
@@ -27,21 +28,30 @@ public class SQLiteBookDao implements BookDao {
     }
 
     @Override
-    public boolean createBook(String title, String comment, String author, String ISBN) {
+    public Result<String, Integer> createBook(String title, String comment, String author, String ISBN) {
         try {
-            PreparedStatement statement = this.connection.prepareStatement("INSERT INTO book(title, comment, author, isbn) VALUES(?,?,?,?);");
+            PreparedStatement statement = this.connection.prepareStatement(
+            		"INSERT INTO book(title, comment, author, isbn) VALUES(?,?,?,?);", 
+            		Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, title);
             statement.setString(2, comment);
             statement.setString(3, author);
             statement.setString(4, ISBN);
             statement.executeUpdate();
+            
+            ResultSet rs = statement.getGeneratedKeys();
+            
+            if (!rs.next()) {
+            	return Result.error("Tietokantavirhe (book)");
+            }
+            
+            int createdId = rs.getInt(1);
             statement.close();
+            
+            return Result.value(createdId);
         } catch (SQLException e) {
-            e.getErrorCode();
-            e.printStackTrace();
-            return false;
+            return Result.error("Tietokantavirhe (book): " + e.getErrorCode());
         }
-        return true;
     }
 
     @Override

@@ -1,16 +1,23 @@
 package kapistelykirjasto.domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import kapistelykirjasto.dao.models.BookModel;
+import kapistelykirjasto.dao.models.CourseModel;
 import kapistelykirjasto.dao.models.Model;
 import kapistelykirjasto.dao.models.VideoModel;
+import kapistelykirjasto.util.Result;
 
 public interface Application {
 
-    public boolean createBook(String title, String comment, String author, String ISBN);
+    public Result<String, Integer> createBook(String title, String comment, String author, String ISBN);
+    
+    public Result<String, Integer> createBook(String title, String comment, String author, String ISBN, int[] courseIds);
 
-    public boolean createVideo(String title, String comment, String url, String duration);
+    public Result<String, Integer> createVideo(String title, String comment, String url, String duration);
+    
+    public Result<String, Integer> createVideo(String title, String comment, String url, String duration, int[] courseIds);
 
     public ArrayList<Entry> getEntries();
 
@@ -41,4 +48,6 @@ public interface Application {
     public ArrayList<Entry> getReadEntries();
 
     public boolean createCourse(String courseCode, String name);
+
+	public List<Course> getCourses();
 }

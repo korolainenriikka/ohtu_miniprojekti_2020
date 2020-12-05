@@ -1,6 +1,7 @@
 package kapistelykirjasto.dao;
 
 import kapistelykirjasto.dao.models.VideoModel;
+import kapistelykirjasto.util.Result;
 
 import java.util.ArrayList;
 
@@ -8,7 +9,7 @@ public interface VideoDao {
 
     public ArrayList<VideoModel> getVideos();
 
-    public boolean createVideo(String title, String comment, String url, String duration);
+    public Result<String, Integer> createVideo(String title, String comment, String url, String duration);
 
     public boolean deleteVideo(int id);
 

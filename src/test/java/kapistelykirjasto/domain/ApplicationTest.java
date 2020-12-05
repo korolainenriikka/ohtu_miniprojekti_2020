@@ -28,28 +28,28 @@ public class ApplicationTest {
     }
 
     @Test
-    public void addBookReturnsFalseIfRequiredAttributeMissing() {
-        assertFalse(this.logic.createBook("testiTitle", "comment", "", "asdc123"));
+    public void addBookReturnsErrorIfRequiredAttributeMissing() {
+        assertTrue(this.logic.createBook("testiTitle", "comment", "", "asdc123").isError());
     }
 
     @Test
-    public void addBookReturnsTrueIfAllRequiredParamsGiven() {
-        assertTrue(this.logic.createBook("testiTitle", "", "testiAuthor", "asdc123"));
+    public void addBookReturnsValueIfAllRequiredParamsGiven() {
+        assertTrue(this.logic.createBook("testiTitle", "", "testiAuthor", "asdc123").isValue());
     }
 
     @Test
-    public void addVideoReturnsFalseIfRequiredAttributeMissing() {
-        assertFalse(this.logic.createVideo("testiTitle", "comment", "", "asdc123"));
+    public void addVideoReturnsErrorIfRequiredAttributeMissing() {
+        assertTrue(this.logic.createVideo("testiTitle", "comment", "", "asdc123").isError());
     }
 
     @Test
     public void addVideoReturnsTrueIfAllParamsGiven() {
-        assertTrue(this.logic.createVideo("testiTitle", "comment", "url", "asdc123"));
+        assertTrue(this.logic.createVideo("testiTitle", "comment", "url", "asdc123").isValue());
     }
 
     @Test
     public void addVideoReturnsTrueIfRequiredParamsGiven() {
-        assertTrue(this.logic.createVideo("testiTitle", "", "url", ""));
+        assertTrue(this.logic.createVideo("testiTitle", "", "url", "").isValue());
     }
 
     @Test

@@ -9,6 +9,7 @@ import kapistelykirjasto.dao.models.CourseModel;
 import kapistelykirjasto.dao.models.Model;
 import kapistelykirjasto.dao.models.VideoModel;
 import kapistelykirjasto.domain.*;
+import kapistelykirjasto.util.Result;
 
 public class StubDao implements BookDao, VideoDao, CourseDao {
 
@@ -25,23 +26,27 @@ public class StubDao implements BookDao, VideoDao, CourseDao {
     private boolean closed = false;
 
     @Override
-    public boolean createBook(String title, String comment, String author, String ISBN) {
+    public Result<String, Integer> createBook(String title, String comment, String author, String ISBN) {
         if (closed) {
-            return false;
+            return Result.error("Tietokanta on jo suljettu");
         }
 
+        int id = books.size();
         books.add(new BookModel(books.size(), title, comment, author, ISBN));
-        return true;
+        
+        return Result.value(id);
     }
 
     @Override
-    public boolean createVideo(String title, String comment, String url, String duration) {
+    public Result<String, Integer> createVideo(String title, String comment, String url, String duration) {
         if (closed) {
-            return false;
+        	return Result.error("Tietokanta on jo suljettu");
         }
 
+        int id = videos.size();
         videos.add(new VideoModel(videos.size(), title, comment, url, duration));
-        return true;
+        
+        return Result.value(id);
     }
 
     @Override

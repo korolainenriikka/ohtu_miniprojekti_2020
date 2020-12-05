@@ -100,10 +100,10 @@ public class SQLiteBookDaoTest {
     @Test
     public void createBookReturnsFalseWhenDatabaseIsClosed() throws SQLException {
         this.dao.close();
-        assertFalse(this.dao.createBook("Clean Code: A Handbook of Agile Software Craftsmanship",
+        assertTrue(this.dao.createBook("Clean Code: A Handbook of Agile Software Craftsmanship",
                 "comments here",
                 "Robert Martin",
-                "978-0132350884"));
+                "978-0132350884").isError());
     }
 
     @Test
