@@ -51,26 +51,14 @@ public class SQLiteVideoDao implements VideoDao {
     @Override
     public Result<String, Integer> createVideo(String title, String comment, String url, String duration) {
         try {
-        	
             PreparedStatement statement = this.connection.prepareStatement(
             		"INSERT INTO video(title, comment, url, duration) VALUES(?,?,?,?);",
             		Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, title);
-            statement.setString(2, comment);
-            statement.setString(3, url);
-            statement.setString(4, duration);
+            
+            Util.setObjects(statement, title, comment, url, duration);
             statement.executeUpdate();
             
-            ResultSet rs = statement.getGeneratedKeys();
-            
-            if (!rs.next()) {
-            	return Result.error("Tietokantavirhe (video)");
-            }
-            
-            int createdId = rs.getInt(1);
-            statement.close();
-            
-            return Result.value(createdId);
+            return Util.getGeneratedKeyFromStatement(statement);
         } catch (SQLException e) {
             return Result.error("Tietokantavirhe (video), " + e.getErrorCode());        
         }

@@ -33,22 +33,11 @@ public class SQLiteBookDao implements BookDao {
             PreparedStatement statement = this.connection.prepareStatement(
             		"INSERT INTO book(title, comment, author, isbn) VALUES(?,?,?,?);", 
             		Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, title);
-            statement.setString(2, comment);
-            statement.setString(3, author);
-            statement.setString(4, ISBN);
+            
+            Util.setObjects(statement, title, comment, author, ISBN);
             statement.executeUpdate();
             
-            ResultSet rs = statement.getGeneratedKeys();
-            
-            if (!rs.next()) {
-            	return Result.error("Tietokantavirhe (book)");
-            }
-            
-            int createdId = rs.getInt(1);
-            statement.close();
-            
-            return Result.value(createdId);
+            return Util.getGeneratedKeyFromStatement(statement);
         } catch (SQLException e) {
             return Result.error("Tietokantavirhe (book): " + e.getErrorCode());
         }
