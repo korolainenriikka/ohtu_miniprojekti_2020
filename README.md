@@ -19,3 +19,5 @@
 ## Releaset
 
 * [release viikko 2](https://github.com/korolainenriikka/ohtu_miniprojekti_2020/releases/tag/2)
+
+
