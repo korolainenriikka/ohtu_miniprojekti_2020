@@ -102,7 +102,7 @@ public class AddEntryAction implements Action {
 		} else {
 			return Arrays.stream(input.split(","))
 					.mapToInt(Integer::parseInt)
-					.map(i -> courses.get(i).getId())
+					.map(i -> courses.get(i-1).getId())
 					.toArray();
 		}
     	return new int[0];
