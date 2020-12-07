@@ -1,41 +1,53 @@
 package kapistelykirjasto.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import kapistelykirjasto.dao.models.BookModel;
+import kapistelykirjasto.dao.models.CourseModel;
 import kapistelykirjasto.dao.models.Model;
 import kapistelykirjasto.dao.models.VideoModel;
 import kapistelykirjasto.domain.*;
+import kapistelykirjasto.util.Result;
 
-public class StubDao implements BookDao, VideoDao {
+public class StubDao implements BookDao, VideoDao, CourseDao {
 
     private ArrayList<Model> entries = new ArrayList<>();
     private ArrayList<BookModel> books = new ArrayList<>();
     private ArrayList<VideoModel> videos = new ArrayList<>();
+    private ArrayList<CourseModel> courses = new ArrayList<>();
     private ArrayList<BookModel> notReadBooks = new ArrayList<>();
     private ArrayList<VideoModel> notReadVideos = new ArrayList<>();
     private ArrayList<BookModel> readBooks = new ArrayList<>();
     private ArrayList<VideoModel> readVideos = new ArrayList<>();
+    private HashMap<Integer, Integer> bookCourseRelation = new HashMap<>();
+    private HashMap<Integer, Integer> videoCourseRelation = new HashMap<>();
     private boolean closed = false;
 
     @Override
-    public boolean createBook(String title, String comment, String author, String ISBN) {
+    public Result<String, Integer> createBook(String title, String comment, String author, String ISBN) {
         if (closed) {
-            return false;
+            return Result.error("Tietokanta on jo suljettu");
         }
+
+        int id = books.size();
         books.add(new BookModel(books.size(), title, comment, author, ISBN));
         notReadBooks.add(new BookModel(books.size(), title, comment, author, ISBN));
-        return true;
+        return Result.value(id);
     }
 
     @Override
-    public boolean createVideo(String title, String comment, String url, String duration) {
+    public Result<String, Integer> createVideo(String title, String comment, String url, String duration) {
         if (closed) {
-            return false;
+        	return Result.error("Tietokanta on jo suljettu");
         }
+
+        int id = videos.size();
         videos.add(new VideoModel(videos.size(), title, comment, url, duration));
         notReadVideos.add(new VideoModel(videos.size(), title, comment, url, duration));
-        return true;
+
+        return Result.value(id);
     }
 
     @Override
@@ -162,5 +174,36 @@ public class StubDao implements BookDao, VideoDao {
         return this.notReadVideos;
     }
 
+    @Override
+    public boolean createCourse(String courseCode, String name) {
+        if (closed) {
+            return false;
+        }
+        courses.add(new CourseModel(courses.size(), courseCode, name));
+        return true;
+    }
+
+    @Override
+    public boolean addBookCourseRelation(int courseId, int bookId) {
+        bookCourseRelation.put(courseId, bookId);
+        if (bookCourseRelation.get(courseId) != bookId) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean addVideoCourseRelation(int courseId, int videoId) {
+        videoCourseRelation.put(courseId, videoId);
+        if (bookCourseRelation.get(courseId) != videoId) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public List<CourseModel> getCourses() {
+        return this.courses;
+    }
 }
 

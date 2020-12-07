@@ -2,6 +2,7 @@ package kapistelykirjasto;
 
 import kapistelykirjasto.dao.*;
 import kapistelykirjasto.ui.*;
+import kapistelykirjasto.ui.cli.CLI;
 import kapistelykirjasto.domain.*;
 
 public class Main {
@@ -9,7 +10,8 @@ public class Main {
         String dbFileName = "library.db";
         BookDao bookDao = new SQLiteBookDao(dbFileName);
         VideoDao videoDao = new SQLiteVideoDao(dbFileName);
-        Application app = new ApplicationLogic(bookDao, videoDao);
+        CourseDao courseDao = new SQLiteCourseDao(dbFileName);
+        Application app = new ApplicationLogic(bookDao, videoDao, courseDao);
         IO io = new ConsoleIO();
         CLI userInterface = new CLI(app, io);
         userInterface.run();

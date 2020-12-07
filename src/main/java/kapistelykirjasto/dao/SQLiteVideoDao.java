@@ -1,6 +1,7 @@
 package kapistelykirjasto.dao;
 
 import kapistelykirjasto.dao.models.VideoModel;
+import kapistelykirjasto.util.Result;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -48,21 +49,19 @@ public class SQLiteVideoDao implements VideoDao {
     }
 
     @Override
-    public boolean createVideo(String title, String comment, String url, String duration) {
+    public Result<String, Integer> createVideo(String title, String comment, String url, String duration) {
         try {
-            PreparedStatement statement = this.connection.prepareStatement("INSERT INTO video(title, comment, url, duration) VALUES(?,?,?,?);");
-            statement.setString(1, title);
-            statement.setString(2, comment);
-            statement.setString(3, url);
-            statement.setString(4, duration);
+            PreparedStatement statement = this.connection.prepareStatement(
+            		"INSERT INTO video(title, comment, url, duration) VALUES(?,?,?,?);",
+            		Statement.RETURN_GENERATED_KEYS);
+            
+            Util.setObjects(statement, title, comment, url, duration);
             statement.executeUpdate();
-            statement.close();
+            
+            return Util.getGeneratedKeyFromStatement(statement);
         } catch (SQLException e) {
-            e.getErrorCode();
-            e.printStackTrace();
-            return false;
+            return Result.error("Tietokantavirhe (video), " + e.getErrorCode());        
         }
-        return true;
     }
 
     @Override

@@ -1,14 +1,15 @@
+
 package kapistelykirjasto;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
 import kapistelykirjasto.dao.SQLiteBookDao;
+import kapistelykirjasto.dao.SQLiteCourseDao;
 import kapistelykirjasto.dao.SQLiteVideoDao;
 import kapistelykirjasto.ui.*;
+import kapistelykirjasto.ui.cli.CLI;
 import kapistelykirjasto.domain.*;
-
 import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 
 public class Stepdefs {
@@ -21,7 +22,8 @@ public class Stepdefs {
     @Before
     public void setup() {
         this.inputLines = new ArrayList<>();
-        app = new ApplicationLogic(new SQLiteBookDao(":memory:"), new SQLiteVideoDao(":memory:"));
+        app = new ApplicationLogic(new SQLiteBookDao(":memory:"), new SQLiteVideoDao(":memory:"),
+                new SQLiteCourseDao(":memory:"));
     }
 
     @Given("book with title {string} is added")
@@ -44,6 +46,25 @@ public class Stepdefs {
         app.createVideo(string, string, string, string);
     }
 
+    @Given("course with code {string} and name {string} exists")
+    public void courseWithCodeAndNameExists(String code, String name) {
+        app.createCourse(code, name);
+    }
+
+    @Given("user is specifying the courses for a book")
+    public void userIsSpecifyingTheCoursesForABook() {
+    	inputLines.add("1");
+    	inputLines.add("1");
+    	addBookParams("Test Book", "Test Testersson", "123-123456", "Good Book", "");
+    }
+
+    @Given("user is specifying the courses for a video")
+    public void userIsSpecifyingTheCoursesForAVideo() {
+    	inputLines.add("1");
+    	inputLines.add("2");
+    	addVideoParams("Test Video", "video.com", "2:50", "Good Video", "");
+    }
+
     @When("action {string} is chosen")
     public void chooseAction(String action) {
         inputLines.add(action);
@@ -61,29 +82,29 @@ public class Stepdefs {
 
     @When("title {string}, author {string}, ISBN {string} and comment {string} is entered")
     public void bookParamsEntered(String title, String author, String ISBN, String comment) {
-        addBookParams(title, author, ISBN, comment);
+        addBookParams(title, author, ISBN, comment, "");
     }
 
     @When("title {string}, author {string}, ISBN {string} and no comment is entered")
     public void bookParamsWithoutCommentEntered(String title, String author, String ISBN) {
-        addBookParams(title, author, ISBN, "");
+        addBookParams(title, author, ISBN, "", "");
     }
 
     @When("no title, author {string}, ISBN {string} and comment {string} is entered")
     public void bookParamsWithoutTitleEntered(String author, String ISBN, String comment) {
-        addBookParams("", author, ISBN, comment);
+        addBookParams("", author, ISBN, comment, "");
     }
-
+    
     @When("title {string} and url {string} is entered")
     public void videoRequiredParamsEntered(String title, String url) {
-        addVideoParams(title, url, "", "");
+        addVideoParams(title, url, "", "", "");
     }
-
+    
     @When("title {string}, url {string}, duration {string} and comment {string} is entered")
     public void videoAllParamsEntered(String title, String url, String duration, String comment) {
-        addVideoParams(title, url, duration, comment);
+        addVideoParams(title, url, duration, comment, "");
     }
-
+    
     @When("existing entry {string} is selected")
     public void deleteExistingEntry(String entry) {
         app.createVideo("What is Coding?", "www.youtube.com/watch?v=cKhVupvyhKk", "1:15", "Opettavainen!");
@@ -105,18 +126,42 @@ public class Stepdefs {
         inputLines.add(entry);
     }
 
-    public void addBookParams(String title, String author, String ISBN, String comment) {
+    @When("user creates a book")
+    public void userCreatesABook() {
+    	inputLines.add("1");
+    	inputLines.add("1");
+    	addBookParams("Test Book", "Test Testersson", "123-123456", "Good Book", "");
+    }
+
+    @When("user creates a video")
+    public void userCreatesAVideo() {
+    	inputLines.add("1");
+    	inputLines.add("2");
+    	addVideoParams("Test Video", "video.com", "2:50", "Good Video", "");
+    }
+
+    @When("user creates a course")
+    public void userCreatesACourse() {
+    	inputLines.add("X");
+    	inputLines.add("TKT1234");
+    	inputLines.add("Kurssi 1");
+    }
+
+    public void addBookParams(String title, String author, String ISBN, String comment, String courses) {
         inputLines.add(title);
         inputLines.add(author);
         inputLines.add(ISBN);
         inputLines.add(comment);
+        inputLines.add(courses);
     }
 
-    public void addVideoParams(String title, String url, String duration, String comment) {
+
+    public void addVideoParams(String title, String url, String duration, String comment, String courses) {
         inputLines.add(title);
         inputLines.add(url);
         inputLines.add(duration);
         inputLines.add(comment);
+        inputLines.add(courses);
     }
 
     @Then("system will respond with {string}")
@@ -173,4 +218,6 @@ public class Stepdefs {
         }
         assertFalse(exists);
     }
+     
+
 }

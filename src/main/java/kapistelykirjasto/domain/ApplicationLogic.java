@@ -2,33 +2,67 @@ package kapistelykirjasto.domain;
 
 import kapistelykirjasto.dao.*;
 import kapistelykirjasto.dao.models.*;
+import kapistelykirjasto.util.Result;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ApplicationLogic implements Application {
 
 	private BookDao bookDao;
 	private VideoDao videoDao;
+	private CourseDao courseDao;
 
-	public ApplicationLogic(BookDao bookDao, VideoDao videoDao) {
+	public ApplicationLogic(BookDao bookDao, VideoDao videoDao, CourseDao courseDao) {
 		this.bookDao = bookDao;
 		this.videoDao = videoDao;
+		this.courseDao = courseDao;
 	}
 
 	@Override
-	public boolean createBook(String title, String comment, String author, String ISBN) {
+	public Result<String, Integer> createBook(String title, String comment, String author, String ISBN) {
+		return this.createBook(title, comment, author, ISBN, new int[0]);
+	}
+	
+	@Override
+	public Result<String, Integer> createBook(String title, String comment, String author, String ISBN, int[] courseIds) {
 		if (title.length() == 0 || author.length() == 0 || ISBN.length() == 0) {
-			return false;
+			return Result.error("otsikko, kirjailija ja ISBN täytyy syöttää");
 		}
-		return this.bookDao.createBook(title, comment, author, ISBN);
+		Result<String, Integer> res = this.bookDao.createBook(title, comment, author, ISBN);
+		
+		if (res.isValue()) {
+			for (int courseId : courseIds) {
+				if (!this.courseDao.addBookCourseRelation(courseId, res.getValue())) {
+					return Result.error("kurssin liittäminen kirjaan epäonnistui");
+				}
+			}
+		}
+		
+		return res;
+	}
+	
+	@Override
+	public Result<String, Integer> createVideo(String title, String comment, String url, String duration) {
+		return this.createVideo(title, comment, url, duration, new int[0]);
 	}
 
 	@Override
-	public boolean createVideo(String title, String comment, String url, String duration) {
+	public Result<String, Integer> createVideo(String title, String comment, String url, String duration, int[] courseIds) {
 		if (title.length() == 0 || url.length() == 0) {
-			return false;
+			return Result.error("otiskko ja url täytyy syöttää");
 		}
-		return this.videoDao.createVideo(title, comment, url, duration);
+		Result<String, Integer> res = this.videoDao.createVideo(title, comment, url, duration);
+		
+		if (res.isValue()) {
+			for (int courseId : courseIds) {
+				if (!this.courseDao.addBookCourseRelation(courseId, res.getValue())) {
+					return Result.error("kurssin liittäminen kirjaan epäonnistui");
+				}
+			}
+		}
+		
+		return res;
 	}
 
 	@Override
@@ -161,4 +195,20 @@ public class ApplicationLogic implements Application {
 		return readEntries;
 	}
 
+	@Override
+	public ArrayList<Course> getCourses() {
+		ArrayList<Course> courses = new ArrayList<>();
+		for (CourseModel model : this.courseDao.getCourses()) {
+			courses.add(new Course(model));
+		}
+		return courses;
+	}
+	
+	@Override
+	public boolean createCourse(String courseCode, String name) {
+		if (courseCode.length() == 0 || name.length() == 0) {
+			return false;
+		}
+		return this.courseDao.createCourse(courseCode, name);
+	}
 }
