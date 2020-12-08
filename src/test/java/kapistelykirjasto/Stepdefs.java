@@ -65,6 +65,22 @@ public class Stepdefs {
     	addVideoParams("Test Video", "video.com", "2:50", "Good Video", "");
     }
 
+    @Given("user has added book inputs {string}, {string}, {string} and {string}")
+    public void userHasAddedBookInputs(String title, String author, String ISBN, String comment) {
+        addBookParams(title, author, ISBN, comment, "");
+    }
+
+    @Given("user has added video inputs {string}, {string}, {string} and {string}")
+    public void userHasAddedVideoInputs(String title, String url, String duration, String comment) {
+        addVideoParams(title, url, duration, comment, "");
+    }
+
+    @Given("course code {string} and course name {string} are entered")
+    public void userAddsCourseInputs(String courseCode, String courseName){
+        inputLines.add(courseCode);
+        inputLines.add(courseName);
+    }
+
     @When("action {string} is chosen")
     public void chooseAction(String action) {
         inputLines.add(action);
@@ -164,11 +180,14 @@ public class Stepdefs {
         inputLines.add(courses);
     }
 
+    @When("course number input {string} is added")
+    public void coursNumberInputAdded(String input) {
+        inputLines.add(input);
+    }
+
     @Then("system will respond with {string}")
     public void systemRespondsWith(String response) {
-        this.io = new StubIO(this.inputLines);
-        userInterface = new CLI(app, io);
-        userInterface.run();
+        runApp();
 
         String ioResponse = "";
         for (int i = 0; i < io.getPrints().size(); i++) {
@@ -180,15 +199,19 @@ public class Stepdefs {
 
     @Then("the last line system will respond with is {string}")
     public void firstLineSystemResponse(String response) {
-        this.io = new StubIO(this.inputLines);
-        userInterface = new CLI(app, io);
-        userInterface.run();
+        runApp();
 
         int last = io.getPrints().size() - 1;
         String ioResponse = io.getPrints().get(last);
         String lastWord = ioResponse.substring(ioResponse.lastIndexOf(" ") + 1);
 
         assertTrue(lastWord.equals(response));
+    }
+
+    private void runApp() {
+        this.io = new StubIO(this.inputLines);
+        userInterface = new CLI(app, io);
+        userInterface.run();
     }
 
     @Then("book with title {string}, author {string}, ISBN {string} and comment {string} exists")
@@ -217,6 +240,11 @@ public class Stepdefs {
             }
         }
         assertFalse(exists);
+    }
+
+    @Then("input prompt contains {string}")
+    public void inputPropmptContains(String prompt) {
+        systemRespondsWith(prompt);
     }
      
 
