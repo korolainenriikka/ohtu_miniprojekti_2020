@@ -76,7 +76,7 @@ public class AddEntryAction implements Action {
 			} else if (courseInput.equals("")) {
 				return new int[0];
 			} else if (courseInput.matches("([0-9]+,\\s*)*\\s*([0-9]+)?")) {
-				return Util.parseCourseIds(io, courseInput, courses);
+				return parseCourseIds(io, courseInput, courses);
 			} else {
 				io.print("Virheellinen syöte");
 			}
@@ -94,4 +94,17 @@ public class AddEntryAction implements Action {
 			io.print("Kurssin lisääminen epäonnistui");
 		}
     }
+
+	private int[] parseCourseIds(IO io, String input, List<Course> courses) {
+		if (!Arrays.stream(input.split(","))
+				.allMatch(s -> Util.isValidIndex(s, courses))) {
+			io.print("Virheellinen syöte");
+		} else {
+			return Arrays.stream(input.split(","))
+					.mapToInt(Integer::parseInt)
+					.map(i -> courses.get(i - 1).getId())
+					.toArray();
+		}
+		return new int[0];
+	}
 }

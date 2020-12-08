@@ -34,9 +34,9 @@ public class ViewEntriesAction implements Action {
                 Util.printList(io, this.app.getReadEntries(), "ei luettuja lukuvinkkejä");
             } else if (typeOfFilter.equals("2")) {
                 Util.printList(io, this.app.getNotReadEntries(), "Olet lukenut jo kaikki lukuvinkit");
-            //} else if (typeOfFilter.equals("3")) {
-            //    int[] courses = readCourses();
-            //    Util.printList(io, this.app.getCourseEntries(int courseId), "ei luettuja lukuvinkkejä");
+            } else if (typeOfFilter.equals("3")) {
+                int courseId = readCourse();
+                Util.printList(io, this.app.getCourseEntries(courseId), "ei lukuvinkkejä kurssilla");
             } else if (typeOfFilter.equals("X")) {
                 break;
             } else {
@@ -45,20 +45,23 @@ public class ViewEntriesAction implements Action {
         }
     }
 
-    private int[] readCourses() {
-        do {
-            List<Course> courses = app.getCourses();
-            Util.printEnumeratedList(io, courses, "Ei lisättyjä kursseja");
-            String courseInput = io.readLine("Syötä kurssit: ");
+    private int readCourse() {
+        List<Course> courses = app.getCourses();
+        Util.printEnumeratedList(io, courses, "Ei lisättyjä kursseja");
+        String courseInput = io.readLine("Syötä kurssi: ");
 
-            if (courseInput.equals("")) {
-                return new int[0];
-            } else if (courseInput.matches("([0-9]+,\\s*)*\\s*([0-9]+)?")) {
-                return Util.parseCourseIds(io, courseInput, courses);
-            } else {
+        if (courseInput.matches("([0-9]+,\\s*)*\\s*([0-9]+)?")
+            && Util.isValidIndex(courseInput, courses)) {
+            try {
+                int courseId = Integer.valueOf(courseInput);
+                return courseId;
+            } catch (NumberFormatException e) {
                 io.print("Virheellinen syöte");
+                return -1;
             }
-        } while (io.hasNextLine());
-        return new int[0];
+        } else {
+            io.print("Virheellinen syöte");
+            return -1;
+        }
     }
 }

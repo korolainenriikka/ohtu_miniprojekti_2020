@@ -50,4 +50,6 @@ public interface Application {
     public boolean createCourse(String courseCode, String name);
 
 	public List<Course> getCourses();
+
+    public ArrayList<Entry> getCourseEntries(int courseId);
 }

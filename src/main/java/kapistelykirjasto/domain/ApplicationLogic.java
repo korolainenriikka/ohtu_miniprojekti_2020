@@ -211,4 +211,16 @@ public class ApplicationLogic implements Application {
 		}
 		return this.courseDao.createCourse(courseCode, name);
 	}
+
+	public ArrayList<Entry> getCourseEntries(int courseId) {
+		ArrayList<Entry> courseEntries = new ArrayList<>();
+
+		for (BookModel model : this.bookDao.getCourseBooks(courseId)) {
+			courseEntries.add(new Book(model));
+		}
+		for (VideoModel model : this.videoDao.getCourseVideos(courseId)) {
+			courseEntries.add(new Video(model));
+		}
+		return courseEntries;
+	}
 }
