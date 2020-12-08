@@ -40,7 +40,7 @@ public class StubDao implements BookDao, VideoDao, CourseDao {
     @Override
     public Result<String, Integer> createVideo(String title, String comment, String url, String duration) {
         if (closed) {
-        	return Result.error("Tietokanta on jo suljettu");
+            return Result.error("Tietokanta on jo suljettu");
         }
 
         int id = videos.size();
@@ -195,10 +195,15 @@ public class StubDao implements BookDao, VideoDao, CourseDao {
     @Override
     public boolean addVideoCourseRelation(int courseId, int videoId) {
         videoCourseRelation.put(courseId, videoId);
-        if (bookCourseRelation.get(courseId) != videoId) {
+        if (videoCourseRelation.get(courseId) != videoId) {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public ArrayList<BookModel> getCourseBooks(int courseId) {
+        return new ArrayList<BookModel>();
     }
 
     @Override
@@ -206,4 +211,3 @@ public class StubDao implements BookDao, VideoDao, CourseDao {
         return this.courses;
     }
 }
-

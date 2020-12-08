@@ -12,6 +12,8 @@ public interface CourseDao {
     public boolean addVideoCourseRelation(int courseId, int videoId);
 
     public List<CourseModel> getCourses();
+    
+    
 
     public void close();
 }

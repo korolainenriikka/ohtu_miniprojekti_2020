@@ -21,6 +21,8 @@ public interface BookDao {
     public ArrayList<BookModel> getReadBooks();
 
     public ArrayList<BookModel> getNotReadBooks();
+    
+    public ArrayList<BookModel> getCourseBooks(int courseId);
 
     public void close();
 }

@@ -56,7 +56,7 @@ public class ApplicationLogic implements Application {
 		
 		if (res.isValue()) {
 			for (int courseId : courseIds) {
-				if (!this.courseDao.addBookCourseRelation(courseId, res.getValue())) {
+				if (!this.courseDao.addVideoCourseRelation(courseId, res.getValue())) {
 					return Result.error("kurssin liittäminen kirjaan epäonnistui");
 				}
 			}

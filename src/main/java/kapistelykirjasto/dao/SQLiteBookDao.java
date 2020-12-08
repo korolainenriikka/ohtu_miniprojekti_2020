@@ -18,11 +18,12 @@ public class SQLiteBookDao implements BookDao {
             Statement statement = this.connection.createStatement();
             statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS book (id INTEGER PRIMARY KEY AUTOINCREMENT"
-                            + ", title TEXT UNIQUE, comment TEXT, author TEXT, ISBN TEXT, read TIMESTAMP DEFAULT NULL);");
+                    + ", title TEXT UNIQUE, comment TEXT, author TEXT, ISBN TEXT, read TIMESTAMP DEFAULT NULL);");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     public SQLiteBookDao() throws SQLException {
         this("production.db");
     }
@@ -31,12 +32,12 @@ public class SQLiteBookDao implements BookDao {
     public Result<String, Integer> createBook(String title, String comment, String author, String ISBN) {
         try {
             PreparedStatement statement = this.connection.prepareStatement(
-            		"INSERT INTO book(title, comment, author, isbn) VALUES(?,?,?,?);", 
-            		Statement.RETURN_GENERATED_KEYS);
-            
+                    "INSERT INTO book(title, comment, author, isbn) VALUES(?,?,?,?);",
+                    Statement.RETURN_GENERATED_KEYS);
+
             Util.setObjects(statement, title, comment, author, ISBN);
             statement.executeUpdate();
-            
+
             return Util.getGeneratedKeyFromStatement(statement);
         } catch (SQLException e) {
             return Result.error("Tietokantavirhe (book): " + e.getErrorCode());
@@ -191,6 +192,11 @@ public class SQLiteBookDao implements BookDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public ArrayList<BookModel> getCourseBooks(int courseId) {
+        return new ArrayList<BookModel>();
     }
 
     @Override

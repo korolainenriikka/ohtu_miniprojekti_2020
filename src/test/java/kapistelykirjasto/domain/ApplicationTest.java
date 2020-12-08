@@ -43,9 +43,9 @@ public class ApplicationTest {
     
     @Test
     public void createVideoCreatesNewVideoWithDao() {
-        int[] course = new int[1];
-        course[0] = 1;
-        this.logic.createVideo("testi", "testi", "testi", "testi", course);
+        int[] kurssi = new int[1];
+        kurssi[0] = 1;
+        this.logic.createVideo("testi", "testi", "testi", "testi", kurssi);
         assertEquals(this.dao.getVideos().size(), 1);
         assertEquals(this.dao.getVideos().get(0).getTitle(), "testi");
     }
