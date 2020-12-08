@@ -32,7 +32,7 @@ public class Util {
         }
     }
 	
-	private static boolean parsable(String input) {
+	public static boolean parsable(String input) {
         try {
             Integer.parseInt(input);
             return true;

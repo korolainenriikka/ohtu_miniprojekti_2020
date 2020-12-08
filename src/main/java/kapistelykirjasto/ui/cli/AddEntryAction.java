@@ -24,7 +24,7 @@ public class AddEntryAction implements Action {
 	public void run() {
     	
         String typeOfEntryAdded = io.readLine("[1]: lisää kirja \n[2]: lisää video");
-        io.print("Kurssi lisätty onnistuneesti");
+
         if (typeOfEntryAdded.equals("1")) {
             addBook();
         } else if (typeOfEntryAdded.equals("2")) {
@@ -66,16 +66,17 @@ public class AddEntryAction implements Action {
 
 	public int[] readCourses() {
 		do {
+			io.print("Syötä kurssit, johin lukuvinkki liittyy (vapaaehtoinen):");
 			List<Course> courses = app.getCourses();
 			Util.printEnumeratedList(io, courses, "Ei lisättyjä kursseja");
 			io.print("[X]: luo uusi kurssi");
-			String courseInput = io.readLine("Syötä kurssit: ");
+			String courseInput = io.readLine("Syötä indeksit pilkulla erotettuna: ");
 
 			if (courseInput.equals("X")) {
 				createCourse();
 			} else if (courseInput.equals("")) {
 				return new int[0];
-			} else if (courseInput.matches("([0-9]+,\\s*)*\\s*([0-9]+)?")) {
+			} else if (isValidCourseInput(courseInput, courses.size())) {
 				return parseCourseIds(io, courseInput, courses);
 			} else {
 				io.print("Virheellinen syöte");
@@ -83,7 +84,18 @@ public class AddEntryAction implements Action {
 		} while (io.hasNextLine());
 		return new int[0];
 	}
-    
+
+	private boolean isValidCourseInput(String input, int maxIndex) {
+		String[] indices = input.split(",");
+		for(String index: indices) {
+			if (!Util.parsable(index) || Integer.parseInt(index) > maxIndex) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
     private void createCourse() {
     	String courseCode = io.readLine("Syötä kurssin koodi:");
 		String name = io.readLine("Syötä kurssin nimi:");
