@@ -210,4 +210,16 @@ public class ApplicationTest {
     public void createCourseReturnsFalseIfNameMissing() {
         assertFalse(this.logic.createCourse("TKT20011", ""));
     }
+    @Test
+    public void getCourseEntriesReturnRightEntries() {
+
+        this.logic.createCourse("TKT20003", "Operating Systems");
+        int[] course = new int[1];
+        course[0] = 1;
+        this.logic.createBook("testi", "testi", "testi", "testi", course);
+        this.logic.createVideo("title1", "comment", "author", "1234", course);
+        ArrayList<Entry>courseEntries = this.logic.getCourseEntries(1);
+        assertEquals(2,courseEntries.size());
+        assertEquals("title1", courseEntries.get(1).getTitle());
+    }
 }

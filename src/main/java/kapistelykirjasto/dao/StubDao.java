@@ -21,8 +21,8 @@ public class StubDao implements BookDao, VideoDao, CourseDao {
     private ArrayList<VideoModel> notReadVideos = new ArrayList<>();
     private ArrayList<BookModel> readBooks = new ArrayList<>();
     private ArrayList<VideoModel> readVideos = new ArrayList<>();
-    private HashMap<Integer, Integer> bookCourseRelation = new HashMap<>();
-    private HashMap<Integer, Integer> videoCourseRelation = new HashMap<>();
+    private HashMap<Integer, ArrayList<BookModel>> bookCourseRelation = new HashMap<>();
+    private HashMap<Integer, ArrayList<VideoModel>> videoCourseRelation = new HashMap<>();
     private boolean closed = false;
 
     @Override
@@ -185,30 +185,57 @@ public class StubDao implements BookDao, VideoDao, CourseDao {
 
     @Override
     public boolean addBookCourseRelation(int courseId, int bookId) {
-        bookCourseRelation.put(courseId, bookId);
-        if (bookCourseRelation.get(courseId) != bookId) {
-            return false;
+
+        ArrayList<BookModel> books = this.books;
+        BookModel book = books.get(0);
+
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).getId() == bookId) {
+                book = books.get(i);
+            }
+        }
+
+        if (bookCourseRelation.get(courseId) == null) {
+            bookCourseRelation.put(courseId, new ArrayList<BookModel>());
+            bookCourseRelation.get(courseId).add(book);
+        } else {
+            bookCourseRelation.get(courseId).add(book);
         }
         return true;
     }
 
     @Override
     public boolean addVideoCourseRelation(int courseId, int videoId) {
-        videoCourseRelation.put(courseId, videoId);
-        if (videoCourseRelation.get(courseId) != videoId) {
-            return false;
+        ArrayList<VideoModel> videos = this.videos;
+        VideoModel video = videos.get(0);
+
+        for (int i = 0; i < videos.size(); i++) {
+            if (videos.get(i).getId() == videoId) {
+                video = videos.get(i);
+            }
+        }
+
+        if (videoCourseRelation.get(courseId) == null) {
+            videoCourseRelation.put(courseId, new ArrayList<VideoModel>());
+            videoCourseRelation.get(courseId).add(video);
+        } else {
+            videoCourseRelation.get(courseId).add(video);
         }
         return true;
     }
 
     @Override
     public ArrayList<BookModel> getCourseBooks(int courseId) {
-        return new ArrayList<BookModel>();
+
+        ArrayList<BookModel> books = this.bookCourseRelation.get(courseId);
+        return books;
     }
-    
+
     @Override
     public ArrayList<VideoModel> getCourseVideos(int courseId) {
-        return new ArrayList<VideoModel>();
+
+        ArrayList<VideoModel> videos = this.videoCourseRelation.get(courseId);
+        return videos;
     }
 
     @Override
