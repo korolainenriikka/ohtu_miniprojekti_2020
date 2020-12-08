@@ -205,6 +205,11 @@ public class StubDao implements BookDao, VideoDao, CourseDao {
     public ArrayList<BookModel> getCourseBooks(int courseId) {
         return new ArrayList<BookModel>();
     }
+    
+    @Override
+    public ArrayList<VideoModel> getCourseVideos(int courseId) {
+        return new ArrayList<VideoModel>();
+    }
 
     @Override
     public List<CourseModel> getCourses() {

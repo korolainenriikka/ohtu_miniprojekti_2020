@@ -182,6 +182,27 @@ public class SQLiteVideoDao implements VideoDao {
         }
         return null;
     }
+    
+    @Override
+    public ArrayList<VideoModel> getCourseVideos(int courseId) {
+        try {
+            PreparedStatement statement = this.connection.prepareStatement("SELECT v.title AS title, v.id AS id, v.comment AS comment, v.url AS url, v.duration AS duration FROM video v, courseVideo c WHERE v.id=c.videoId and c.courseId=?;");
+            statement.setInt(1, courseId);
+            ResultSet res = statement.executeQuery();
+            ArrayList<VideoModel> videos = new ArrayList<>();
+            while (res.next()) {
+                videos.add(
+                        new VideoModel(res.getInt("id"), res.getString("title"), res.getString("comment"),
+                                res.getString("url"), res.getString("duration"))
+                );
+            }
+            return videos;
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public void printSQLException(SQLException exception) {
         exception.getErrorCode();

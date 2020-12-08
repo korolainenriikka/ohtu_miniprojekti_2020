@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import kapistelykirjasto.dao.models.BookModel;
 import kapistelykirjasto.dao.models.VideoModel;
+import kapistelykirjasto.dao.models.CourseModel;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -13,12 +14,14 @@ import static org.junit.Assert.*;
 public class SQLiteBookDaoTest {
 
     private SQLiteBookDao dao;
+    private SQLiteCourseDao courseDao;
     private final File testDatabaseFile = new File("test_database.db");
 
     @Before
     public void setUp() throws SQLException, IOException {
         assertTrue(testDatabaseFile.createNewFile());
         this.dao = new SQLiteBookDao(testDatabaseFile.getAbsolutePath());
+        this.courseDao = new SQLiteCourseDao(testDatabaseFile.getAbsolutePath());
     }
 
     @After
@@ -172,5 +175,19 @@ public class SQLiteBookDaoTest {
         int id2 = this.dao.getBooks().get(1).getId();
 
         assertEquals(this.dao.getNotReadBooks().size(), 2);
+    }
+
+    @Test
+    public void courseBooksReturnsRigthList() {
+        this.dao.createBook("title", "comment", "author", "isbn");
+        int bookId = this.dao.getBooks().get(0).getId();
+        System.out.println("kirja id:" + bookId);
+
+        this.courseDao.createCourse("123", "testi");
+        int courseId = this.courseDao.getCourses().get(0).getId();
+        
+        this.courseDao.addBookCourseRelation(courseId, bookId);
+
+        assertEquals(this.dao.getCourseBooks(courseId).size(), 1);
     }
 }

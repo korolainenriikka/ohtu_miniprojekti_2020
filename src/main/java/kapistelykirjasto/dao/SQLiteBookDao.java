@@ -196,7 +196,23 @@ public class SQLiteBookDao implements BookDao {
 
     @Override
     public ArrayList<BookModel> getCourseBooks(int courseId) {
-        return new ArrayList<BookModel>();
+        try {
+            PreparedStatement statement = this.connection.prepareStatement("SELECT b.title AS title, b.id AS id, b.comment AS comment, b.author AS author, b.ISBN AS ISBN FROM book b, courseBook c WHERE b.id=c.bookId and c.courseId=?;");
+            statement.setInt(1, courseId);
+            ResultSet res = statement.executeQuery();
+            ArrayList<BookModel> books = new ArrayList<>();
+            while (res.next()) {
+                books.add(
+                        new BookModel(res.getInt("id"), res.getString("title"), res.getString("comment"),
+                                res.getString("author"), res.getString("ISBN"))
+                );
+            }
+            return books;
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

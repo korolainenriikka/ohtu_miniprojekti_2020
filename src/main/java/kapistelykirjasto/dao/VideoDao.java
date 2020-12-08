@@ -20,6 +20,8 @@ public interface VideoDao {
     public ArrayList<VideoModel> getReadVideos();
 
     public ArrayList<VideoModel> getNotReadVideos();
+    
+    public ArrayList<VideoModel> getCourseVideos(int courseId);
 
     public void close();
 }

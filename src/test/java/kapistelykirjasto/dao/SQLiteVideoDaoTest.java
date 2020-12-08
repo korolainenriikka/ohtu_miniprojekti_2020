@@ -14,12 +14,14 @@ import static org.junit.Assert.*;
 public class SQLiteVideoDaoTest {
 
     private SQLiteVideoDao dao;
+    private SQLiteCourseDao courseDao;
     private final File testDatabaseFile = new File("test_database.db");
 
     @Before
     public void setUp() throws SQLException, IOException {
         assertTrue(testDatabaseFile.createNewFile());
         this.dao = new SQLiteVideoDao(testDatabaseFile.getAbsolutePath());
+        this.courseDao = new SQLiteCourseDao(testDatabaseFile.getAbsolutePath());
     }
 
     @After
@@ -109,6 +111,19 @@ public class SQLiteVideoDaoTest {
     @Test
     public void editVideoReturnsFalseIfVideoDoesNotExist() {
         assertFalse(this.dao.editVideo(5, "edit1", "edit2", "edit3", "edit4"));
+    }
+
+    @Test
+    public void courseBooksReturnsRigthList() {
+        this.dao.createVideo("title", "comment", "author", "isbn");
+        int videoId = this.dao.getVideos().get(0).getId();
+
+        this.courseDao.createCourse("123", "testi");
+        int courseId = this.courseDao.getCourses().get(0).getId();
+
+        this.courseDao.addVideoCourseRelation(courseId, videoId);
+
+        assertEquals(this.dao.getCourseVideos(courseId).size(), 1);
     }
 
 }
