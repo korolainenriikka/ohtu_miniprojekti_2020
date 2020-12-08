@@ -63,26 +63,26 @@ public class AddEntryAction implements Action {
         	io.print("Lukuvinkin lisääminen epäonnistui: " + res.getError());
         }
     }
-    
-    private int[] readCourses() {
-    	do {
-    		List<Course> courses = app.getCourses();
-    		Util.printEnumeratedList(io, courses, "Ei lisättyjä kursseja");
-        	io.print("[X]: luo uusi kurssi");
-        	String courseInput = io.readLine("Syötä kurssit: ");
-        	
-        	if (courseInput.equals("X")) {
-        		createCourse();
-        	} else if (courseInput.equals("")) {
-        		return new int[0];
-        	} else if (courseInput.matches("([0-9]+,\\s*)*\\s*([0-9]+)?")) {
-        		return parseCourseIds(courseInput, courses);
-        	} else {
-        		io.print("Virheellinen syöte");
-        	}
-    	} while (io.hasNextLine());
-    	return new int[0];
-    }
+
+	public int[] readCourses() {
+		do {
+			List<Course> courses = app.getCourses();
+			Util.printEnumeratedList(io, courses, "Ei lisättyjä kursseja");
+			io.print("[X]: luo uusi kurssi");
+			String courseInput = io.readLine("Syötä kurssit: ");
+
+			if (courseInput.equals("X")) {
+				createCourse();
+			} else if (courseInput.equals("")) {
+				return new int[0];
+			} else if (courseInput.matches("([0-9]+,\\s*)*\\s*([0-9]+)?")) {
+				return Util.parseCourseIds(io, courseInput, courses);
+			} else {
+				io.print("Virheellinen syöte");
+			}
+		} while (io.hasNextLine());
+		return new int[0];
+	}
     
     private void createCourse() {
     	String courseCode = io.readLine("Syötä kurssin koodi:");
@@ -93,18 +93,5 @@ public class AddEntryAction implements Action {
 		} else {
 			io.print("Kurssin lisääminen epäonnistui");
 		}
-    }
-    
-    private int[] parseCourseIds(String input, List<Course> courses) {
-    	if (!Arrays.stream(input.split(","))
-				.allMatch(s -> Util.isValidIndex(s, courses))) {
-			io.print("Virheellinen syöte");
-		} else {
-			return Arrays.stream(input.split(","))
-					.mapToInt(Integer::parseInt)
-					.map(i -> courses.get(i - 1).getId())
-					.toArray();
-		}
-    	return new int[0];
     }
 }
