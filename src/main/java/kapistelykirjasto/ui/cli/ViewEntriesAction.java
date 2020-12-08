@@ -27,11 +27,13 @@ public class ViewEntriesAction implements Action {
     private void filterList() {
         while (io.hasNextLine()) {
             String typeOfFilter = io.readLine(
-                    "\n Suodata listaa:\n[1]: luetut \n[2]: lukemattomat \n[X]: poistu");
+                    "\n Suodata listaa:\n[1]: luetut \n[2]: lukemattomat \n[3]: kurssi \n[X]: poistu");
             if (typeOfFilter.equals("1")) {
                 Util.printList(io, this.app.getReadEntries(), "ei luettuja lukuvinkkejä");
             } else if (typeOfFilter.equals("2")) {
                 Util.printList(io, this.app.getNotReadEntries(), "Olet lukenut jo kaikki lukuvinkit");
+            //} else if (typeOfFilter.equals("3")) {
+            //    Util.printEnumeratedList(io, this.app.getCourses(), "Ei kursseja");
             } else if (typeOfFilter.equals("X")) {
                 break;
             } else {
