@@ -1,6 +1,5 @@
 package kapistelykirjasto.domain;
 
-
 import kapistelykirjasto.dao.StubDao;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +24,9 @@ public class ApplicationTest {
 
     @Test
     public void createBookCreatesNewBookWithDao() {
-        this.logic.createBook("testi", "testi", "testi", "testi");
+        int[] course = new int[1];
+        course[0] = 1;
+        this.logic.createBook("testi", "testi", "testi", "testi", course);
         assertEquals(this.dao.getBooks().size(), 1);
         assertEquals(this.dao.getBooks().get(0).getTitle(), "testi");
     }
@@ -38,6 +39,15 @@ public class ApplicationTest {
     @Test
     public void addBookReturnsValueIfAllRequiredParamsGiven() {
         assertTrue(this.logic.createBook("testiTitle", "", "testiAuthor", "asdc123").isValue());
+    }
+    
+    @Test
+    public void createVideoCreatesNewVideoWithDao() {
+        int[] course = new int[1];
+        course[0] = 1;
+        this.logic.createVideo("testi", "testi", "testi", "testi", course);
+        assertEquals(this.dao.getVideos().size(), 1);
+        assertEquals(this.dao.getVideos().get(0).getTitle(), "testi");
     }
 
     @Test
@@ -81,7 +91,7 @@ public class ApplicationTest {
     public void getReadBooksReturnsRightList() {
         this.logic.createBook("title", "comment", "author", "ISBN1");
         this.logic.createBook("title1", "comment", "author", "ISBN2");
-        ArrayList<Entry>entries = this.logic.getEntries();
+        ArrayList<Entry> entries = this.logic.getEntries();
         assertTrue(this.logic.markBookAsRead(entries.get(1).getId()));
         assertEquals(1, this.logic.getReadBooks().size());
         assertEquals(this.logic.getReadBooks().get(0).getTitle(), "title1");
@@ -91,7 +101,7 @@ public class ApplicationTest {
     public void getReadVideosReturnsRightList() {
         this.logic.createVideo("title", "comment", "author", "123");
         this.logic.createVideo("title1", "comment", "author", "1234");
-        ArrayList<Entry>entries = this.logic.getEntries();
+        ArrayList<Entry> entries = this.logic.getEntries();
         assertTrue(this.logic.markVideoAsRead(entries.get(1).getId()));
         assertEquals(1, this.logic.getReadVideos().size());
         assertEquals(this.logic.getReadVideos().get(0).getTitle(), "title1");
@@ -142,12 +152,13 @@ public class ApplicationTest {
         this.logic.deleteEntry(this.logic.getVideos().get(0));
         assertEquals(0, this.logic.getVideos().size());
     }
+
     @Test
     public void editBookEditsBook() {
         this.logic.createBook("title", "comment", "author", "ISBN");
         int bookId = this.logic.getBooks().get(0).getId();
 
-        assertTrue(this.logic.editBook(bookId,"title2", "comment2", "author2", "ISBN2"));
+        assertTrue(this.logic.editBook(bookId, "title2", "comment2", "author2", "ISBN2"));
         Book book = this.logic.getBooks().get(0);
 
         assertEquals("title2", book.getTitle());
@@ -155,12 +166,13 @@ public class ApplicationTest {
         assertEquals("ISBN2", book.getISBN());
         assertEquals("comment2", book.getComment());
     }
+
     @Test
     public void editVideoEditsVideo() {
         this.logic.createVideo("title", "comment", "url", "duration");
         int videoId = this.logic.getVideos().get(0).getId();
 
-        assertTrue(this.logic.editVideo(videoId,"title2", "comment2", "url2", "duration2"));
+        assertTrue(this.logic.editVideo(videoId, "title2", "comment2", "url2", "duration2"));
         Video video = this.logic.getVideos().get(0);
 
         assertEquals("title2", video.getTitle());
