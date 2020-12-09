@@ -18,4 +18,6 @@
 
 ## Releaset
 
+* [release viikko 3](https://github.com/korolainenriikka/ohtu_miniprojekti_2020/releases/tag/v3)
+
 * [release viikko 2](https://github.com/korolainenriikka/ohtu_miniprojekti_2020/releases/tag/2)
