@@ -5,37 +5,37 @@ Feature: as an user I want to see a list of entries
         Then system will respond with "Ei lisättyjä lukuvinkkejä"
 
     Scenario: List of entries contains added book
-        Given book with title "kirja" is added
+        Given book with title "Elements of the Theory of Computation" is added
         When action "2" is chosen
-        Then system will respond with "kirja"
+        Then system will respond with "Elements of the Theory of Computation"
 
     Scenario: List of entries contains added video
-        Given video with title "video" is added
+        Given video with title "Slow sorting: Stooge sort and Bogo sort" is added
         When action "2" is chosen
-        Then system will respond with "video"
+        Then system will respond with "Slow sorting: Stooge sort and Bogo sort"
 
     Scenario: List of read entries contains all read books
-        When book with title "otsikko", author "aaa", ISBN "123" and comment "" is added
+        When book with title "Hello Ruby!", author "Linda Liukas", ISBN "032-135522-K" and comment "" is added
         And existing book with id "1" is marked as read
         When action "2" is chosen
         And type "1" is selected
-        Then system will respond with "otsikko"
+        Then system will respond with "Hello Ruby!"
 
     Scenario: List of read entries contains all read videos
-        When video with title "otsikko4", url "url", duration "123" and comment "" is added
+        When video with title "Visualization of Quick sort", url "https://www.youtube.com/watch?v=vxENKlcs2Tw", duration "2:56" and comment "" is added
         And existing video with id "1" is marked as read
         When action "2" is chosen
         And type "1" is selected
-        Then system will respond with "otsikko4"
+        Then system will respond with "Visualization of Quick sort"
 
     Scenario: List of not read entries contains all not read books
-       When book with title "otsikko3", author "aaa", ISBN "123" and comment "kiva" is added
+       When book with title "Database System Concepts", author "Henry F. Fort", ISBN "007-124476-X" and comment "Selkeä" is added
        When action "2" is chosen
        And type "2" is selected
-       Then system will respond with "otsikko3"
+       Then system will respond with "Database System Concepts"
 
     Scenario: List of not read entries contains all not read videos
-       When video with title "otsikko6", url "url", duration "123" and comment "kiva" is added
+       When video with title "Crash Course Computer Science Preview", url "https://youtu.be/tpIctyqH29Q", duration "2:44" and comment "Kiva" is added
        When action "2" is chosen
        And type "2" is selected
-       Then system will respond with "otsikko6"
+       Then system will respond with "Crash Course Computer Science Preview"

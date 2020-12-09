@@ -51,22 +51,40 @@ public class SQLiteVideoDaoTest {
 
     @Test
     public void getVideosReturnsRightSizeList() throws SQLException {
-        this.dao.createVideo("otsikko", "kommentti", "tekija", "123");
-        this.dao.createVideo("otsikko2", "kommentti", "tekija", "1234");
-        this.dao.createVideo("otsikko3", "kommentti", "tekija", "1235");
+        this.dao.createVideo("Slow sorting: Stooge sort and Bogo sort",
+                "Hyvä havainnollistus",
+                "https://www.youtube.com/watch?v=bfzYj-qGw7U",
+                "40:52");
+        this.dao.createVideo("Visualization of Quick sort",
+                "Todella selkeä",
+                "https://www.youtube.com/watch?v=vxENKlcs2Tw",
+                "2:56");
+        this.dao.createVideo("Crash Course Computer Science Preview",
+                "Mielenkiintoinen",
+                "https://youtu.be/tpIctyqH29Q",
+                "2:44");
 
         assertEquals(3, this.dao.getVideos().size());
     }
 
     @Test
     public void getVideosReturnsListContainingAllAddedVideos() {
-        this.dao.createVideo("title", "comment", "author", "1.23");
-        this.dao.createVideo("title2", "comment", "author", "1.59");
-        this.dao.createVideo("title3", "comment", "author", "2");
+        this.dao.createVideo("Slow sorting: Stooge sort and Bogo sort",
+                "Hyvä havainnollistus",
+                "https://www.youtube.com/watch?v=bfzYj-qGw7U",
+                "40:52");
+        this.dao.createVideo("Visualization of Quick sort",
+                "Todella selkeä",
+                "https://www.youtube.com/watch?v=vxENKlcs2Tw",
+                "2:56");
+        this.dao.createVideo("Crash Course Computer Science Preview",
+                "Mielenkiintoinen",
+                "https://youtu.be/tpIctyqH29Q",
+                "2:44");
 
-        assertEquals("title", this.dao.getVideos().get(0).getTitle());
-        assertEquals("title2", this.dao.getVideos().get(1).getTitle());
-        assertEquals("title3", this.dao.getVideos().get(2).getTitle());
+        assertEquals("Slow sorting: Stooge sort and Bogo sort", this.dao.getVideos().get(0).getTitle());
+        assertEquals("Visualization of Quick sort", this.dao.getVideos().get(1).getTitle());
+        assertEquals("Crash Course Computer Science Preview", this.dao.getVideos().get(2).getTitle());
     }
 
     @Test
@@ -78,19 +96,25 @@ public class SQLiteVideoDaoTest {
     @Test
     public void createVideoReturnsErrorWhenDatabaseIsClosed() throws SQLException {
         this.dao.close();
-        assertTrue(this.dao.createVideo("title", null, null, null).isError());
+        assertTrue(this.dao.createVideo("Crash Course Computer Science Preview", null, null, null).isError());
     }
 
     @Test
     public void deleteVideoDeletesVideo() {
-        this.dao.createVideo("testi", "testi", "testi", "testi");
+        this.dao.createVideo("Crash Course Computer Science Preview",
+                "Mielenkiintoinen",
+                "https://youtu.be/tpIctyqH29Q",
+                "2:44");
         this.dao.deleteVideo(this.dao.getVideos().get(0).getId());
         assertEquals(0, this.dao.getVideos().size());
     }
 
     @Test
     public void existsVideoReturnsFalseWhenDatabaseClosed() {
-        this.dao.createVideo("testi", "testi", "testi", "testi");
+        this.dao.createVideo("Crash Course Computer Science Preview",
+                "Mielenkiintoinen",
+                "https://youtu.be/tpIctyqH29Q",
+                "2:44");
         int id = this.dao.getVideos().get(0).getId();
         this.dao.close();
         assertFalse(this.dao.deleteVideo(id));
@@ -98,27 +122,39 @@ public class SQLiteVideoDaoTest {
 
     @Test
     public void editVideoUpdatesValues() {
-        this.dao.createVideo("testi", "testi", "testi", "testi");
+        this.dao.createVideo("Visualization of sort",
+                "Todella outo",
+                "https://www.youtube.com/",
+                "2:5655");
         int id = this.dao.getVideos().get(0).getId();
-        this.dao.editVideo(id, "edit1", "edit2", "edit3", "edit4");
+        this.dao.editVideo(id, "Visualization of Quick sort",
+                "Todella selkeä",
+                "https://www.youtube.com/watch?v=vxENKlcs2Tw",
+                "2:56");
         VideoModel b = this.dao.getVideos().get(0);
-        assertEquals(b.getUrl(), "edit3");
-        assertEquals(b.getTitle(), "edit1");
-        assertEquals(b.getComment(), "edit2");
-        assertEquals(b.getDuration(), "edit4");
+        assertEquals(b.getUrl(), "https://www.youtube.com/watch?v=vxENKlcs2Tw");
+        assertEquals(b.getTitle(), "Visualization of Quick sort");
+        assertEquals(b.getComment(), "Todella selkeä");
+        assertEquals(b.getDuration(), "2:56");
     }
 
     @Test
     public void editVideoReturnsFalseIfVideoDoesNotExist() {
-        assertFalse(this.dao.editVideo(5, "edit1", "edit2", "edit3", "edit4"));
+        assertFalse(this.dao.editVideo(5, "Visualization of Quick sort",
+                "Todella selkeä",
+                "https://www.youtube.com/watch?v=vxENKlcs2Tw",
+                "2:56"));
     }
 
     @Test
-    public void courseBooksReturnsRigthList() {
-        this.dao.createVideo("title", "comment", "author", "isbn");
+    public void courseVideosReturnsRightList() {
+        this.dao.createVideo("Crash Course Computer Science Preview",
+                "Mielenkiintoinen",
+                "https://youtu.be/tpIctyqH29Q",
+                "2:44");
         int videoId = this.dao.getVideos().get(0).getId();
 
-        this.courseDao.createCourse("123", "testi");
+        this.courseDao.createCourse("TKT10001", "Johdatus tietojenkäsittelytieteeseen");
         int courseId = this.courseDao.getCourses().get(0).getId();
 
         this.courseDao.addVideoCourseRelation(courseId, videoId);

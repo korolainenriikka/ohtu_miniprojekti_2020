@@ -66,22 +66,40 @@ public class SQLiteBookDaoTest {
 
     @Test
     public void getBooksReturnsRightSizeList() throws SQLException {
-        this.dao.createBook("otsikko", "kommentti", "tekija", "123");
-        this.dao.createBook("otsikko2", "kommentti", "tekija", "1234");
-        this.dao.createBook("otsikko3", "kommentti", "tekija", "1235");
+        this.dao.createBook("Elements of the Theory of Computation",
+                "Selkeät selitykset",
+                "Harry R. Lewis",
+                "135-896577-E");
+        this.dao.createBook("Database System Concepts",
+                "Todella pitkä kirja",
+                "Henry F. Fort",
+                "007-124476-X");
+        this.dao.createBook("Hello Ruby!",
+                "Sopii lapsille!",
+                "Linda Liukas",
+                "032-135522-K");
 
         assertEquals(3, this.dao.getBooks().size());
     }
 
     @Test
     public void getBooksReturnsListContainingAllAddedBooks() {
-        this.dao.createBook("title", "comment", "author", "ISBN123");
-        this.dao.createBook("title2", "comment", "author", "ISBN1234");
-        this.dao.createBook("title3", "comment", "author", "ISBN12345");
+        this.dao.createBook("Elements of the Theory of Computation",
+                "Selkeät selitykset",
+                "Harry R. Lewis",
+                "135-896577-E");
+        this.dao.createBook("Database System Concepts",
+                "Todella pitkä kirja",
+                "Henry F. Fort",
+                "007-124476-X");
+        this.dao.createBook("Hello Ruby!",
+                "Sopii lapsille!",
+                "Linda Liukas",
+                "032-135522-K");
 
-        assertEquals("title", this.dao.getBooks().get(0).getTitle());
-        assertEquals("title2", this.dao.getBooks().get(1).getTitle());
-        assertEquals("title3", this.dao.getBooks().get(2).getTitle());
+        assertEquals("Elements of the Theory of Computation", this.dao.getBooks().get(0).getTitle());
+        assertEquals("Database System Concepts", this.dao.getBooks().get(1).getTitle());
+        assertEquals("Hello Ruby!", this.dao.getBooks().get(2).getTitle());
     }
 
     @Test
@@ -111,14 +129,20 @@ public class SQLiteBookDaoTest {
 
     @Test
     public void deleteBookDeletesBook() {
-        this.dao.createBook("testi", "testi", "testi", "testi");
+        this.dao.createBook("Database System Concepts",
+                "Todella pitkä kirja",
+                "Henry F. Fort",
+                "007-124476-X");
         this.dao.deleteBook(this.dao.getBooks().get(0).getId());
         assertEquals(0, this.dao.getBooks().size());
     }
 
     @Test
     public void existsBookReturnsFalseWhenDatabaseClosed() {
-        this.dao.createBook("testi", "testi", "testi", "testi");
+        this.dao.createBook("Hello Ruby!",
+                "Sopii lapsille!",
+                "Linda Liukas",
+                "032-135522-K");
         int id = this.dao.getBooks().get(0).getId();
         this.dao.close();
         assertFalse(this.dao.deleteBook(id));
@@ -126,64 +150,94 @@ public class SQLiteBookDaoTest {
 
     @Test
     public void editBookUpdatesValues() {
-        this.dao.createBook("testi", "testi", "testi", "testi");
+        this.dao.createBook("Hello uby!",
+                "Sopii kaikille!",
+                "Linda",
+                "032-135522-S");
         int id = this.dao.getBooks().get(0).getId();
-        this.dao.editBook(id, "edit1", "edit2", "edit3", "edit4");
+        this.dao.editBook(id,
+                "Hello Ruby!",
+                "Sopii erityisesti lapsille!",
+                "Linda Liukas",
+                "032-135522-K");
         BookModel b = this.dao.getBooks().get(0);
-        assertEquals(b.getAuthor(), "edit3");
-        assertEquals(b.getTitle(), "edit1");
-        assertEquals(b.getComment(), "edit2");
-        assertEquals(b.getISBN(), "edit4");
+        assertEquals(b.getAuthor(), "Linda Liukas");
+        assertEquals(b.getTitle(), "Hello Ruby!");
+        assertEquals(b.getComment(), "Sopii erityisesti lapsille!");
+        assertEquals(b.getISBN(), "032-135522-K");
     }
 
     @Test
     public void editBookReturnsFalseIfBookDoesNotExist() {
-        assertFalse(this.dao.editBook(5, "edit1", "edit2", "edit3", "edit4"));
+        assertFalse(this.dao.editBook(5,
+                "Hello Ruby!",
+                "Sopii erityisesti lapsille!",
+                "Linda Liukas",
+                "032-135522-K"));
     }
 
     @Test
     public void getNotReadBooksReturnsOnlyNotReadBooks() {
-        this.dao.createBook("testi", "testi", "testi", "testi");
-        this.dao.createBook("testi2", "testi", "testi", "testi");
+        this.dao.createBook("Elements of the Theory of Computation",
+                "Selkeät selitykset",
+                "Harry R. Lewis",
+                "135-896577-E");
+        this.dao.createBook("Database System Concepts",
+                "Todella pitkä kirja",
+                "Henry F. Fort",
+                "007-124476-X");
         int id1 = this.dao.getBooks().get(0).getId();
         int id2 = this.dao.getBooks().get(1).getId();
 
         this.dao.markBookAsRead(id1);
         ArrayList<BookModel> notReadBooks = this.dao.getNotReadBooks();
-        assertEquals(notReadBooks.get(0).getTitle(), "testi2");
+        assertEquals(notReadBooks.get(0).getTitle(), "Database System Concepts");
         assertEquals(notReadBooks.size(), 1);
     }
 
     @Test
     public void getReadBooksReturnsOnlyReadBooks() {
-        this.dao.createBook("testi", "testi", "testi", "testi");
-        this.dao.createBook("testi2", "testi", "testi", "testi");
+        this.dao.createBook("Elements of the Theory of Computation",
+                "Selkeät selitykset",
+                "Harry R. Lewis",
+                "135-896577-E");
+        this.dao.createBook("Database System Concepts",
+                "Todella pitkä kirja",
+                "Henry F. Fort",
+                "007-124476-X");
         int id1 = this.dao.getBooks().get(0).getId();
         int id2 = this.dao.getBooks().get(1).getId();
 
         this.dao.markBookAsRead(id1);
         ArrayList<BookModel> readBooks = this.dao.getReadBooks();
-        assertEquals(readBooks.get(0).getTitle(), "testi");
+        assertEquals(readBooks.get(0).getTitle(), "Elements of the Theory of Computation");
         assertEquals(readBooks.size(), 1);
     }
 
     @Test
     public void addedBooksAreAutomaticallyNotRead() {
-        this.dao.createBook("testi", "testi", "testi", "testi");
-        this.dao.createBook("testi2", "testi", "testi", "testi");
-        int id1 = this.dao.getBooks().get(0).getId();
-        int id2 = this.dao.getBooks().get(1).getId();
+        this.dao.createBook("Elements of the Theory of Computation",
+                "Selkeät selitykset",
+                "Harry R. Lewis",
+                "135-896577-E");
+        this.dao.createBook("Database System Concepts",
+                "Todella pitkä kirja",
+                "Henry F. Fort",
+                "007-124476-X");
 
         assertEquals(this.dao.getNotReadBooks().size(), 2);
     }
 
     @Test
-    public void courseBooksReturnsRigthList() {
-        this.dao.createBook("title", "comment", "author", "isbn");
+    public void courseBooksReturnsRightList() {
+        this.dao.createBook("Clean Code: A Handbook of Agile Software Craftsmanship",
+                "comments here",
+                "Robert Martin",
+                "978-0132350884");
         int bookId = this.dao.getBooks().get(0).getId();
         System.out.println("kirja id:" + bookId);
 
-        this.courseDao.createCourse("123", "testi");
+        this.courseDao.createCourse("TKT20006", "Ohjelmistotuotanto");
         int courseId = this.courseDao.getCourses().get(0).getId();
         
         this.courseDao.addBookCourseRelation(courseId, bookId);
