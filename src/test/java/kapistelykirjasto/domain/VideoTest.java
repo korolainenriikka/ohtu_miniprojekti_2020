@@ -10,12 +10,15 @@ public class VideoTest {
 
     @Test
     public void createdVideoHasAllGivenAttributes() {
-        VideoModel testVideo = new VideoModel(0, "testVid", "watch this!", "www.videohub.net", "2 min");
+        VideoModel testVideo = new VideoModel(0, "Crash Course Computer Science Preview",
+                "Mielenkiintoinen",
+                "https://youtu.be/tpIctyqH29Q",
+                "2:44");
         assertEquals(0, testVideo.getId());
-        assertEquals("testVid", testVideo.getTitle());
-        assertEquals("watch this!", testVideo.getComment());
-        assertEquals("www.videohub.net", testVideo.getUrl());
-        assertEquals("2 min", testVideo.getDuration());
+        assertEquals("Crash Course Computer Science Preview", testVideo.getTitle());
+        assertEquals("Mielenkiintoinen", testVideo.getComment());
+        assertEquals("https://youtu.be/tpIctyqH29Q", testVideo.getUrl());
+        assertEquals("2:44", testVideo.getDuration());
     }
 
 }
