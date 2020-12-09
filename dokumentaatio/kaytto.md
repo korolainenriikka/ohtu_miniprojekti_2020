@@ -1,7 +1,12 @@
 # Käyttöohje
 
-Asenna KäpistelyKirjasto-sovellus koneellesi ja käynnistä se [asennusohjeiden](https://github.com/korolainenriikka/ohtu_miniprojekti_2020/blob/master/dokumentaatio/asennus.md) opastamalla tavalla.  
+## Käynnistäminen
 
+Kun olet asentanut ohjelman [asennusohjeiden](https://github.com/korolainenriikka/ohtu_miniprojekti_2020/blob/master/dokumentaatio/asennus.md) opastamalla tavalla, avaa se komennolla 
+
+```java -jar build/libs/KäpistelyKirjasto.jar```
+
+## Päävalikko
 
 Sovelluksen käynnistyessa avautuu valikko:  
 ![valikko](https://raw.githubusercontent.com/korolainenriikka/ohtu_miniprojekti_2020/master/dokumentaatio/valikko.png)  
@@ -27,5 +32,17 @@ Valitse haluamasi toiminto valikosta.
 
 * Syöteellä "X" sovellus sulkeutuu.
 
+## Lisää lukuvinkki
 
+1. Valitse toiminto ```1```. Valitse kirja (```1```) tai video (```2```).
+
+1.
+	1. Kirjan tapauksessa syötä vuorollaan kirjalle nimi, kirjoittaja, ISBN ja kommentti. Kommentin voi myös jättää tyhjäksi.
+	1. Videon tapauksessa syötä vuorollaan videolle nimi, URL, kesto ja kommentti. Keston ja kommentin voi myös jättää tyhjäksi.
+
+1. Voit valita videoon liittyvät kurssit syöttämällä niiden numerot pilkuilla erotettuina tai jättää liittämättä lukuvinkkiä mihinkään kurssiin antamalla tyhjän syötteen. Tarvittaessa voit lisätä ensin uuden kurssin valitsemalla ```X```.
+
+### Uuden kurssin lisääminen
+
+Jos valitsit lisätä uuden kurssin, syötä kurssille ensin tunnuskoodi ja sitten nimi. Ohjelma palaa kurssien valintaan, ja voit valita nyt myös luomasi kurssin.
 
