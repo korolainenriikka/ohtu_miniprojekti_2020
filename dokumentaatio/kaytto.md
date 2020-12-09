@@ -34,9 +34,10 @@ Valitse haluamasi toiminto valikosta.
 
 ## Lisää lukuvinkki
 
-1. Valitse toiminto ```1```. Valitse kirja (```1```) tai video (```2```).
+1. Valitse päävalikossa toiminto ```1```. 
 
-1.
+1. Valitse kirja (```1```) tai video (```2```).
+
 	1. Kirjan tapauksessa syötä vuorollaan kirjalle nimi, kirjoittaja, ISBN ja kommentti. Kommentin voi myös jättää tyhjäksi.
 	1. Videon tapauksessa syötä vuorollaan videolle nimi, URL, kesto ja kommentti. Keston ja kommentin voi myös jättää tyhjäksi.
 
@@ -45,4 +46,22 @@ Valitse haluamasi toiminto valikosta.
 ### Uuden kurssin lisääminen
 
 Jos valitsit lisätä uuden kurssin, syötä kurssille ensin tunnuskoodi ja sitten nimi. Ohjelma palaa kurssien valintaan, ja voit valita nyt myös luomasi kurssin.
+
+
+## Näytä lukuvinkit
+
+Valitse päävalikossa toiminto ```2```. 
+
+Ohjelma listaa kaikki tallennetut lukuvinkit.
+
+### Lukuvinkkien suodattaminen
+
+Voit suodattaa lukuvinkkejä näyttämällä pelkästään luetut (```1```), lukemattomat (```2```) tai tiettyyn kurssiin liittyvät (```3```) lukuvinkit.
+
+#### Kurssiin liittyvät lukuvinkit
+
+Valitse se kurssi, johon liittyvät lukuvinkit haluat nähdä.
+
+
+
 
