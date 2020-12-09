@@ -1,8 +1,8 @@
 # KäpistelyKirjasto
 
 ![Java CI with Gradle badge](https://github.com/korolainenriikka/ohtu_miniprojekti_2020/workflows/Java%20CI%20with%20Gradle/badge.svg)
-
 [![codecov](https://codecov.io/gh/korolainenriikka/ohtu_miniprojekti_2020/branch/master/graph/badge.svg?token=juDIegiwQ6)](https://codecov.io/gh/korolainenriikka/ohtu_miniprojekti_2020)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 [Product backlog](https://docs.google.com/spreadsheets/d/1lKrgeEqtPNm9kK6SKzxoq1SbjpOKOZiiZukaj-w0T6M/edit#gid=1)
 
