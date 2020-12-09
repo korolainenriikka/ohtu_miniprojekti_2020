@@ -51,7 +51,7 @@ Valitse haluamasi toiminto valikosta.
 Jos valitsit lisätä uuden kurssin, syötä kurssille ensin tunnuskoodi ja sitten nimi. Ohjelma palaa kurssien valintaan, ja voit valita nyt myös luomasi kurssin.
 
 
-## Näytä lukuvinkit
+## Lukuvinkkien näyttäminen
 
 Valitse päävalikossa toiminto ```2```. 
 
@@ -65,4 +65,21 @@ Voit suodattaa lukuvinkkejä näyttämällä pelkästään luetut (```1```), luk
 
 Valitse se kurssi, johon liittyvät lukuvinkit haluat nähdä.
 
+
+
+## Lukuvinkin poistaminen
+
+Valitse se lukuvinkki, jonka haluat poistaa.
+
+
+## Lukuvinkin muokkaaminen
+
+Valitse se lukuvinkki, jota haluat muokata.
+
+Ohjelma tulostaa valitsemasi lukuvinkin nykyiset tiedot, ja pyytää syöttämään kuhunkin kenttään uuden sisällön. Jos haluat säilyttää kentän sisällön samana, kirjoita se siihen uudelleen.
+
+
+## Lukuvinkin merkitseminen luetuksi
+
+Valitse se lukuvinkki, jonka haluat merkitä luetuksi.
 
