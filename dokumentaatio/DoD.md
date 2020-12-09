@@ -8,4 +8,4 @@ Valmis toiminnallisuus täyttää seuraavat kriteerit:
 * testikattavuus väh 70 %
 * koodi on checkstylen mukainen
 * testit on automatisoitu
-* dokumentaatio on päivit
+* dokumentaatio on päivitetty
