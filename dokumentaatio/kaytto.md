@@ -41,7 +41,10 @@ Valitse haluamasi toiminto valikosta.
 	1. Kirjan tapauksessa syötä vuorollaan kirjalle nimi, kirjoittaja, ISBN ja kommentti. Kommentin voi myös jättää tyhjäksi.
 	1. Videon tapauksessa syötä vuorollaan videolle nimi, URL, kesto ja kommentti. Keston ja kommentin voi myös jättää tyhjäksi.
 
-1. Voit valita videoon liittyvät kurssit syöttämällä niiden numerot pilkuilla erotettuina tai jättää liittämättä lukuvinkkiä mihinkään kurssiin antamalla tyhjän syötteen. Tarvittaessa voit lisätä ensin uuden kurssin valitsemalla ```X```.
+1. 
+	1. Jos haluat luoda uuden kurssin, syötä ```X```.
+	1. Jos haluat liittää lukuvinkkiin yhden tai useamman kurssin, syötä niitä vastaavat numerot pilkuilla erotettuina
+	1. Jos et halua liitää kursseja, anna tyhjä syöte.
 
 ### Uuden kurssin lisääminen
 
@@ -61,7 +64,5 @@ Voit suodattaa lukuvinkkejä näyttämällä pelkästään luetut (```1```), luk
 #### Kurssiin liittyvät lukuvinkit
 
 Valitse se kurssi, johon liittyvät lukuvinkit haluat nähdä.
-
-
 
 
