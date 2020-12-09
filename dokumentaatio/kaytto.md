@@ -10,6 +10,8 @@ Kun olet asentanut ohjelman [asennusohjeiden](https://github.com/korolainenriikk
 
 Sovelluksen käynnistyessä avautuu päävalikko, jossa voit valita haluamasi toiminnon antamalla komentorivisyötteen.
 
+Kun olet päävalikossa, voit tulostaa toiminnot uudelleen valitsemalla toiminnon ```0```.
+
 
 ## Lisää lukuvinkki
 
