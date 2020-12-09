@@ -76,7 +76,7 @@ public class Stepdefs {
     }
 
     @Given("course code {string} and course name {string} are entered")
-    public void userAddsCourseInputs(String courseCode, String courseName){
+    public void userAddsCourseInputs(String courseCode, String courseName) {
         inputLines.add(courseCode);
         inputLines.add(courseName);
     }

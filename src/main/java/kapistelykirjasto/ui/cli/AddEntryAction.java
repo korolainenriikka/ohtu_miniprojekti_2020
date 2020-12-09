@@ -87,7 +87,7 @@ public class AddEntryAction implements Action {
 
 	private boolean isValidCourseInput(String input, int maxIndex) {
 		String[] indices = input.split(",");
-		for(String index: indices) {
+		for (String index: indices) {
 			if (!Util.parsable(index) || Integer.parseInt(index) > maxIndex) {
 				return false;
 			}
