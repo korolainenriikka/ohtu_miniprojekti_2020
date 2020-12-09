@@ -4,7 +4,7 @@
 
 Kun olet asentanut ohjelman [asennusohjeiden](https://github.com/korolainenriikka/ohtu_miniprojekti_2020/blob/master/dokumentaatio/asennus.md) opastamalla tavalla, avaa se komennolla 
 
-```java -jar build/libs/KäpistelyKirjasto.jar```
+```java -jar KapistelyKirjasto.jar```
 
 ## Päävalikko
 
