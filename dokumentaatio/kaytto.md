@@ -69,17 +69,23 @@ Valitse se kurssi, johon liittyvät lukuvinkit haluat nähdä.
 
 ## Lukuvinkin poistaminen
 
-Valitse se lukuvinkki, jonka haluat poistaa.
+1. Valitse päävalikossa toiminto ```3```.
+
+1. Valitse se lukuvinkki, jonka haluat poistaa.
 
 
 ## Lukuvinkin muokkaaminen
 
-Valitse se lukuvinkki, jota haluat muokata.
+1. Valitse päävalikossa toiminto ```4```.
 
-Ohjelma tulostaa valitsemasi lukuvinkin nykyiset tiedot, ja pyytää syöttämään kuhunkin kenttään uuden sisällön. Jos haluat säilyttää kentän sisällön samana, kirjoita se siihen uudelleen.
+1. Valitse se lukuvinkki, jota haluat muokata.
+
+1. Ohjelma tulostaa valitsemasi lukuvinkin nykyiset tiedot, ja pyytää syöttämään kuhunkin kenttään uuden sisällön. Jos haluat säilyttää kentän sisällön samana, syötä se siihen uudelleen samana.
 
 
 ## Lukuvinkin merkitseminen luetuksi
 
-Valitse se lukuvinkki, jonka haluat merkitä luetuksi.
+1. Valitse päävalikossa toiminto ```5```.
+
+1. Valitse se lukuvinkki, jonka haluat merkitä luetuksi.
 
