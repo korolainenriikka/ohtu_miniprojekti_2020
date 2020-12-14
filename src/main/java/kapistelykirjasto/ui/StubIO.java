@@ -6,7 +6,7 @@ import java.util.List;
 public class StubIO implements IO {
 
     private List<String> lines;
-    private int i;
+    private int indeksi;
     private ArrayList<String> prints;
 
     public StubIO(List<String> values) {
@@ -24,15 +24,15 @@ public class StubIO implements IO {
 
     public String readLine(String prompt) {
         print(prompt);
-        if (i < lines.size()) {
-            String line = lines.get(i);
-            i++;
+        if (indeksi < lines.size()) {
+            String line = lines.get(indeksi);
+            indeksi++;
             return line;
         }
         return "";
     }
 
     public boolean hasNextLine() {
-        return i < lines.size();
+        return indeksi < lines.size();
     }
 }
