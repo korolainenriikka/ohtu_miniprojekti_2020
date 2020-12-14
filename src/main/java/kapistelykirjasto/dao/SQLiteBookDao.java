@@ -66,7 +66,7 @@ public class SQLiteBookDao implements BookDao {
         return null;
     }
 
-    private boolean existsBook(int id) {
+    private boolean bookExists(int id) {
         try {
             PreparedStatement statement = this.connection.prepareStatement(
                     "SELECT * FROM book WHERE id=?;"
@@ -86,7 +86,7 @@ public class SQLiteBookDao implements BookDao {
     @Override
     public boolean deleteBook(int id) {
         try {
-            if (!existsBook(id)) {
+            if (!bookExists(id)) {
                 return false;
             }
             PreparedStatement statement = this.connection.prepareStatement("DELETE FROM book WHERE id = ?");
@@ -104,7 +104,7 @@ public class SQLiteBookDao implements BookDao {
     @Override
     public boolean editBook(int id, String title, String comment, String author, String ISBN) {
         try {
-            if (!existsBook(id)) {
+            if (!bookExists(id)) {
                 return false;
             }
             PreparedStatement statement = this.connection.prepareStatement(
@@ -135,7 +135,7 @@ public class SQLiteBookDao implements BookDao {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String setTime = String.valueOf(timestamp.getTime());
         try {
-            if (!existsBook(id)) {
+            if (!bookExists(id)) {
                 return false;
             }
             PreparedStatement statement = this.connection.prepareStatement("UPDATE book SET read=? " + "WHERE id=?");

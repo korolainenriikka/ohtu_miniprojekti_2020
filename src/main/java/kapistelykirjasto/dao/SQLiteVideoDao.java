@@ -67,7 +67,7 @@ public class SQLiteVideoDao implements VideoDao {
     @Override
     public boolean deleteVideo(int id) {
         try {
-            if (!existsVideo(id)) {
+            if (!videoExists(id)) {
                 return false;
             }
             PreparedStatement statement = this.connection.prepareStatement("DELETE FROM video WHERE id = ?");
@@ -85,7 +85,7 @@ public class SQLiteVideoDao implements VideoDao {
     @Override
     public boolean editVideo(int id, String title, String comment, String url, String duration) {
         try {
-            if (!existsVideo(id)) {
+            if (!videoExists(id)) {
                 return false;
             }
             PreparedStatement statement = this.connection.prepareStatement(
@@ -104,7 +104,7 @@ public class SQLiteVideoDao implements VideoDao {
         return true;
     }
 
-    private boolean existsVideo(int id) {
+    private boolean videoExists(int id) {
         try {
             PreparedStatement statement = this.connection.prepareStatement(
                     "SELECT * FROM video WHERE id=?;"
@@ -126,7 +126,7 @@ public class SQLiteVideoDao implements VideoDao {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String setTime = String.valueOf(timestamp.getTime());
         try {
-            if (!existsVideo(id)) {
+            if (!videoExists(id)) {
                 return false;
             }
             PreparedStatement statement = this.connection.prepareStatement("UPDATE video SET read=? " + "WHERE id=?");
