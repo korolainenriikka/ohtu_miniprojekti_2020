@@ -22,3 +22,6 @@
 
 * [release viikko 2](https://github.com/korolainenriikka/ohtu_miniprojekti_2020/releases/tag/2)
 
+## Loppuraportti
+
+* [linkki](https://docs.google.com/document/d/1Tapit_vyEC3EUtg40W6VGnFeBw-SQ-xd-c-LCDNSDbg/edit#)
