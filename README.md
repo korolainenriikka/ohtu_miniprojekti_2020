@@ -25,3 +25,5 @@
 ## Loppuraportti
 
 * [linkki](https://docs.google.com/document/d/1Tapit_vyEC3EUtg40W6VGnFeBw-SQ-xd-c-LCDNSDbg/edit#)
+
+.
